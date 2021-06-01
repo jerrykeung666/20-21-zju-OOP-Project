@@ -25,14 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
     pushbutton *mode2_pb = new pushbutton("../picture/gamemode2.png");
     mode2_pb->setParent(this);
     mode2_pb->move(this->width()*0.5-mode2_pb->width()*0.5, this->height()*0.35);
-<<<<<<< HEAD
     //mode1_pb->zoom_in_out();
-=======
->>>>>>> ce37b4cee117b75d7dbe9cc8958b980a83a00a10
 
     pushbutton *modeexit_pb = new pushbutton("../picture/quit.png");
     modeexit_pb->setParent(this);
     modeexit_pb->move(this->width()*0.5-modeexit_pb->width()*0.5, this->height()*0.45);
+    //mode1_pb->zoom_in_out();
 }
 
 void MainWindow::paintEvent(QPaintEvent *){
