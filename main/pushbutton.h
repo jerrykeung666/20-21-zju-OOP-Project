@@ -6,6 +6,7 @@
 
 class pushbutton : public QPushButton
 {
+    Q_OBJECT
 public:
     pushbutton(QString inputpath);
     void zoom_in_out();
@@ -13,8 +14,8 @@ public:
 private:
     QString inputImgPath;
 
-private slots:
-    void on_push_button();
+//private slots:
+    //void on_pushbutton_clicked();
 };
 
 #endif // PUSHBUTTON_H

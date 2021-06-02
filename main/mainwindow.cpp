@@ -3,6 +3,7 @@
 #include "pushbutton.h"
 
 #include <QPainter>
+#include <QPropertyAnimation>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
