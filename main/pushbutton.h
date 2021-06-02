@@ -9,13 +9,16 @@ class pushbutton : public QPushButton
     Q_OBJECT
 public:
     pushbutton(QString inputpath);
+    //~pushbutton();
     void zoom_in_out();
 
 private:
     QString inputImgPath;
 
-//private slots:
-    //void on_pushbutton_clicked();
+signals:
+
+public slots:
+    void on_pushbutton_clicked();
 };
 
 #endif // PUSHBUTTON_H

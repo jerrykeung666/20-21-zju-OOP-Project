@@ -1,6 +1,7 @@
 #include "pushbutton.h"
 
 #include <QPropertyAnimation>
+#include <QDebug>
 
 pushbutton::pushbutton(QString inputpath)
 {
@@ -18,16 +19,17 @@ pushbutton::pushbutton(QString inputpath)
     setIconSize(QSize(pix.width(), pix.height()));
 }
 
+
 void pushbutton::zoom_in_out(){
     QPropertyAnimation animation(this, "geometry");
 
     // set duration
-    animation.setDuration(10000);
+    animation.setDuration(1000);
 
     // set startvalue & endvalue
     animation.setStartValue(QRect(this->x(), this->y(), this->width(), this->height()));
     //animation.setEndValue(QRect(this->x(), this->y(), this->width()*0.75, this->height()*0.75));
-    animation.setEndValue(QRect(this->x(), this->y()+100, this->width(), this->height()));
+    animation.setEndValue(QRect(this->x(), this->y()+10, this->width(), this->height()));
 
     // set curves
     animation.setEasingCurve(QEasingCurve::OutBounce);
@@ -35,3 +37,12 @@ void pushbutton::zoom_in_out(){
     // start animation
     animation.start();
 }
+
+
+void pushbutton::on_pushbutton_clicked(){
+    qDebug() << "Enter mode";
+    this->zoom_in_out();
+}
+
+
+//pushbutton::~pushbutton(){}
