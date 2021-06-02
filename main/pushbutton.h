@@ -12,6 +12,9 @@ public:
 
 private:
     QString inputImgPath;
+
+private slots:
+    void on_push_button();
 };
 
 #endif // PUSHBUTTON_H
