@@ -8,12 +8,13 @@ class pushbutton : public QPushButton
 {
     Q_OBJECT
 public:
-    pushbutton(QString inputpath);
-    //~pushbutton();
-    void zoom_in_out();
+    pushbutton(QString inputpath, QString modeinfo);
+    void zoom_in();
+    void zoom_out();
 
 private:
     QString inputImgPath;
+    QString buttonModeInfo;
 
 signals:
 

@@ -3,9 +3,10 @@
 #include <QPropertyAnimation>
 #include <QDebug>
 
-pushbutton::pushbutton(QString inputpath)
+pushbutton::pushbutton(QString inputpath, QString modeinfo)
 {
     inputImgPath = inputpath;
+    buttonModeInfo = modeinfo;
 
     QPixmap pix;
     bool ret = pix.load(inputImgPath);
@@ -20,29 +21,51 @@ pushbutton::pushbutton(QString inputpath)
 }
 
 
-void pushbutton::zoom_in_out(){
-    QPropertyAnimation animation(this, "geometry");
+void pushbutton::zoom_in(){
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
 
     // set duration
-    animation.setDuration(1000);
+    animation->setDuration(50);
 
     // set startvalue & endvalue
-    animation.setStartValue(QRect(this->x(), this->y(), this->width(), this->height()));
-    //animation.setEndValue(QRect(this->x(), this->y(), this->width()*0.75, this->height()*0.75));
-    animation.setEndValue(QRect(this->x(), this->y()+10, this->width(), this->height()));
+    animation->setStartValue(QRect(this->x(), this->y(), this->width(), this->height()));
+    animation->setEndValue(QRect(this->x(), this->y()+10, this->width(), this->height()));
+    //animation->setEndValue(QRect(this->x(), this->y()+10, this->width(), this->height()));
 
     // set curves
-    animation.setEasingCurve(QEasingCurve::OutBounce);
+    animation->setEasingCurve(QEasingCurve::InOutQuad);
+
+    // set loops
+    animation->setLoopCount(10);
 
     // start animation
-    animation.start();
+    animation->start();
+}
+
+void pushbutton::zoom_out(){
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "geometry");
+
+    // set duration
+    animation->setDuration(50);
+
+    // set startvalue & endvalue
+    animation->setStartValue(QRect(this->x(), this->y()+10, this->width(), this->height()));
+    animation->setEndValue(QRect(this->x(), this->y(), this->width(), this->height()));
+    //animation->setEndValue(QRect(this->x(), this->y()+10, this->width(), this->height()));
+
+    // set curves
+    animation->setEasingCurve(QEasingCurve::InOutQuad);
+
+    // set loops
+    animation->setLoopCount(10);
+
+    // start animation
+    animation->start();
 }
 
 
 void pushbutton::on_pushbutton_clicked(){
-    qDebug() << "Enter mode";
-    this->zoom_in_out();
+    qDebug() << "Enter mode:" << buttonModeInfo;
+    this->zoom_in();
+    this->zoom_out();
 }
-
-
-//pushbutton::~pushbutton(){}
