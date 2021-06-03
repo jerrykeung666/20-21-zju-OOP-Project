@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    pushbutton.cpp
+    pushbutton.cpp \
+    settingwindow.cpp
 
 HEADERS += \
     mainwindow.h \
-    pushbutton.h
+    pushbutton.h \
+    settingwindow.h
 
 FORMS += \
     mainwindow.ui

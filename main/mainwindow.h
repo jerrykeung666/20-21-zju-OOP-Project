@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "settingwindow.h"
+
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -19,6 +21,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+// Updated
+public slots:
+    //void enableMainWindow(settingWindow* ptr);
+    //void disableMainWindow(settingWindow* ptr);
 };
 
 #endif // MAINWINDOW_H
