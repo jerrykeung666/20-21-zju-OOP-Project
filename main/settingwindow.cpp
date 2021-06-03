@@ -27,3 +27,4 @@ void settingWindow::paintEvent(QPaintEvent *){
 void settingWindow::emit_goback(){
     emit goBack();
 }
+

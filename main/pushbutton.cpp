@@ -30,7 +30,6 @@ void pushbutton::zoom_in(){
     // set startvalue & endvalue
     animation->setStartValue(QRect(this->x(), this->y(), this->width(), this->height()));
     animation->setEndValue(QRect(this->x(), this->y()+10, this->width(), this->height()));
-    //animation->setEndValue(QRect(this->x(), this->y()+10, this->width(), this->height()));
 
     // set curves
     animation->setEasingCurve(QEasingCurve::InOutQuad);
@@ -51,7 +50,6 @@ void pushbutton::zoom_out(){
     // set startvalue & endvalue
     animation->setStartValue(QRect(this->x(), this->y()+10, this->width(), this->height()));
     animation->setEndValue(QRect(this->x(), this->y(), this->width(), this->height()));
-    //animation->setEndValue(QRect(this->x(), this->y()+10, this->width(), this->height()));
 
     // set curves
     animation->setEasingCurve(QEasingCurve::InOutQuad);

@@ -6,6 +6,8 @@
 #include <QPainter>
 #include <QPropertyAnimation>
 #include <QDebug>
+#include <QTimer>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -34,8 +36,10 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Enter mode: Game Mode 1";
         mode1_pb->zoom_in();
         mode1_pb->zoom_out();
-        this->hide();
-        setting_window->show();
+        QTimer::singleShot(500, this, [=](){
+            this->hide();
+            setting_window->show();
+        });
     });
 
     pushbutton *mode2_pb = new pushbutton("../picture/gamemode2.png", "Game Mode 2");
@@ -45,6 +49,10 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Enter mode: Game Mode 2";
         mode2_pb->zoom_in();
         mode2_pb->zoom_out();
+        QTimer::singleShot(500, this, [=](){
+            this->hide();
+            setting_window->show();
+        });
     });
 
     pushbutton *modeexit_pb = new pushbutton("../picture/quit.png", "Game Mode Exit");
@@ -54,8 +62,28 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Enter mode: Game Mode Exit";
         modeexit_pb->zoom_in();
         modeexit_pb->zoom_out();
-        this->hide();
-        setting_window->show();
+        QTimer::singleShot(500, this, [=](){//to be updated: code reuse
+            QMessageBox msgBox;
+            int ret;
+
+            msgBox.setWindowTitle("Exit Confirmation");
+            msgBox.setText("Do you want to exit the game?");
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msgBox.setDefaultButton(QMessageBox::Save);
+            ret = msgBox.exec();
+
+            switch(ret){
+                case QMessageBox::Yes:
+                    qDebug() << "Quit";
+                    close();
+                    break;
+                case QMessageBox::No:
+                    qDebug() << "Not yet";
+                    break;
+                default:
+                    break;
+            }
+        });
     });
 }
 
