@@ -2,7 +2,6 @@
 
 ## 2021/06/02
 
-***
 
 ## 参考
 - [Socket联机斗地主](https://github.com/chenruijia120/Socket-Doudizhu)
