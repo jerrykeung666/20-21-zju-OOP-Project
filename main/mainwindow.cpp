@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "pushbutton.h"
-#include "settingwindow.h"
+#include "gamewindow.h"
 
 #include <QPainter>
 #include <QPropertyAnimation>
@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
     // set icon
     setWindowIcon(QIcon("../picture/icon.jfif"));
 
-    // set next window: setting window
-    settingWindow *setting_window = new settingWindow();
+    // set next window: game window
+    *game_window = new GameWindow();
     /*connect(setting_window, &settingWindow::goBack, [=](){
         setting_window->hide();
         this->show();
@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
         mode1_pb->zoom_out();
         QTimer::singleShot(500, this, [=](){
             this->hide();
-            setting_window->show();
+            //game_window->show();
         });
     });
 
@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
         mode2_pb->zoom_out();
         QTimer::singleShot(500, this, [=](){
             this->hide();
-            setting_window->show();
+            //game_window->show();
         });
     });
 
