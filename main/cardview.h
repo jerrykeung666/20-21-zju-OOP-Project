@@ -18,6 +18,11 @@ private:
     bool isSelect;
 
 public:
+    // card view properties
+    static const int width;
+    static const int height;
+
+public:
     explicit CardView(QObject *parent = nullptr);
 
 signals:
