@@ -32,6 +32,9 @@ protected:
 public:
     explicit CardView(QObject *parent = nullptr);
 
+    //void select();
+    //void flip();
+
 signals:
 
 };
