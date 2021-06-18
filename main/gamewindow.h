@@ -14,6 +14,16 @@ public:
     explicit GameWindow(QWidget *parent = nullptr);
 
 private:
+    // window properties
+    // TODO
+    static const QPointF passButtonPos;
+    static const QPointF playButtonPos;
+    static const QPointF betNoButtonPos;
+    static const QPointF bet1ButtonPos;
+    static const QPointF bet2ButtonPos;
+    static const QPointF bet3ButtonPos;
+    //static const
+
     // buttons when playing games
     QPushButton* passButton;
     QPushButton* playButton;
@@ -23,6 +33,17 @@ private:
     QPushButton* bet3Button;
 
 public slots:
+    // slots for user play respose
+    // TODO
+    void userPass();
+    void userPlay();
+
+    // slots for user call response
+    // TODO
+    void userBetNo();
+    void userBet1();
+    void userBet2();
+    void userBet3();
 
 signals:
 
