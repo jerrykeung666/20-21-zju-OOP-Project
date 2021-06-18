@@ -14,13 +14,19 @@ class CardView : public QObject, public QGraphicsPixmapItem
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
 
 private:
+    // TODO
     QString imagePath;
     bool isSelect;
 
 public:
     // card view properties
+    // TODO
     static const int width;
     static const int height;
+
+protected:
+    // animations
+    // TODO
 
 public:
     explicit CardView(QObject *parent = nullptr);
