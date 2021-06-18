@@ -14,7 +14,10 @@ public:
     explicit GameWindow(QWidget *parent = nullptr);
 
 private:
+    //
     // window properties
+    //
+    // positions of elements
     // TODO
     static const QPointF passButtonPos;
     static const QPointF playButtonPos;
@@ -22,9 +25,17 @@ private:
     static const QPointF bet1ButtonPos;
     static const QPointF bet2ButtonPos;
     static const QPointF bet3ButtonPos;
-    //static const
+    static const QPointF leftMsgBoxPos;
+    static const QPointF rightMsgBoxPos;
+    static const QPointF myMsgBoxPos;
+
+    // size of elements
+    // TODO
+    static const QSize msgBoxSize;
+    static const QSize buttonSize;
 
     // buttons when playing games
+    // TODO
     QPushButton* passButton;
     QPushButton* playButton;
     QPushButton* betNoButton;
