@@ -1,1 +1,3 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/../PokerImage"/>
+</RCC>
