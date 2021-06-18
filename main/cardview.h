@@ -23,6 +23,7 @@ public:
     // TODO
     static const int width;
     static const int height;
+    static const int overlap;
 
 protected:
     // animations
