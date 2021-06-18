@@ -21,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
     // set window title
     setWindowTitle("Landlord: Welcome!");
 
+    // set icon
+    setWindowIcon(QIcon("../picture/icon.jfif"));
+
     // set next window: setting window
     settingWindow *setting_window = new settingWindow();
     /*connect(setting_window, &settingWindow::goBack, [=](){
@@ -28,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
         this->show();
     });*/
 
-    // set game mode 1, mode 2 and exit
+    // set game mode 1
     pushbutton *mode1_pb = new pushbutton("../picture/gamemode1.png", "Game Mode 1");
     mode1_pb->setParent(this);
     mode1_pb->move(this->width()*0.5-mode1_pb->width()*0.5, this->height()*0.25);
@@ -42,9 +45,10 @@ MainWindow::MainWindow(QWidget *parent)
         });
     });
 
+    // set mode 2
     pushbutton *mode2_pb = new pushbutton("../picture/gamemode2.png", "Game Mode 2");
     mode2_pb->setParent(this);
-    mode2_pb->move(this->width()*0.5-mode2_pb->width()*0.5, this->height()*0.35);
+    mode2_pb->move(this->width()*0.5-mode2_pb->width()*0.5, this->height()*0.4);
     connect(mode2_pb, &pushbutton::clicked, mode2_pb, [=](){
         qDebug() << "Enter mode: Game Mode 2";
         mode2_pb->zoom_in();
@@ -55,21 +59,25 @@ MainWindow::MainWindow(QWidget *parent)
         });
     });
 
+    // set mode exit
     pushbutton *modeexit_pb = new pushbutton("../picture/quit.png", "Game Mode Exit");
     modeexit_pb->setParent(this);
-    modeexit_pb->move(this->width()*0.5-modeexit_pb->width()*0.5, this->height()*0.45);
+    modeexit_pb->move(this->width()*0.5-modeexit_pb->width()*0.5, this->height()*0.55);
+
     connect(modeexit_pb, &pushbutton::clicked, modeexit_pb, [=](){
         qDebug() << "Enter mode: Game Mode Exit";
         modeexit_pb->zoom_in();
         modeexit_pb->zoom_out();
-        QTimer::singleShot(500, this, [=](){//to be updated: code reuse
+
+        // Time delay & msgBox
+        QTimer::singleShot(200, this, [=](){//to be updated: code reuse
             QMessageBox msgBox;
             int ret;
 
             msgBox.setWindowTitle("Exit Confirmation");
             msgBox.setText("Do you want to exit the game?");
             msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-            msgBox.setDefaultButton(QMessageBox::Save);
+            msgBox.setDefaultButton(QMessageBox::No);
             ret = msgBox.exec();
 
             switch(ret){
@@ -84,6 +92,7 @@ MainWindow::MainWindow(QWidget *parent)
                     break;
             }
         });
+
     });
 }
 

@@ -13,7 +13,7 @@ pushbutton::pushbutton(QString inputpath, QString modeinfo)
     if(!ret) return;
 
     // set pic size
-    setFixedSize(pix.width(), pix.height());
+    setFixedSize(pix.width()-10, pix.height()-10);
 
     // set Icon size
     setIcon(pix);
