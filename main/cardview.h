@@ -35,8 +35,15 @@ protected:
 public:
     explicit CardView(QObject *parent = nullptr);
 
-    //void select();
-    //void flip();
+    void select();
+    void flip();
+    void unselect();
+    bool isSelected();
+
+    void setLeftCards();
+    void setRightCards();
+    void setLandlordCards();
+    //void setMyCards();
 
 signals:
 

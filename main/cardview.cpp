@@ -17,3 +17,25 @@ CardView::CardView(QObject *parent) : QObject(parent)
 {
 
 }
+
+//void CardView::select();
+
+//void CardView::flip();
+
+//void CardView::unselect();
+
+bool CardView::isSelected(){
+    return isSelect;
+}
+
+//void CardView::setLeftCards();
+
+//void CardView::setRightCards();
+
+//void CardView::setLandlordCards();
+
+//void CardView::hoverEnterEvent(QGraphicsSceneHoverEvent *);
+
+//void CardView::hoverLeaveEvent(QGraphicsSceneHoverEvent *);
+
+//void CardView::mousePressEvent(QGraphicsSceneMouseEvent *);
