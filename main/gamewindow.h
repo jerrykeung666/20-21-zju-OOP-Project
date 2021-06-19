@@ -51,10 +51,8 @@ public slots:
 
     // slots for user call response
     // TODO
-    void userBetNo();
-    void userBet1();
-    void userBet2();
-    void userBet3();
+    void userBet();
+
 
 signals:
 

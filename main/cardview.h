@@ -28,6 +28,9 @@ public:
 protected:
     // animations
     // TODO
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
+    void mousePressEvent(QGraphicsSceneMouseEvent *);
 
 public:
     explicit CardView(QObject *parent = nullptr);

@@ -2,6 +2,9 @@
 #include <QGraphicsProxyWidget>
 #include <QGraphicsTextItem>
 #include <QBitmap>
+#include <QPropertyAnimation>
+#include <QGraphicsSceneHoverEvent>
+#include <QGraphicsSceneMouseEvent>
 
 #include "cardview.h"
 
