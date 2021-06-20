@@ -17,6 +17,7 @@ private:
     // TODO
     QString imagePath;
     bool isSelect;
+    QPointF stdPos;
 
 public:
     // card view properties
@@ -24,6 +25,8 @@ public:
     static const int width;
     static const int height;
     static const int overlap;
+    static const int animationDuration;
+    static const int upDist;
 
 protected:
     // animations
@@ -34,6 +37,8 @@ protected:
 
 public:
     explicit CardView(QObject *parent = nullptr);
+
+    void setStdPos(const QPointF &_stdPos);
 
     void select();
     void flip();
