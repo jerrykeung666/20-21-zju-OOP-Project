@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     card.cpp \
+    cardgroups.cpp \
     cardview.cpp \
     gamewindow.cpp \
     main.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     card.h \
+    cardgroups.h \
     cardview.h \
     gamewindow.h \
     mainwindow.h \
