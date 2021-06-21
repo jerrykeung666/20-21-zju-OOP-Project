@@ -12,6 +12,7 @@ SOURCES += \
     card.cpp \
     cardgroups.cpp \
     cardview.cpp \
+    gamecontrol.cpp \
     gamewindow.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -22,6 +23,7 @@ HEADERS += \
     card.h \
     cardgroups.h \
     cardview.h \
+    gamecontrol.h \
     gamewindow.h \
     mainwindow.h \
     player.h \
