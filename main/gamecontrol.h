@@ -25,6 +25,10 @@ public:
 
     void Init(); //初始化玩家
 
+    void InitAllcars();
+
+    QVector<Card> GetRandomCards(int cardnum);
+
 
 
 signals:
@@ -32,7 +36,8 @@ signals:
     void CallGamewindowShowButtons(); //处理叫分后通知gamewindow
 
 public slots:
-    void updateBetPoints(); //处理叫地主分数
+    void updateBetPoints(int bet); //处理叫地主分数
+    //void handout(int bet); //处理出牌
 
 protected:
     struct BetRecord
@@ -48,10 +53,12 @@ protected:
     Player* playerC;            //参与者A、B、C
     CardGroups current_combo; //有效牌
     Player* effective_player; //有效玩家
-    CardGroups landlordCards;//三张地主牌
+    QVector<Card> landlordCards;//三张地主牌
 
     int betCalledNum;         //地主优势叫分
     QVector<BetRecord> betlist;
+
+    QVector<Card> m_allcards;
 
 };
 
