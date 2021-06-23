@@ -5,7 +5,6 @@ CardGroups::CardGroups(QObject *parent) : QObject(parent)
 
 }
 
-
 void CardGroups::addCard(const Card &card)
 {
     cards.push_back(card);
@@ -24,6 +23,16 @@ int CardGroups::getCardsNum()
 CardPoint CardGroups::getBasePoint()
 {
     return basePoint;
+}
+
+int CardGroups::getExtraNum()
+{
+    return extraNum;
+}
+
+GroupType CardGroups::getCardsType()
+{
+    return type;
 }
 
 void CardGroups::analyseCards()
@@ -137,4 +146,35 @@ void CardGroups::analyseCards()
             type = Group_Bomb_Jokers;  // 王炸
         }
     }
+}
+
+bool CardGroups::canBeat(const CardGroups &cardGroups) const
+{
+    if (type == Group_Unknown) {
+        return false;
+    }
+
+    if (type == Group_Bomb_Jokers) {
+        return true;
+    }
+
+    if (cardGroups.type == Group_Pass) {
+        return true;
+    }
+
+    if (type == Group_Bomb &&
+        cardGroups.type >= Group_Single &&
+        cardGroups.type <= Group_Bomb_Two_Pair) {
+        return true;
+    }
+
+    if (type == cardGroups.type) {
+        if (type == Group_Seq_Pair || type == Group_Seq_Single) {
+            return (basePoint > cardGroups.basePoint && extraNum == cardGroups.extraNum);
+        } else {
+            return basePoint > cardGroups.basePoint;
+        }
+    }
+
+    return false;
 }

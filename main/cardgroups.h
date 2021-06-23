@@ -20,9 +20,9 @@ enum GroupType
     Group_Plane_Two_Pair,	// 飞机带两双，555_666_33_44
     Group_Seq_Single,		// 顺子，34567(8...)
     Group_Seq_Pair,			// 连对，33_44_55(_66...)
-    Group_Bomb,				// 炸弹
     Group_Bomb_Two_Single,	// 炸弹带两单
     Group_Bomb_Two_Pair,	// 炸弹带两双
+    Group_Bomb,				// 炸弹
     Group_Bomb_Jokers,		// 王炸
 };
 
@@ -36,10 +36,13 @@ public:
     void addCard(const Card &card);
     void clear();
 
-    int getCardsNum();
     void analyseCards();
+    bool canBeat(const CardGroups &cardGroups) const;
+
+    int getCardsNum();
     GroupType getCardsType();
     CardPoint getBasePoint();
+    int getExtraNum();
 
 
 private:
