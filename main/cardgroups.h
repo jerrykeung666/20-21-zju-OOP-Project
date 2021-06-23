@@ -21,6 +21,8 @@ enum GroupType
     Group_Seq_Single,		// 顺子，34567(8...)
     Group_Seq_Pair,			// 连对，33_44_55(_66...)
     Group_Bomb,				// 炸弹
+    Group_Bomb_Two_Single,	// 炸弹带两单
+    Group_Bomb_Two_Pair,	// 炸弹带两双
     Group_Bomb_Jokers,		// 王炸
 };
 
@@ -31,19 +33,20 @@ class CardGroups : public QObject
 public:
     explicit CardGroups(QObject *parent = nullptr);
 
-    void addCard(Card card);
+    void addCard(const Card &card);
+    void clear();
+
     int getCardsNum();
-    void analyseCards();  // 还没实现
+    void analyseCards();
     GroupType getCardsType();
     CardPoint getBasePoint();
 
 
-
 private:
     QVector<Card> cards;
-    GroupType type = Group_Pass;   // 牌型
+    GroupType type = Group_Unknown;   // 牌型
     CardPoint basePoint = CardPoint::Card_Begin;  // 基本点数
-    int cardsNum = 0;  // 牌的数量
+    int extraNum = 0;  // 牌的数量
 };
 
 #endif // CARDGROUPS_H

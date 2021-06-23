@@ -47,7 +47,14 @@ class Card : public QObject
     Q_OBJECT
 public:
     explicit Card(QObject *parent = nullptr);
+
     Card(CardPoint p = Card_Begin, CardSuit s = Suit_Begin);
+    Card(const Card &card);
+
+    bool operator<(const Card &card) const;
+    bool operator==(const Card &card) const;
+
+public:
     CardPoint point;
     CardSuit suit;
 };
