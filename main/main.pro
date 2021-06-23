@@ -12,20 +12,24 @@ SOURCES += \
     card.cpp \
     cardgroups.cpp \
     cardview.cpp \
+    gamecontrol.cpp \
     gamewindow.cpp \
     main.cpp \
     mainwindow.cpp \
     player.cpp \
-    pushbutton.cpp
+    pushbutton.cpp \
+    robot.cpp
 
 HEADERS += \
     card.h \
     cardgroups.h \
     cardview.h \
+    gamecontrol.h \
     gamewindow.h \
     mainwindow.h \
     player.h \
-    pushbutton.h
+    pushbutton.h \
+    robot.h
 
 FORMS += \
     mainwindow.ui
