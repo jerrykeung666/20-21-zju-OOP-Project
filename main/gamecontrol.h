@@ -13,27 +13,27 @@ public:
     explicit GameControl(QObject *parent = 0);
 
 public:
-    Player* GetCurrentPlayer();
-    Player* GetPlayerA();
-    Player* GetPlayerB();
-    Player* GetPlayerC();
-    CardGroups GetCurrentCombo();
-    Player* GetEffectivePlayer();
-    CardGroups* GetLandlordCards();
+    Player* getCurrentPlayer();
+    Player* getPlayerA();
+    Player* getPlayerB();
+    Player* getPlayerC();
+    CardGroups getCurrentCombo();
+    Player* getEffectivePlayer();
+    CardGroups* getLandLordCards();
 
     void initCards(); //发牌
 
-    void Init(); //初始化玩家
+    void init(); //初始化玩家
 
-    void InitAllcars();
+    void initAllCards();
 
-    QVector<Card> GetRandomCards(int cardnum);
+    QVector<Card> getRandomCards(int cardnum);
 
 
 
 signals:
-    void CallGamewindowShowCards();   //发牌结束后通知gamewindow显示卡牌
-    void CallGamewindowShowButtons(); //处理叫分后通知gamewindow
+    void callGamewindowShowCards();   //发牌结束后通知gamewindow显示卡牌
+    void callGamewindowShowButtons(); //处理叫分后通知gamewindow
 
 public slots:
     void updateBetPoints(int bet); //处理叫地主分数
@@ -47,18 +47,18 @@ protected:
     };
 
 protected:
-    Player* current_player;   //当前玩家
+    Player* currentPlayer;   //当前玩家
     Player* playerA;
     Player* playerB;
     Player* playerC;            //参与者A、B、C
-    CardGroups current_combo; //有效牌
-    Player* effective_player; //有效玩家
-    QVector<Card> landlordCards;//三张地主牌
+    CardGroups currentCombo; //有效牌
+    Player* effectivePlayer; //有效玩家
+    QVector<Card> landLordCards;//三张地主牌
 
     int betCalledNum;         //地主优势叫分
-    QVector<BetRecord> betlist;
+    QVector<BetRecord> betList;
 
-    QVector<Card> m_allcards;
+    QVector<Card> allCards;
 
 };
 

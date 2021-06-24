@@ -100,3 +100,11 @@ void Player::sortHandCards()
         }
     });
 }
+
+void Player::showCards()
+{
+    qDebug() << "show cards";
+    for (const auto &card : handCards) {
+        qDebug() << "card: " << card.point << " " << card.suit;
+    }
+}

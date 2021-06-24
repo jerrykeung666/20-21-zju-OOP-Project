@@ -1,8 +1,6 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include <QObject>
-
 // 点数
 enum CardPoint
 {
@@ -42,12 +40,10 @@ enum CardSuit
 };
 
 
-class Card : public QObject
+class Card
 {
-    Q_OBJECT
 public:
-    explicit Card(QObject *parent = nullptr);
-
+    Card() {}
     Card(CardPoint p = Card_Begin, CardSuit s = Suit_Begin);
     Card(const Card &card);
 

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVector>
+#include <QDebug>
 
 #include "card.h"
 #include "cardgroups.h"
@@ -39,6 +40,9 @@ public:
     void addLandLordCards(const QVector<Card>& cards); // 添加地主牌
     bool isWin();  // 是否赢
     bool checkCardValid(CardGroups &currentCombo);
+
+
+    void showCards();
 
 protected:
     void sortHandCards();     // 默认升序，先按点数，点数相同则按花色排序

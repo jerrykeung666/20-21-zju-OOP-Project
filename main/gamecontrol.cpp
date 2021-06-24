@@ -6,15 +6,15 @@
 GameControl::GameControl(QObject *parent) :
     QObject(parent)
 {
-    current_player = NULL;
+    currentPlayer = NULL;
     //current_combo = CardGroups(); //有效牌
-    //landlordCards = CardGroups();
-    effective_player = NULL;
+    //landLordCards = CardGroups();
+    effectivePlayer = NULL;
 
     betCalledNum = 0;
 }
 
-void GameControl::Init()
+void GameControl::init()
 {
     playerA = new Player(this);
     playerB = new Player(this);
@@ -27,39 +27,39 @@ void GameControl::Init()
     playerA->setIsPerson(true);
 
 
-    playerA-> setNextPlayer(playerB);
-    playerB-> setNextPlayer(playerC);
-    playerC-> setNextPlayer(playerA);
+    playerA->setNextPlayer(playerB);
+    playerB->setNextPlayer(playerC);
+    playerC->setNextPlayer(playerA);
 
-    current_player = playerA;
+    currentPlayer = playerA;
 }
 
-void GameControl::InitAllcars(){
+void GameControl::initAllCards(){
     for(int pt = Card_Begin+1;pt<Card_SJ;pt++){
         for (int st = Suit_Begin+1;st<Suit_End;st++){
-            Card tcard(pt,st);
-            m_allcards.push_back(tcard);
+            Card tcard((CardPoint)pt, (CardSuit)st);
+            allCards.push_back(tcard);
         }
     }
 
     //单独初始化大小王
     Card scard(Card_SJ,Suit_Begin);
-    m_allcards.push_back(scard);
+    allCards.push_back(scard);
     Card bcard(Card_BJ,Suit_Begin);
-    m_allcards.push_back(bcard);
+    allCards.push_back(bcard);
 }
 
-QVector<Card> GameControl::GetRandomCards(int cardnum){
+QVector<Card> GameControl::getRandomCards(int cardnum){
     QVector<Card> sdcards;
     for (int i=1;i<=cardnum;i++){
-        int num =  m_allcards.size();
+        int num =  allCards.size();
         QTime time;
         time = QTime::currentTime();
         qsrand(time.msec() + time.second() * 1000);
         int randomIndex=qrand()%num;
-        QVector<Card>::iterator it=m_allcards.begin()+randomIndex;
+        QVector<Card>::iterator it=allCards.begin()+randomIndex;
         Card takecard = *it;
-        m_allcards.erase(it);
+        allCards.erase(it);
         sdcards.push_back(takecard);
     }
     return sdcards;
@@ -69,46 +69,55 @@ QVector<Card> GameControl::GetRandomCards(int cardnum){
 
 void GameControl::initCards(){
     //初始化所有卡牌
-    InitAllcars();
+    initAllCards();
 
     //给玩家发牌
-    playerA->setHandCards(GetRandomCards(17));
-    playerB->setHandCards(GetRandomCards(17));
-    playerC->setHandCards(GetRandomCards(17));
+    playerA->setHandCards(getRandomCards(17));
+    playerB->setHandCards(getRandomCards(17));
+    playerC->setHandCards(getRandomCards(17));
 
     //留下地主牌
-    landlordCards = GetRandomCards(3);
+    landLordCards = getRandomCards(3);
+
+    // debug
+    playerA->showCards();
+    playerB->showCards();
+    playerC->showCards();
+
+    for (const auto &card : landLordCards) {
+        qDebug() << "card: " << card.point << " " << card.suit;
+    }
 }
 
 void GameControl::updateBetPoints(int bet){
     //记录每个玩家叫分
     BetRecord tbet;
-    tbet.player = current_player;
+    tbet.player = currentPlayer;
     tbet.bet = bet;
-    betlist.push_back(tbet);
+    betList.push_back(tbet);
 
     //叫3分直接地主
     if (bet ==3){
-        current_player->setIsLandLord(true);
+        currentPlayer->setIsLandLord(true);
         return;
     }
 
     //叫完分判断谁是地主
-    if(betlist.size() == 3){
-        QVector<BetRecord>::iterator landlord = betlist.begin();
-        for(QVector<BetRecord>::iterator it = betlist.begin()+1; it < betlist.end(); it++){
+    if(betList.size() == 3){
+        QVector<BetRecord>::iterator landlord = betList.begin();
+        for(QVector<BetRecord>::iterator it = betList.begin()+1; it < betList.end(); it++){
             if (it->bet > landlord->bet){
                 landlord = it;
             }
         }
         landlord->player->setIsLandLord(true);
-        landlord->player-> addLandLordCards(landlordCards);
+        landlord->player-> addLandLordCards(landLordCards);
         return;
     }
 
     //继续叫分
-    current_player = current_player->getNextPlayer();
-    if (current_player->getIsPerson()){
+    currentPlayer = currentPlayer->getNextPlayer();
+    if (currentPlayer->getIsPerson()){
         //emit  //通知前段显示叫分button
     }
     else{
@@ -121,16 +130,16 @@ void GameControl::updateBetPoints(int bet){
 
 
 
-Player* GameControl::GetCurrentPlayer(){
-    return current_player;
+Player* GameControl::getCurrentPlayer(){
+    return currentPlayer;
 }
-Player* GameControl::GetPlayerA(){
+Player* GameControl::getPlayerA(){
     return playerA;
 }
-Player* GameControl::GetPlayerB(){
+Player* GameControl::getPlayerB(){
     return playerB;
 }
-Player* GameControl::GetPlayerC(){
+Player* GameControl::getPlayerC(){
     return playerC;
 }
 /*
@@ -138,8 +147,8 @@ CardGroups GameControl::GetCurrentCombo(){
     return current_combo;
 }
 */
-Player* GameControl::GetEffectivePlayer(){
-    return effective_player;
+Player* GameControl::getEffectivePlayer(){
+    return effectivePlayer;
 }
 /*
 CardGroups* GameControl::GetLandlordCards(){

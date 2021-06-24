@@ -102,7 +102,7 @@ void CardGroups::analyseCards()
     } else if (oneCard.isEmpty() && twoCards.size() == 2 &&
                threeCards.size() == 2 && fourCards.isEmpty()) {
         std::sort(threeCards.begin(), threeCards.end());
-        if (threeCards[1] - threeCards[0] == 1 && threeCards[1] < Card_2 && ) {
+        if (threeCards[1] - threeCards[0] == 1 && threeCards[1] < Card_2) {
             type = Group_Plane_Two_Pair;  // 飞机带两对
             basePoint = threeCards[0];
         }

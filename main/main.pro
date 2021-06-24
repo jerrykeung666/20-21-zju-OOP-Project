@@ -16,8 +16,8 @@ SOURCES += \
     gamewindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    mypushbutton.cpp \
     player.cpp \
-    pushbutton.cpp \
     robot.cpp
 
 HEADERS += \
@@ -27,8 +27,8 @@ HEADERS += \
     gamecontrol.h \
     gamewindow.h \
     mainwindow.h \
+    mypushbutton.h \
     player.h \
-    pushbutton.h \
     robot.h
 
 FORMS += \

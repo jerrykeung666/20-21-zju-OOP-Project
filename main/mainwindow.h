@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "gamewindow.h"
+#include "gamecontrol.h"
 
 #include <QMainWindow>
 
@@ -16,11 +17,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
     // Rewrite Event
     void paintEvent(QPaintEvent *);
 
 private:
     Ui::MainWindow *ui;
+    GameWindow *gameWindow;
+
 
 // Updated
 public slots:
