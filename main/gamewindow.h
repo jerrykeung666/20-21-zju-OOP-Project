@@ -2,6 +2,8 @@
 #define GAMEWINDOW_H
 
 #include <QMainWindow>
+#include "mypushbutton.h"
+#include "gamecontrol.h"
 
 class GameWindow : public QMainWindow
 {
@@ -10,6 +12,11 @@ public:
     explicit GameWindow(QWidget *parent = nullptr);
 
     void paintEvent(QPaintEvent *);
+
+private:
+    MyPushButton* startBtn;
+
+    GameControl *gameControl;
 signals:
 
 };

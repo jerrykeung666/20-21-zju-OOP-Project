@@ -36,10 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
         mode1Btn->zoomOut();
         this->hide();
         gameWindow->show();
-//        QTimer::singleShot(500, this, [=](){
-//            this->hide();
-//            gameWindow->show();
-//        });
     });
 
 //    // set mode 2
