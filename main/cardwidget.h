@@ -14,7 +14,7 @@ class CardWidget : public QWidget
 public:
     explicit CardWidget(QWidget *parent = nullptr);
 
-    void setPix(const QPixmap &pix);
+    void setPix(const QPixmap &pix, const QPixmap &back);
     QPixmap getPix() const;
 
     void setOwner(Player *owner);
@@ -29,7 +29,6 @@ public:
     void setIsSelected(bool isSelect);
     bool getIsSelected() const;
 
-
 signals:
     void notifySelected(Qt::MouseButton);
 
@@ -43,11 +42,8 @@ private:
 
     Player *owner;
     QPixmap pix;
+    QPixmap back;
     Card card;
-
-    static const QPixmap back;
 };
-
-const QPixmap CardWidget::back = QPixmap(":/PokerImage/back.png");
 
 #endif // CARDWIDGET_H

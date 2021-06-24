@@ -19,14 +19,14 @@ public:
     Player* getPlayerC();
     CardGroups getCurrentCombo();
     Player* getEffectivePlayer();
-    CardGroups* getLandLordCards();
+    QVector<Card> getLandLordCards();
 
     void initCards(); //发牌
 
     void init(); //初始化玩家
 
+private:
     void initAllCards();
-
     QVector<Card> getRandomCards(int cardnum);
 
 

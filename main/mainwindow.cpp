@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setFixedSize(1200,800);
+    setFixedSize(1000, 650);
     setWindowTitle("Landlord: Welcome!");
     setWindowIcon(QIcon("../picture/icon.jfif"));
 

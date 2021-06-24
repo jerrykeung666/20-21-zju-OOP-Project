@@ -10,9 +10,10 @@ CardWidget::CardWidget(QWidget *parent) : QWidget(parent)
 }
 
 
-void CardWidget::setPix(const QPixmap &pix)
+void CardWidget::setPix(const QPixmap &pix, const QPixmap &back)
 {
     this->pix = pix;
+    this->back = back;
     resize(pix.size());
     update();
 }
@@ -65,7 +66,7 @@ bool CardWidget::getIsSelected() const
     return isSelected;
 }
 
-void CardWidget::paintEvent(QPaintEvent *event)
+void CardWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     if (isFront) {
@@ -80,3 +81,4 @@ void CardWidget::mousePressEvent(QMouseEvent *event)
     emit notifySelected(event->button());
     QWidget::mousePressEvent(event);
 }
+

@@ -151,10 +151,9 @@ CardGroups GameControl::GetCurrentCombo(){
 Player* GameControl::getEffectivePlayer(){
     return effectivePlayer;
 }
-/*
-CardGroups* GameControl::GetLandlordCards(){
-    return landlordCards;
+
+QVector<Card> GameControl::getLandLordCards(){
+    return landLordCards;
 }
-*/
 
 
