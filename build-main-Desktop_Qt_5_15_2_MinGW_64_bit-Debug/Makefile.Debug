@@ -1409,7 +1409,11 @@ debug/gamewindow.o: ../main/gamewindow.cpp ../main/gamewindow.h \
 		D:/software/Qt/5.15.2/mingw81_64/include/QtGui/qvector2d.h \
 		D:/software/Qt/5.15.2/mingw81_64/include/QtGui/qtouchdevice.h \
 		D:/software/Qt/5.15.2/mingw81_64/include/QtWidgets/qtabwidget.h \
-		D:/software/Qt/5.15.2/mingw81_64/include/QtGui/qicon.h
+		D:/software/Qt/5.15.2/mingw81_64/include/QtGui/qicon.h \
+		D:/software/Qt/5.15.2/mingw81_64/include/QtGui/QPainter \
+		D:/software/Qt/5.15.2/mingw81_64/include/QtGui/qpainter.h \
+		D:/software/Qt/5.15.2/mingw81_64/include/QtGui/qtextoption.h \
+		D:/software/Qt/5.15.2/mingw81_64/include/QtGui/qpen.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\gamewindow.o ..\main\gamewindow.cpp
 
 debug/main.o: ../main/main.cpp ../main/mainwindow.h \

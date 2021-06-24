@@ -34,10 +34,12 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Enter mode: Game Mode 1";
         mode1Btn->zoomIn();
         mode1Btn->zoomOut();
-        QTimer::singleShot(500, this, [=](){
-            this->hide();
-            gameWindow->show();
-        });
+        this->hide();
+        gameWindow->show();
+//        QTimer::singleShot(500, this, [=](){
+//            this->hide();
+//            gameWindow->show();
+//        });
     });
 
 //    // set mode 2
