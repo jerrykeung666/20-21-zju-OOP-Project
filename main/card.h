@@ -43,7 +43,6 @@ enum CardSuit
 class Card
 {
 public:
-    Card() {}
     Card(CardPoint p = Card_Begin, CardSuit s = Suit_Begin);
     Card(const Card &card);
 
