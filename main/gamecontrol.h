@@ -27,7 +27,7 @@ public:
 
 private:
     void initAllCards();
-    QVector<Card> getRandomCards(int cardnum);
+    QVector<Card> getRandomCards(int start, int cardnum);
 
 
 

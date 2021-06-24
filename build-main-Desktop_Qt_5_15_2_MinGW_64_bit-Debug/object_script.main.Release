@@ -1,6 +1,6 @@
 release/card.o
 release/cardgroups.o
-release/cardview.o
+release/cardwidget.o
 release/gamecontrol.o
 release/gamewindow.o
 release/main.o
@@ -10,7 +10,7 @@ release/player.o
 release/robot.o
 release/qrc_pokerimage.o
 release/moc_cardgroups.o
-release/moc_cardview.o
+release/moc_cardwidget.o
 release/moc_gamecontrol.o
 release/moc_gamewindow.o
 release/moc_mainwindow.o

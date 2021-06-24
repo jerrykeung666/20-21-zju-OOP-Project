@@ -110,7 +110,7 @@ void GameWindow::initLandLordCards()
 {
     QVector<Card> cards = gameControl->getLandLordCards();
     for (auto &card : cards) {
-        addLandLordCard(card);
+//        addLandLordCard(card);
     }
 }
 
@@ -118,13 +118,13 @@ void GameWindow::onStartBtnClicked()
 {
     startBtn->hide();
 //    update();
-    int base = (width() - 3 * cardSize.width() - 2 * 10) / 2;
-    for (int i = 0; i < restThreeCards.size(); ++i) {
-        //restThreeCards[i]->move(base + (cardSize.width() + 10) * i, 20);
-        restThreeCards[i]->move(this->width()*0.5, this->height()*0.5);
-        restThreeCards[i]->show();
-        qDebug() << "card: " << restThreeCards[i]->getCard().point << restThreeCards[i]->getCard().suit;
-    }
+//    int base = (width() - 3 * cardSize.width() - 2 * 10) / 2;
+//    for (int i = 0; i < restThreeCards.size(); ++i) {
+//        //restThreeCards[i]->move(base + (cardSize.width() + 10) * i, 20);
+//        restThreeCards[i]->move(this->width()*0.5, this->height()*0.5);
+//        restThreeCards[i]->show();
+//        qDebug() << "card: " << restThreeCards[i]->getCard().point << restThreeCards[i]->getCard().suit;
+//    }
 
 
     qDebug() << "开始游戏";

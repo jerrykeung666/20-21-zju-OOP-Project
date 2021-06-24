@@ -18,10 +18,10 @@ public:
     void setPlayerID(int ID);
     int getPlayerID() const;
 
-    void setHandCards(const QVector<Card>& cards);
+    void setHandCards(const QVector<Card> &cards);
     QVector<Card> getHandCards() const;
 
-    void setSelectCards(const QVector<Card>& cards);
+    void setSelectCards(const QVector<Card> &cards);
     QVector<Card> getSelectCards() const;
 
     void setBetPoints(int bet);
@@ -37,7 +37,7 @@ public:
     Player* getNextPlayer();
 
     int getCardsNumber() const;   // 得到当前牌的数量
-    void addLandLordCards(const QVector<Card>& cards); // 添加地主牌
+    void addLandLordCards(const QVector<Card> &cards); // 添加地主牌
     bool isWin();  // 是否赢
     bool checkCardValid(CardGroups &currentCombo);
 

@@ -1,6 +1,6 @@
 debug/card.o
 debug/cardgroups.o
-debug/cardview.o
+debug/cardwidget.o
 debug/gamecontrol.o
 debug/gamewindow.o
 debug/main.o
@@ -10,7 +10,7 @@ debug/player.o
 debug/robot.o
 debug/qrc_pokerimage.o
 debug/moc_cardgroups.o
-debug/moc_cardview.o
+debug/moc_cardwidget.o
 debug/moc_gamecontrol.o
 debug/moc_gamewindow.o
 debug/moc_mainwindow.o
