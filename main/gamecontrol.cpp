@@ -79,6 +79,7 @@ void GameControl::initCards(){
     //留下地主牌
     landLordCards = getRandomCards(3);
 
+    emit callGamewindowShowCards();
     // debug
     playerA->showCards();
     playerB->showCards();
