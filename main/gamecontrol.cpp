@@ -12,18 +12,16 @@ GameControl::GameControl(QObject *parent) :
     //landLordCards = CardGroups();
     effectivePlayer = NULL;
 
-    //connect(playerC, &Robot::NotifyCallLord, this, &GameControl::updateBetPoints);
-    //connect(playerB,  &Robot::NotifyCallLord, this, &GameControl::updateBetPoints);
-    //connect(playerA, &Robot::NotifyCallLord, this, &GameControl::updateBetPoints);
+
 
     betCalledNum = 0;
 }
 
 void GameControl::init()
 {
-    playerA = new Player(this);
-    playerB = new Player(this);
-    playerC = new Player(this);
+    playerA = new User(this);
+    playerB = new Robot(this);
+    playerC = new Robot(this);
 
     playerA->setPlayerID(1);
     playerB->setPlayerID(2);
@@ -37,6 +35,11 @@ void GameControl::init()
     playerA->setNextPlayer(playerB);
     playerB->setNextPlayer(playerC);
     playerC->setNextPlayer(playerA);
+
+
+    connect(playerC, &Robot::notifyCallLord, this, &GameControl::updateBetPoints);
+    connect(playerB, &Robot::notifyCallLord, this, &GameControl::updateBetPoints);
+    //connect(playerA, &Robot::notifyCallLord, this, &GameControl::updateBetPoints);
 
     currentPlayer = playerA;
 }
@@ -123,6 +126,7 @@ void GameControl::updateBetPoints(int bet){
     tbet.bet = bet;
     betList.push_back(tbet);
     currentPlayer->setBetPoints(bet);
+    qDebug() << "bet:" << bet;
 
     emit callGamewindowShowBets(currentPlayer);
 
@@ -157,9 +161,11 @@ void GameControl::updateBetPoints(int bet){
     else{
        //调用机器人策略
        //emit 调用自己
-       emit callGamewindowShowBets(currentPlayer);
+       //emit callGamewindowShowBets(currentPlayer);
+       qDebug() << "call robot";
+       currentPlayer->startCallLord();
     }
-
+/*
     currentPlayer = currentPlayer->getNextPlayer();
     if (currentPlayer->getIsPerson()){
         //emit  //通知前段显示叫分button
@@ -172,7 +178,7 @@ void GameControl::updateBetPoints(int bet){
 
     currentPlayer->setIsLandLord(true);
     emit callGamewindowShowLandlord();
-
+*/
 
 }
 
@@ -183,13 +189,13 @@ void GameControl::updateBetPoints(int bet){
 Player* GameControl::getCurrentPlayer(){
     return currentPlayer;
 }
-Player* GameControl::getPlayerA(){
+User* GameControl::getPlayerA(){
     return playerA;
 }
-Player* GameControl::getPlayerB(){
+Robot* GameControl::getPlayerB(){
     return playerB;
 }
-Player* GameControl::getPlayerC(){
+Robot* GameControl::getPlayerC(){
     return playerC;
 }
 /*
