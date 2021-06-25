@@ -1,5 +1,6 @@
 #include "gamewindow.h"
 
+#include <algorithm>
 #include <QPainter>
 #include <QDebug>
 #include <QPalette>
@@ -27,6 +28,8 @@ const int GameWindow::fontSize = 20;
 const QPoint GameWindow::myBetInfo = QPoint(500, 375);
 const QPoint GameWindow::leftPlayerBetInfo = QPoint(135, 50);
 const QPoint GameWindow::rightPlayerBetInfo = QPoint(1000, 50);
+
+const int GameWindow::cardSelectedShift = 35;
 
 
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
@@ -206,9 +209,9 @@ void GameWindow::showMyCard(Player* myPlayer){
     QVector<Card> myCards;
     QVector<CardWidget*> myWidget;
     myCards = myPlayer->getHandCards();
-    //qDebug() << myCards.size();
     for (int i=0; i < myCards.size(); i++) {
         myWidget.push_back(cardWidgetMap[myCards.at(i)]);
+        myWidget.at(i)->setOwner(myPlayer);
         myWidget.at(i)->raise();
         myWidget.at(i)->move(myCardWidthStartPos + i*cardWidthSpace, myCardHeightStartPos);
         myWidget.at(i)->show();
@@ -359,8 +362,42 @@ void GameWindow::onBet3BtnClicked(){
 }
 
 void GameWindow::cardSelected(Qt::MouseButton mouseButton){
-    //
+    CardWidget* cardWidget = (CardWidget*)sender();
+    Player* player = cardWidget->getOwner();
+
+    if(mouseButton == Qt::LeftButton){
+        cardWidget->setIsSelected(!cardWidget->getIsSelected()); // switch statu
+        cardSelectedAnimation(player);
+
+//        int i;
+//        for(i=0; i < player->getSelectCards().size(); i++){
+//            if(player->getSelectCards().at(i) == cardWidget->getCard())
+//                break;
+//        }
+
+//        if(i < player->getSelectCards().size())
+//            player->getSelectCards().remove(i);
+//        else if(i == player->getSelectCards().size())
+//            player->getSelectCards().push_back(cardWidget->getCard());
+    }
 }
+
+void GameWindow::cardSelectedAnimation(Player* player){
+    showMySelectedCard(player);
+}
+
+void GameWindow::showMySelectedCard(Player* player){//TODO
+    CardWidget* selectedWidget;
+
+    for(int i=0; i < player->getHandCards().size(); i++){
+        selectedWidget = cardWidgetMap[player->getHandCards().at(i)];
+        if(selectedWidget->getIsSelected())
+            selectedWidget->move(selectedWidget->x(), myCardHeightStartPos - cardSelectedShift);
+        else
+            selectedWidget->move(selectedWidget->x(), myCardHeightStartPos);
+    }
+}
+
 
 void GameWindow::onBetPointsCall(Player* player){
     QPalette palette = this->palette();
