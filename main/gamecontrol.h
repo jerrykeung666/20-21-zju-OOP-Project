@@ -21,6 +21,8 @@ public:
     Player* getEffectivePlayer();
     QVector<Card> getLandLordCards();
 
+    void updateBetPoints(int bet); //处理叫地主分数
+
     void initCards(); //发牌
 
     void init(); //初始化玩家
@@ -33,10 +35,12 @@ private:
 
 signals:
     void callGamewindowShowCards();   //发牌结束后通知gamewindow显示卡牌
-    void callGamewindowShowButtons(); //处理叫分后通知gamewindow
+    void callGamewindowShowBets(Player*);    //叫分结束后通知gamewindow显示叫分
+
+    void callGamewindowShowLandlord(); //处理叫分后通知gamewindow
 
 public slots:
-    void updateBetPoints(int bet); //处理叫地主分数
+   // void updateBetPoints(int bet); //处理叫地主分数
     //void handout(int bet); //处理出牌
 
 protected:

@@ -12,6 +12,10 @@ GameControl::GameControl(QObject *parent) :
     //landLordCards = CardGroups();
     effectivePlayer = NULL;
 
+    //connect(playerC, &Robot::NotifyCallLord, this, &GameControl::updateBetPoints);
+    //connect(playerB,  &Robot::NotifyCallLord, this, &GameControl::updateBetPoints);
+    //connect(playerA, &Robot::NotifyCallLord, this, &GameControl::updateBetPoints);
+
     betCalledNum = 0;
 }
 
@@ -26,6 +30,8 @@ void GameControl::init()
     playerC->setPlayerID(3);
 
     playerA->setIsPerson(true);
+    playerB->setIsPerson(false);
+    playerC->setIsPerson(false);
 
 
     playerA->setNextPlayer(playerB);
@@ -116,10 +122,15 @@ void GameControl::updateBetPoints(int bet){
     tbet.player = currentPlayer;
     tbet.bet = bet;
     betList.push_back(tbet);
+    currentPlayer->setBetPoints(bet);
+
+    emit callGamewindowShowBets(currentPlayer);
 
     //叫3分直接地主
     if (bet ==3){
         currentPlayer->setIsLandLord(true);
+        currentPlayer->addLandLordCards(landLordCards);
+        emit callGamewindowShowLandlord();
         return;
     }
 
@@ -130,9 +141,10 @@ void GameControl::updateBetPoints(int bet){
             if (it->bet > landlord->bet){
                 landlord = it;
             }
-        }
+        }     
         landlord->player->setIsLandLord(true);
         landlord->player->addLandLordCards(landLordCards);
+        emit callGamewindowShowLandlord();
         return;
     }
 
@@ -143,7 +155,23 @@ void GameControl::updateBetPoints(int bet){
     }
     else{
        //调用机器人策略
+       //emit 调用自己
+       emit callGamewindowShowBets(currentPlayer);
     }
+
+    currentPlayer = currentPlayer->getNextPlayer();
+    if (currentPlayer->getIsPerson()){
+        //emit  //通知前段显示叫分button
+    }
+    else{
+       //调用机器人策略
+       //emit 调用自己
+       emit callGamewindowShowBets(currentPlayer);
+    }
+
+    currentPlayer->setIsLandLord(true);
+    emit callGamewindowShowLandlord();
+
 
 }
 

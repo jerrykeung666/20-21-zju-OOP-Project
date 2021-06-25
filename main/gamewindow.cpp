@@ -2,6 +2,7 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <QPalette>
 
 const QSize GameWindow::gameWindowSize = QSize(1200, 800);
 
@@ -21,6 +22,9 @@ const int GameWindow::remCardHeightStartPos = 20;//TODO
 const int GameWindow::betBtnWidthStartPos = 320; //TODO
 const int GameWindow::betBtnHeightStartPos = 600; //TODO
 const int GameWindow::betBtnWidthSpace = 140; //TODO
+
+const int GameWindow::fontSize = 20;
+const QPoint GameWindow::myBetInfo = QPoint(550, 350);
 
 
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
@@ -48,10 +52,14 @@ void GameWindow::insertCardWidget(const Card &card, QString &path)
 {
     CardWidget *cardWidget = new CardWidget(this);
     QPixmap pix = QPixmap(path);
+
     cardWidget->hide();
     cardWidget->setCard(card);
     cardWidget->setPix(pix);
+
     cardWidgetMap.insert(card, cardWidget);
+
+    connect(cardWidget, &CardWidget::notifySelected, this, &GameWindow::cardSelected);
 }
 
 void GameWindow::addLandLordCard(const Card &card)
@@ -192,7 +200,7 @@ void GameWindow::showLandLordCard(){
         showOtherPlayerCard(gameControl->getPlayerB(), "left");
     }
 
-    showRemLandLordCard();
+    showRemLandLordCard("hidden");
 }
 
 void GameWindow::showOtherPlayerCard(Player* otherPlayer, const QString status){
@@ -232,24 +240,29 @@ void GameWindow::showMyCard(Player* myPlayer){
     }
 }
 
-void GameWindow::showRemLandLordCard(){
+void GameWindow::showRemLandLordCard(QString status){
     QVector<Card> remCards;
     QVector<CardWidget*> remWidget;
     remCards = gameControl->getLandLordCards();
     for (int i=0; i < remCards.size(); i++) {
         remWidget.push_back(cardWidgetMap[remCards.at(i)]);
         remWidget.at(i)->raise();
-        remWidget.at(i)->setFront(false);
+
+        if (status == "hidden")
+            remWidget.at(i)->setFront(false);
+        else
+            remWidget.at(i)->setFront(true);
+
         remWidget.at(i)->move(remCardWidthStartPos + i*cardRemSpace, remCardHeightStartPos);
         remWidget.at(i)->show();
     }
 }
 
 void GameWindow::call4Landlord(){
-    MyPushButton* betNoBtn = new MyPushButton("../picture/No.png", "No!");
-    MyPushButton* bet1Btn = new MyPushButton("../picture/OnePoint.png", "1 Point!");
-    MyPushButton* bet2Btn = new MyPushButton("../picture/TwoPoints.png", "2 Points!");
-    MyPushButton* bet3Btn = new MyPushButton("../picture/ThreePoints.png", "3 Points!");
+    betNoBtn = new MyPushButton("../picture/No.png", "No!");
+    bet1Btn = new MyPushButton("../picture/OnePoint.png", "1 Point!");
+    bet2Btn = new MyPushButton("../picture/TwoPoints.png", "2 Points!");
+    bet3Btn = new MyPushButton("../picture/ThreePoints.png", "3 Points!");
 
     betNoBtn->setParent(this);
     bet1Btn->setParent(this);
@@ -275,6 +288,40 @@ void GameWindow::call4Landlord(){
     connect(bet1Btn, &MyPushButton::clicked, this, &GameWindow::onBet1BtnClicked);
     connect(bet2Btn, &MyPushButton::clicked, this, &GameWindow::onBet2BtnClicked);
     connect(bet3Btn, &MyPushButton::clicked, this, &GameWindow::onBet3BtnClicked);
+
+    connect(gameControl, &GameControl::callGamewindowShowBets, this, [=](Player* player){
+        QPalette palette = this->palette();
+        palette.setColor(QPalette::WindowText, Qt::red);
+
+        QFont font("Microsoft YaHei", fontSize, QFont::Bold);
+
+        QLabel* betInfo = new QLabel();
+
+        betInfo->setParent(this);
+        betInfo->setPalette(palette);
+        betInfo->setFont(font);
+
+        int betPoints = player->getBetPoints();
+        if (betPoints == 0)
+            betInfo->setText("No!");
+        else if(betPoints == 1)
+            betInfo->setText("1 Point!");
+        else
+            betInfo->setText(QString::number(betPoints) + " Point(s)!");
+
+        betInfo->raise();
+        betInfo->move(myBetInfo);// people/robot?
+        betInfo->show();
+
+        qDebug() << "betInfo";
+    });
+
+//    if(gameControl->getPlayerA()->getIsLandLord() ||
+//       gameControl->getPlayerB()->getIsLandLord() ||
+//       gameControl->getPlayerC()->getIsLandLord())
+//    {
+//        showRemLandLordCard("show");
+//    }
 }
 
 void GameWindow::onBetNoBtnClicked(){
@@ -288,17 +335,13 @@ void GameWindow::onBetNoBtnClicked(){
         gameControl->getPlayerC()->setBetPoints(0);
     }
 
-//    QTimer::singleShot(500, this, [=](){
-
-//    });
-    this->update();
-
-    betNoBtn->setVisible(false);
-//    bet1Btn->setVisible(false);
-//    bet2Btn->setVisible(false);
-//    bet3Btn->setVisible(false);
-
-    this->update();
+    QTimer::singleShot(100, this, [=](){
+        betNoBtn->hide();
+        bet1Btn->hide();
+        bet2Btn->hide();
+        bet3Btn->hide();
+        gameControl->updateBetPoints(0);
+    });
 
     qDebug() << "No bet!";
 }
@@ -314,10 +357,13 @@ void GameWindow::onBet1BtnClicked(){
         gameControl->getPlayerC()->setBetPoints(1);
     }
 
-    betNoBtn->hide();
-    bet1Btn->hide();
-    bet2Btn->hide();
-    bet3Btn->hide();
+    QTimer::singleShot(100, this, [=](){
+        betNoBtn->hide();
+        bet1Btn->hide();
+        bet2Btn->hide();
+        bet3Btn->hide();
+        gameControl->updateBetPoints(1);
+    });
 
     qDebug() << "1 Point!";
 }
@@ -333,10 +379,13 @@ void GameWindow::onBet2BtnClicked(){
         gameControl->getPlayerC()->setBetPoints(2);
     }
 
-    betNoBtn->hide();
-    bet1Btn->hide();
-    bet2Btn->hide();
-    bet3Btn->hide();
+    QTimer::singleShot(100, this, [=](){
+        betNoBtn->hide();
+        bet1Btn->hide();
+        bet2Btn->hide();
+        bet3Btn->hide();
+        gameControl->updateBetPoints(2);
+    });
 
     qDebug() << "2 Points!";
 }
@@ -352,12 +401,19 @@ void GameWindow::onBet3BtnClicked(){
         gameControl->getPlayerC()->setBetPoints(3);
     }
 
-    betNoBtn->hide();
-    bet1Btn->hide();
-    bet2Btn->hide();
-    bet3Btn->hide();
+    QTimer::singleShot(100, this, [=](){
+        betNoBtn->hide();
+        bet1Btn->hide();
+        bet2Btn->hide();
+        bet3Btn->hide();
+        gameControl->updateBetPoints(3);
+    });
 
     qDebug() << "3 Points!";
+}
+
+void GameWindow::cardSelected(Qt::MouseButton mouseButton){
+    //
 }
 
 /*
@@ -451,66 +507,67 @@ void GameWindow::paintEvent(QPaintEvent *)
     }
 }
 */
-void GameWindow::UpdatePlayerCards(Player* player)
-{
-    QVector<Card> restCards = player->getHandCards();
-    //CardList restCardList = restCards.ToCardList(Cards::Desc);
 
-    const int cardSpacing = 20;		// 牌间隔
+//void GameWindow::UpdatePlayerCards(Player* player)
+//{
+//    QVector<Card> restCards = player->getHandCards();
+//    //CardList restCardList = restCards.ToCardList(Cards::Desc);
 
-    // 显示剩下的牌
-    QRect cardsRect = playerContextMap[player].cardsRect;
-    QVector<Card>::iterator itRest = restCards.begin();
-    for (int i = 0; itRest != restCards.end(); itRest++, i++)
-    {
-        CardWidget* cardPic = cardWidgetMap[*itRest];
-        cardPic->setFront(playerContextMap[player].isFrontSide);
-        cardPic->show();
-        cardPic->raise();
+//    const int cardSpacing = 20;		// 牌间隔
 
-        if (playerContextMap[player].cardsAlign == Horizontal)
-        {
-            int leftBase = cardsRect.left() + (cardsRect.width() - (restCards.size() - 1) * cardSpacing - cardPic->width()) / 2;
-            int top = cardsRect.top() + (cardsRect.height() - cardPic->height()) / 2;
-            if (cardPic->getIsSelected()) top -= 10;
+//    // 显示剩下的牌
+//    QRect cardsRect = playerContextMap[player].cardsRect;
+//    QVector<Card>::iterator itRest = restCards.begin();
+//    for (int i = 0; itRest != restCards.end(); itRest++, i++)
+//    {
+//        CardWidget* cardPic = cardWidgetMap[*itRest];
+//        cardPic->setFront(playerContextMap[player].isFrontSide);
+//        cardPic->show();
+//        cardPic->raise();
 
-            cardPic->move(leftBase + i * cardSpacing, top);
-        }
-        else
-        {
-            int left = cardsRect.left() + (cardsRect.width() - cardPic->width()) / 2;
-            if (cardPic->getIsSelected()) left += 10;
-            int topBase = cardsRect.top() + (cardsRect.height() - (restCards.size() - 1) * cardSpacing - cardPic->height()) / 2;
-            cardPic->move(left, topBase + i * cardSpacing);
-        }
-    }
+//        if (playerContextMap[player].cardsAlign == Horizontal)
+//        {
+//            int leftBase = cardsRect.left() + (cardsRect.width() - (restCards.size() - 1) * cardSpacing - cardPic->width()) / 2;
+//            int top = cardsRect.top() + (cardsRect.height() - cardPic->height()) / 2;
+//            if (cardPic->getIsSelected()) top -= 10;
 
-    // 显示上一次打出去的牌
-    QRect playCardsRect = playerContextMap[player].playHandRect;
-    if (!playerContextMap[player].lastCards.empty())		// 不是空牌
-    {
-        int playSpacing = 24;
-        QVector<Card> lastCards = playerContextMap[player].lastCards;
-        QVector<Card>::iterator itPlayed = lastCards.begin();
-        for (int i = 0; itPlayed != lastCards.end(); itPlayed++, i++)
-        {
-            CardWidget* cardPic = cardWidgetMap[*itPlayed];
-            cardPic->setFront(true);
-            cardPic->raise();
+//            cardPic->move(leftBase + i * cardSpacing, top);
+//        }
+//        else
+//        {
+//            int left = cardsRect.left() + (cardsRect.width() - cardPic->width()) / 2;
+//            if (cardPic->getIsSelected()) left += 10;
+//            int topBase = cardsRect.top() + (cardsRect.height() - (restCards.size() - 1) * cardSpacing - cardPic->height()) / 2;
+//            cardPic->move(left, topBase + i * cardSpacing);
+//        }
+//    }
 
-            if (playerContextMap[player].cardsAlign == Horizontal)
-            {
-                int leftBase = playCardsRect.left () +
-                    (playCardsRect.width() - (lastCards.size() - 1) * playSpacing - cardPic->width()) / 2;
-                int top = playCardsRect.top() + (playCardsRect.height() - cardPic->height()) / 2;
-                cardPic->move(leftBase + i * playSpacing, top);
-            }
-            else
-            {
-                int left = playCardsRect.left() + (playCardsRect.width() - cardPic->width()) / 2;
-                int topBase = playCardsRect.top();
-                cardPic->move(left, topBase + i * playSpacing);
-            }
-        }
-    }
-}
+//    // 显示上一次打出去的牌
+//    QRect playCardsRect = playerContextMap[player].playHandRect;
+//    if (!playerContextMap[player].lastCards.empty())		// 不是空牌
+//    {
+//        int playSpacing = 24;
+//        QVector<Card> lastCards = playerContextMap[player].lastCards;
+//        QVector<Card>::iterator itPlayed = lastCards.begin();
+//        for (int i = 0; itPlayed != lastCards.end(); itPlayed++, i++)
+//        {
+//            CardWidget* cardPic = cardWidgetMap[*itPlayed];
+//            cardPic->setFront(true);
+//            cardPic->raise();
+
+//            if (playerContextMap[player].cardsAlign == Horizontal)
+//            {
+//                int leftBase = playCardsRect.left () +
+//                    (playCardsRect.width() - (lastCards.size() - 1) * playSpacing - cardPic->width()) / 2;
+//                int top = playCardsRect.top() + (playCardsRect.height() - cardPic->height()) / 2;
+//                cardPic->move(leftBase + i * playSpacing, top);
+//            }
+//            else
+//            {
+//                int left = playCardsRect.left() + (playCardsRect.width() - cardPic->width()) / 2;
+//                int topBase = playCardsRect.top();
+//                cardPic->move(left, topBase + i * playSpacing);
+//            }
+//        }
+//    }
+//}
