@@ -26,6 +26,7 @@ private:
     void initButtons();
     void initPlayerContext();
     void initLandLordCards();
+    void initInfoLabel();
     void insertCardWidget(const Card &card, QString &path);
     void addLandLordCard(const Card &card);
     void showLandLordCard();
@@ -33,8 +34,9 @@ private:
     void showOtherPlayerCard(Player* otherPlayer, const QString status);
     void showRemLandLordCard(QString status);
     void call4Landlord();
-    void cardSelectedAnimation(Player* player);
     void showMySelectedCard(Player* player);
+    void startGame();
+    void showPlayCard();
 
 signals:
 
@@ -46,6 +48,8 @@ public slots:
     void onBet3BtnClicked();
     void onBetPointsCall(Player* player);
     void cardSelected(Qt::MouseButton mouseButton);
+    void playCards();
+    void passCards();
 
 protected:
     enum CardsAlign
@@ -78,12 +82,15 @@ private:
     QLabel* myBetInfo;
     QLabel* leftBetInfo;
     QLabel* rightBetInfo;
+    QLabel* passInfo;
 
     MyPushButton* startBtn;
     MyPushButton* betNoBtn;
     MyPushButton* bet1Btn;
     MyPushButton* bet2Btn;
     MyPushButton* bet3Btn;
+    MyPushButton* passBtn;
+    MyPushButton* playBtn;
 
     static const QSize gameWindowSize;
 
@@ -112,6 +119,12 @@ private:
     static const QPoint rightPlayerBetInfoPos;
 
     static const int cardSelectedShift;
+
+    // play info
+    static const QPoint passBtnStartPos;
+    static const QPoint playBtnStartPos;
+    static const QPoint myCardZone;
+    static const int myCardZoneWidthSpace;
 };
 
 #endif // GAMEWINDOW_H

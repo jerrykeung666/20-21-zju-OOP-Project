@@ -25,6 +25,7 @@ public:
     QVector<Card> getLandLordCards();
 
     void updateBetPoints(int bet); //处理叫地主分数
+    void onPlayerHand(Player* player, QVector<Card> &cards); //处理叫地主分数
 
     void initCards(); //发牌
 
@@ -41,6 +42,8 @@ signals:
     void callGamewindowShowBets(Player*);    //叫分结束后通知gamewindow显示叫分
 
     void callGamewindowShowLandlord(); //处理叫分后通知gamewindow
+
+    void NotifyPlayerPlayHand(Player* player,QVector<Card> &cards);
 
 public slots:
    // void updateBetPoints(int bet); //处理叫地主分数
@@ -61,6 +64,9 @@ protected:
     CardGroups currentCombo; //有效牌
     Player* effectivePlayer; //有效玩家
     QVector<Card> landLordCards;//三张地主牌
+
+    Player* punchPlayer;
+    QVector<Card> punchCards;
 
     int betCalledNum;         //地主优势叫分
     QVector<BetRecord> betList;

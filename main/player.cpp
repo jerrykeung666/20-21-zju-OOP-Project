@@ -24,6 +24,11 @@ void Player::setHandCards(const QVector<Card> &cards)
     sortHandCards();
 }
 
+// jw version
+void Player::resetHandCards(const QVector<Card> &cards){
+    handCards = cards;
+}
+
 QVector<Card> Player::getHandCards() const
 {
     return handCards;
@@ -121,6 +126,17 @@ void Player::clear()
 {
     handCards.clear();
 }
+
+void Player::setSelectCards(const QVector<Card> &cards)
+{
+    selectCards.addCards(cards);
+}
+
+QVector<Card> Player::getSelectCards() const
+{
+    return selectCards.getCards();
+}
+
 
 void Player::startCallLord()
 {

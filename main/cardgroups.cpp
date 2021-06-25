@@ -12,9 +12,13 @@ CardGroups::CardGroups(GroupType type, CardPoint base, int extra)
     this->extraNum = extra;
 }
 
-void CardGroups::addCard(const Card &card)
-{
-    cards.push_back(card);
+//void CardGroups::addCard(const Card &card)
+//{
+//    cards.push_back(card);
+//}
+
+QVector<Card> CardGroups::getCards() const{
+    return cards;
 }
 
 void CardGroups::clear()
@@ -184,4 +188,23 @@ bool CardGroups::canBeat(const CardGroups &cardGroups) const
     }
 
     return false;
+}
+
+void CardGroups::addCard(const Card &card)
+{
+    if (!cards.contains(card))
+        cards.push_back(card);
+}
+
+void CardGroups::removeCard(Card &card)
+{
+    if (cards.contains(card)) {
+        int pos = cards.indexOf(card);
+        cards.remove(pos);
+    }
+}
+
+void CardGroups::addCards(const QVector<Card>& cards)
+{
+    this->cards << cards;
 }

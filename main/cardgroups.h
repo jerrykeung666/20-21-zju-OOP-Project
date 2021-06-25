@@ -35,6 +35,8 @@ public:
     CardGroups(GroupType type, CardPoint base, int extra);
 
     void addCard(const Card &card);
+    void addCards(const QVector<Card>& cards);
+    void removeCard(Card &card);
     void clear();
 
     void analyseCards();
@@ -44,6 +46,8 @@ public:
     GroupType getCardsType();
     CardPoint getBasePoint();
     int getExtraNum();
+
+    QVector<Card> getCards() const;
 
 
 private:

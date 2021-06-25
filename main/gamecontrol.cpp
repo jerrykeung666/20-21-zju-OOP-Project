@@ -148,6 +148,7 @@ void GameControl::updateBetPoints(int bet){
         }     
         landlord->player->setIsLandLord(true);
         landlord->player->addLandLordCards(landLordCards);
+        currentPlayer = landlord->player;
         //qDebug() << "GameControl: card num: " << playerA->getHandCards().size();
         emit callGamewindowShowLandlord();
         return;
@@ -180,6 +181,63 @@ void GameControl::updateBetPoints(int bet){
     emit callGamewindowShowLandlord();
 */
 
+}
+
+void GameControl::onPlayerHand(Player* player, QVector<Card> &cards){
+    if (!cards.empty())
+    {
+        punchPlayer = player;
+        punchCards = cards;
+//        playerA->onPlayerPunch(punchPlayer, punchCards);
+//        playerB->onPlayerPunch(punchPlayer, punchCards);
+//        playerC->onPlayerPunch(punchPlayer, punchCards);
+        //NotifyPlayerPunch(m_punchPlayer, m_punchCards);
+    }
+
+    emit NotifyPlayerPlayHand(currentPlayer, cards); //前端把出来的牌显示在手牌前方，留接口
+
+    // player已把牌都出完，计算三方得分
+    if (player->getHandCards().empty())
+    {
+        /*
+        Player* prev = player->GetPrevPlayer();
+        Player* next = player->GetNextPlayer();
+
+        if (player->GetRole() == Player::Lord)
+        {
+            player->SetMark(player->GetMark() + 2 * m_curBet);
+            prev->SetMark(prev->GetMark() - m_curBet);
+            next->SetMark(next->GetMark() - m_curBet);
+        }
+        else
+        {
+            player->SetMark(player->GetMark() + m_curBet);
+
+            if (prev->GetRole() == Player::Lord)
+            {
+                prev->SetMark(prev->GetMark() - 2 * m_curBet);
+                next->SetMark(next->GetMark() + m_curBet);
+            }
+            else
+            {
+                prev->SetMark(prev->GetMark() + m_curBet);
+                next->SetMark(next->GetMark() - 2 * m_curBet);
+            }
+        }
+        */
+
+        //emit NotifyPlayerStatus(player, GameControl::WinningStatus); //通知前端输赢，留接口
+
+        return;
+
+    }
+
+    // 出完牌，轮到下一个玩家
+    Player* nextPlayer = player->getNextPlayer();
+    currentPlayer = nextPlayer;
+    //emit NotifyPlayerStatus(currentPlayer, GameControl::ThinkingForPlayHandStatus);
+        //通知出牌界面修改，先本玩家上一轮出的牌，若为用户出牌则show按钮，若为机器出牌则把按钮隐藏掉（无punchplayer说明第一次出牌，无pass按钮)
+    currentPlayer->startPlayHand();
 }
 
 
