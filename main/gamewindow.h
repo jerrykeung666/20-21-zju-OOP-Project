@@ -33,7 +33,8 @@ private:
     void showOtherPlayerCard(Player* otherPlayer, const QString status);
     void showRemLandLordCard(QString status);
     void call4Landlord();
-    void cardSelected(Qt::MouseButton mouseButton);
+    void cardSelectedAnimation(Player* player);
+    void showMySelectedCard(Player* player);
 
 signals:
 
@@ -44,6 +45,7 @@ public slots:
     void onBet2BtnClicked();
     void onBet3BtnClicked();
     void onBetPointsCall(Player* player);
+    void cardSelected(Qt::MouseButton mouseButton);
 
 protected:
     enum CardsAlign
@@ -104,6 +106,8 @@ private:
     static const QPoint myBetInfo;
     static const QPoint leftPlayerBetInfo;
     static const QPoint rightPlayerBetInfo;
+
+    static const int cardSelectedShift;
 };
 
 #endif // GAMEWINDOW_H
