@@ -17,7 +17,9 @@ int Player::getPlayerID() const
 
 void Player::setHandCards(const QVector<Card> &cards)
 {
-    handCards = cards;
+    for (auto &card : cards) {
+        handCards.push_back(card);
+    }
     sortHandCards();
 }
 
@@ -76,7 +78,7 @@ bool Player::isWin()
     return getCardsNumber() == 0;
 }
 
-void Player::addLandLordCards(const QVector<Card> &cards)
+void Player::addLandLordCards(QVector<Card> &cards)
 {
     for (auto &card : cards) {
         handCards.push_back(card);
@@ -104,7 +106,7 @@ void Player::sortHandCards()
 void Player::showCards()
 {
     qDebug() << "show cards";
-    for (const auto &card : handCards) {
+    for (auto &card : handCards) {
         qDebug() << "card: " << card.point << " " << card.suit;
     }
 }

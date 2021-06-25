@@ -2,6 +2,7 @@
 #include "cardgroups.h"
 #include <QMessageBox>
 #include <QTime>
+#include <random>
 
 GameControl::GameControl(QObject *parent) :
     QObject(parent)
@@ -47,20 +48,36 @@ void GameControl::initAllCards(){
     allCards.push_back(scard);
     Card bcard(Card_BJ,Suit_Begin);
     allCards.push_back(bcard);
+
+    std::default_random_engine generator (time(nullptr));
+    std::uniform_int_distribution<unsigned int> u(0, 53);
+    for (int i = 1; i < 54; i++){
+        int index = u(generator);
+        std::swap(allCards[i], allCards[index]);
+    }
+
+    qDebug() << "allcards";
+    for (auto &card : allCards) {
+        qDebug() << "card: " << card.point << card.suit;
+    }
 }
 
-QVector<Card> GameControl::getRandomCards(int cardnum){
+QVector<Card> GameControl::getRandomCards(int start, int cardnum){
     QVector<Card> sdcards;
-    for (int i=1;i<=cardnum;i++){
-        int num =  allCards.size();
-        QTime time;
-        time = QTime::currentTime();
-        qsrand(time.msec() + time.second() * 1000);
-        int randomIndex=qrand()%num;
-        QVector<Card>::iterator it=allCards.begin()+randomIndex;
-        Card takecard = *it;
-        allCards.erase(it);
-        sdcards.push_back(takecard);
+    for (int i = start; i < start + cardnum; i++){
+//        int num =  allCards.size();
+//        QTime time;
+//        time = QTime::currentTime();
+//        qsrand(time.msec() + time.second() * 1000);
+//        int randomIndex=qrand()%num;
+//        QVector<Card>::iterator it=allCards.begin()+randomIndex;
+//        Card takecard = *it;
+//        allCards.erase(it);
+        sdcards.push_back(allCards[i]);
+    }
+    qDebug() << "random cards";
+    for (auto &card : sdcards) {
+        qDebug() << "card: " << card.point << card.suit;
     }
     return sdcards;
 }
@@ -72,22 +89,25 @@ void GameControl::initCards(){
     initAllCards();
 
     //给玩家发牌
-    playerA->setHandCards(getRandomCards(17));
-    playerB->setHandCards(getRandomCards(17));
-    playerC->setHandCards(getRandomCards(17));
+    playerA->setHandCards(getRandomCards(0, 17));
+    playerB->setHandCards(getRandomCards(17, 17));
+    playerC->setHandCards(getRandomCards(34, 17));
 
     //留下地主牌
-    landLordCards = getRandomCards(3);
+    landLordCards = getRandomCards(51, 3);
 
-    emit callGamewindowShowCards();
+//    emit callGamewindowShowCards();
     // debug
     playerA->showCards();
     playerB->showCards();
     playerC->showCards();
 
-    for (const auto &card : landLordCards) {
+    qDebug() << "地主牌";
+    for (auto &card : landLordCards) {
         qDebug() << "card: " << card.point << " " << card.suit;
     }
+
+    allCards.clear();
 }
 
 void GameControl::updateBetPoints(int bet){
@@ -112,7 +132,7 @@ void GameControl::updateBetPoints(int bet){
             }
         }
         landlord->player->setIsLandLord(true);
-        landlord->player-> addLandLordCards(landLordCards);
+        landlord->player->addLandLordCards(landLordCards);
         return;
     }
 

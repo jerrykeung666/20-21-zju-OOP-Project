@@ -27,6 +27,8 @@ private:
     void initLandLordCards();
     void insertCardWidget(const Card &card, QString &path);
     void addLandLordCard(const Card &card);
+    void showLandLordCard();
+    void showMyCard(Player* myPlayer);
 
 signals:
 
@@ -61,6 +63,8 @@ private:
     QSize cardSize;
 
     MyPushButton* startBtn;
+
+    static const int cardSpace;
 };
 
 #endif // GAMEWINDOW_H

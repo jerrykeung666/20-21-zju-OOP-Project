@@ -3,6 +3,8 @@
 #include <QPainter>
 #include <QDebug>
 
+const int GameWindow::cardSpace = 35;
+
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
 {
 
@@ -46,6 +48,7 @@ void GameWindow::addLandLordCard(const Card &card)
     restThreeCards.push_back(cardWidget);
 }
 
+/*
 void GameWindow::initCardWidgetMap()
 {
     QString prefix = ":/PokerImage/";
@@ -54,6 +57,36 @@ void GameWindow::initCardWidgetMap()
         for (int pt = Card_Begin + 1; pt < Card_SJ; ++pt) {
             Card card((CardPoint)pt, (CardSuit)st);
             QString cardPath = prefix + suitMap[st-1] + QString((pt-1)%13) + ".png";
+            insertCardWidget(card, cardPath);
+        }
+    }
+
+    Card card;
+    QString cardPath;
+
+    cardPath = prefix + "smalljoker.png";
+    card.point = Card_SJ;
+    insertCardWidget(card, cardPath);
+
+    card.point = Card_BJ;
+    cardPath = prefix + "bigjoker.png";
+    insertCardWidget(card, cardPath);
+}
+*/
+
+// JW version
+void GameWindow::initCardWidgetMap()
+{
+    QString prefix = ":/PokerImage/";
+    QString suitMap[] = {"poker_t_1_v_", "poker_t_2_v_", "poker_t_3_v_", "poker_t_4_v_"};
+    for (int st = Suit_Begin + 1; st < Suit_End; ++st) {
+        for (int pt = Card_Begin + 1; pt < Card_SJ; ++pt) {
+            Card card((CardPoint)pt, (CardSuit)st);
+            QString cardPath;
+            if(pt == 13)
+                cardPath = prefix + suitMap[st-1] + QString::number(1) + ".png";
+            else
+                cardPath = prefix + suitMap[st-1] + QString::number((pt+1)%14) + ".png";
             insertCardWidget(card, cardPath);
         }
     }
@@ -110,24 +143,52 @@ void GameWindow::initLandLordCards()
 {
     QVector<Card> cards = gameControl->getLandLordCards();
     for (auto &card : cards) {
-        addLandLordCard(card);
+//        addLandLordCard(card);
     }
 }
 
 void GameWindow::onStartBtnClicked()
 {
     startBtn->hide();
+    showLandLordCard();
 //    update();
-    int base = (width() - 3 * cardSize.width() - 2 * 10) / 2;
-    for (int i = 0; i < restThreeCards.size(); ++i) {
-        //restThreeCards[i]->move(base + (cardSize.width() + 10) * i, 20);
-        restThreeCards[i]->move(this->width()*0.5, this->height()*0.5);
-        restThreeCards[i]->show();
-        qDebug() << "card: " << restThreeCards[i]->getCard().point << restThreeCards[i]->getCard().suit;
-    }
+//    int base = (width() - 3 * cardSize.width() - 2 * 10) / 2;
+//    for (int i = 0; i < restThreeCards.size(); ++i) {
+//        //restThreeCards[i]->move(base + (cardSize.width() + 10) * i, 20);
+//        restThreeCards[i]->move(this->width()*0.5, this->height()*0.5);
+//        restThreeCards[i]->show();
+//        qDebug() << "card: " << restThreeCards[i]->getCard().point << restThreeCards[i]->getCard().suit;
+//    }
 
 
     qDebug() << "开始游戏";
+}
+
+void GameWindow::showLandLordCard(){
+   // gameControl->getPlayerA();
+    if(gameControl->getPlayerA()->getIsPerson()){
+        showMyCard(gameControl->getPlayerA());
+    }
+    else if(gameControl->getPlayerB()->getIsPerson()){
+        showMyCard(gameControl->getPlayerB());
+    }
+    else if(gameControl->getPlayerC()->getIsPerson()){
+        showMyCard(gameControl->getPlayerC());
+    }
+}
+
+void GameWindow::showMyCard(Player* myPlayer){
+    QVector<Card> myCards;
+    QVector<CardWidget*> myWidget;
+    myCards = myPlayer->getHandCards();
+    //qDebug() << myCards.size();
+    for (int i=0; i < myCards.size(); i++) {
+        myWidget.push_back(cardWidgetMap[myCards.at(i)]);
+        myWidget.at(i)->move(100 + i*cardSpace, 500);
+        myWidget.at(i)->show();
+        qDebug() << myWidget.at(i)->getIsFront();
+        qDebug() << myWidget.size();
+    }
 }
 
 /*

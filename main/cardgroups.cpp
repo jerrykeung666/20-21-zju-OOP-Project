@@ -39,7 +39,7 @@ void CardGroups::analyseCards()
 {
     QVector<int> cardMeta((int)CardPoint::Card_End, 0);
 
-    for (const auto &card : cards) {
+    for (auto &card : cards) {
         cardMeta[(int)card.point]++;
     }
 
