@@ -31,7 +31,13 @@ QVector<Card> Player::getHandCards() const
 
 void Player::setBetPoints(int bet)
 {
+    //qDebug() << "robot think";
     betPoints = bet;
+
+}
+
+void Player::callLord(int bet){
+    emit notifyCallLord(bet);
 }
 
 int Player::getBetPoints() const
@@ -85,7 +91,6 @@ void Player::addLandLordCards(const QVector<Card> &cards)
         handCards.push_back(card);
     }
     sortHandCards();
-    //showCards();
 }
 
 bool Player::checkCardValid(CardGroups &currentCombo)
@@ -111,11 +116,29 @@ void Player::showCards()
     for (auto &card : handCards) {
         qDebug() << "card: " << card.point << " " << card.suit;
     }
-    //qDebug() << handCards.size();
-    //qDebug() << "#########################";
 }
 
 void Player::clear()
 {
     handCards.clear();
+}
+
+void Player::startCallLord()
+{
+
+}
+
+void Player::startPlayHand()
+{
+
+}
+
+void Player::thinkCallLord()
+{
+
+}
+
+void Player::thinkPlayHand()
+{
+
 }

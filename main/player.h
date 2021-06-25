@@ -15,6 +15,8 @@ class Player : public QObject
 public:
     explicit Player(QObject *parent = nullptr);
 
+    void callLord(int bet);
+
     void setPlayerID(int ID);
     int getPlayerID() const;
 
@@ -44,6 +46,14 @@ public:
 
     void showCards();
     void clear();
+
+    virtual void startCallLord();
+    virtual void startPlayHand();
+    virtual void thinkCallLord();
+    virtual void thinkPlayHand();
+
+signals:
+    void notifyCallLord(int bet);
 
 protected:
     void sortHandCards();     // 默认升序，先按点数，点数相同则按花色排序
