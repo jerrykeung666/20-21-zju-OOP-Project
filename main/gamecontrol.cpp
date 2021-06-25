@@ -144,6 +144,7 @@ void GameControl::updateBetPoints(int bet){
         }     
         landlord->player->setIsLandLord(true);
         landlord->player->addLandLordCards(landLordCards);
+        //qDebug() << "GameControl: card num: " << playerA->getHandCards().size();
         emit callGamewindowShowLandlord();
         return;
     }

@@ -24,7 +24,9 @@ const int GameWindow::betBtnHeightStartPos = 600; //TODO
 const int GameWindow::betBtnWidthSpace = 140; //TODO
 
 const int GameWindow::fontSize = 20;
-const QPoint GameWindow::myBetInfo = QPoint(550, 350);
+const QPoint GameWindow::myBetInfo = QPoint(500, 375);
+const QPoint GameWindow::leftPlayerBetInfo = QPoint(135, 50);
+const QPoint GameWindow::rightPlayerBetInfo = QPoint(1000, 50);
 
 
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
@@ -241,20 +243,23 @@ void GameWindow::showMyCard(Player* myPlayer){
 }
 
 void GameWindow::showRemLandLordCard(QString status){
-    QVector<Card> remCards;
-    QVector<CardWidget*> remWidget;
-    remCards = gameControl->getLandLordCards();
-    for (int i=0; i < remCards.size(); i++) {
-        remWidget.push_back(cardWidgetMap[remCards.at(i)]);
-        remWidget.at(i)->raise();
+    for (int i=0; i < restThreeCards.size(); i++) {
+        restThreeCards.at(i)->raise();
 
         if (status == "hidden")
-            remWidget.at(i)->setFront(false);
-        else
-            remWidget.at(i)->setFront(true);
+            restThreeCards.at(i)->setFront(false);
+        else{
+            restThreeCards.at(i)->setFront(true);
+            if(gameControl->getPlayerA()->getIsLandLord())
+                showMyCard(gameControl->getPlayerA());
+            else if(gameControl->getPlayerB()->getIsLandLord())
+                showOtherPlayerCard(gameControl->getPlayerB(), "right");
+            else if(gameControl->getPlayerC()->getIsLandLord())
+                showOtherPlayerCard(gameControl->getPlayerC(), "left");
+        }
 
-        remWidget.at(i)->move(remCardWidthStartPos + i*cardRemSpace, remCardHeightStartPos);
-        remWidget.at(i)->show();
+        restThreeCards.at(i)->move(remCardWidthStartPos + i*cardRemSpace, remCardHeightStartPos);
+        restThreeCards.at(i)->show();
     }
 }
 
@@ -289,39 +294,10 @@ void GameWindow::call4Landlord(){
     connect(bet2Btn, &MyPushButton::clicked, this, &GameWindow::onBet2BtnClicked);
     connect(bet3Btn, &MyPushButton::clicked, this, &GameWindow::onBet3BtnClicked);
 
-    connect(gameControl, &GameControl::callGamewindowShowBets, this, [=](Player* player){
-        QPalette palette = this->palette();
-        palette.setColor(QPalette::WindowText, Qt::red);
-
-        QFont font("Microsoft YaHei", fontSize, QFont::Bold);
-
-        QLabel* betInfo = new QLabel();
-
-        betInfo->setParent(this);
-        betInfo->setPalette(palette);
-        betInfo->setFont(font);
-
-        int betPoints = player->getBetPoints();
-        if (betPoints == 0)
-            betInfo->setText("No!");
-        else if(betPoints == 1)
-            betInfo->setText("1 Point!");
-        else
-            betInfo->setText(QString::number(betPoints) + " Point(s)!");
-
-        betInfo->raise();
-        betInfo->move(myBetInfo);// people/robot?
-        betInfo->show();
-
-        qDebug() << "betInfo";
+    connect(gameControl, &GameControl::callGamewindowShowBets, this, &GameWindow::onBetPointsCall);
+    connect(gameControl, &GameControl::callGamewindowShowLandlord, this, [=](){
+        showRemLandLordCard("show");
     });
-
-//    if(gameControl->getPlayerA()->getIsLandLord() ||
-//       gameControl->getPlayerB()->getIsLandLord() ||
-//       gameControl->getPlayerC()->getIsLandLord())
-//    {
-//        showRemLandLordCard("show");
-//    }
 }
 
 void GameWindow::onBetNoBtnClicked(){
@@ -416,6 +392,51 @@ void GameWindow::cardSelected(Qt::MouseButton mouseButton){
     //
 }
 
+void GameWindow::onBetPointsCall(Player* player){
+    QPalette palette = this->palette();
+    palette.setColor(QPalette::WindowText, Qt::red);
+
+    QFont font("Microsoft YaHei", fontSize, QFont::Bold);
+
+    QLabel* betInfo = new QLabel();
+
+    betInfo->setParent(this);
+    betInfo->setPalette(palette);
+    betInfo->setFont(font);
+
+    int betPoints = player->getBetPoints();
+    if (betPoints == 0)
+        betInfo->setText("No!");
+    else if(betPoints == 1)
+        betInfo->setText("1 Point!");
+    else
+        betInfo->setText(QString::number(betPoints) + " Point(s)!");
+
+    betInfo->raise();
+
+    // check myplayer & other player pos
+    if(player->getIsPerson())
+        betInfo->move(myBetInfo);
+    else{
+        if(gameControl->getPlayerB() == player)
+            betInfo->move(rightPlayerBetInfo);
+        else
+            betInfo->move(leftPlayerBetInfo);
+    }
+
+    betInfo->show();
+
+    qDebug() << "betInfo";
+}
+
+void GameWindow::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+    QPixmap pix;
+    pix.load("../picture/game_scene.PNG");
+    painter.drawPixmap(0, 0, this->width(), this->height(), pix);
+}
+
 /*
 void GameWindow::resizeEvent(QResizeEvent* event)
 {
@@ -477,14 +498,6 @@ void GameWindow::resizeEvent(QResizeEvent* event)
 }
 */
 
-
-void GameWindow::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    QPixmap pix;
-    pix.load("../picture/game_scene.PNG");
-    painter.drawPixmap(0, 0, this->width(), this->height(), pix);
-}
 
 /*void GameWindow::HidePlayerLastCards(Player* player)
 {

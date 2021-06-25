@@ -85,6 +85,7 @@ void Player::addLandLordCards(const QVector<Card> &cards)
         handCards.push_back(card);
     }
     sortHandCards();
+    //showCards();
 }
 
 bool Player::checkCardValid(CardGroups &currentCombo)
@@ -110,6 +111,8 @@ void Player::showCards()
     for (auto &card : handCards) {
         qDebug() << "card: " << card.point << " " << card.suit;
     }
+    //qDebug() << handCards.size();
+    //qDebug() << "#########################";
 }
 
 void Player::clear()

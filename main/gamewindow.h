@@ -43,6 +43,7 @@ public slots:
     void onBet1BtnClicked();
     void onBet2BtnClicked();
     void onBet3BtnClicked();
+    void onBetPointsCall(Player* player);
 
 protected:
     enum CardsAlign
@@ -61,6 +62,7 @@ protected:
         QLabel* info;
         QLabel* rolePic;
     };
+
 private:
     GameControl *gameControl;
     QPixmap cardBack;  // 背面图像
