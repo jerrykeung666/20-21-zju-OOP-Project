@@ -89,6 +89,31 @@ void GameWindow::addLandLordCard(const Card &card)
     restThreeCards.push_back(cardWidget);
 }
 
+/*
+void GameWindow::initCardWidgetMap()
+{
+    QString prefix = ":/PokerImage/";
+    QString suitMap[] = {"poker_t_1_v_", "poker_t_2_v_", "poker_t_3_v_", "poker_t_4_v_"};
+    for (int st = Suit_Begin + 1; st < Suit_End; ++st) {
+        for (int pt = Card_Begin + 1; pt < Card_SJ; ++pt) {
+            Card card((CardPoint)pt, (CardSuit)st);
+            QString cardPath = prefix + suitMap[st-1] + QString((pt-1)%13) + ".png";
+            insertCardWidget(card, cardPath);
+        }
+    }
+
+    Card card;
+    QString cardPath;
+
+    cardPath = prefix + "smalljoker.png";
+    card.point = Card_SJ;
+    insertCardWidget(card, cardPath);
+
+    card.point = Card_BJ;
+    cardPath = prefix + "bigjoker.png";
+    insertCardWidget(card, cardPath);
+}
+*/
 
 // JW version
 void GameWindow::initCardWidgetMap()
@@ -339,6 +364,29 @@ void GameWindow::showRemLandLordCard(QString status){
 }
 
 void GameWindow::call4Landlord(){
+<<<<<<< HEAD
+=======
+    betNoBtn = new MyPushButton("../picture/No.png", "No!");
+    bet1Btn = new MyPushButton("../picture/OnePoint.png", "1 Point!");
+    bet2Btn = new MyPushButton("../picture/TwoPoints.png", "2 Points!");
+    bet3Btn = new MyPushButton("../picture/ThreePoints.png", "3 Points!");
+
+    betNoBtn->setParent(this);
+    bet1Btn->setParent(this);
+    bet2Btn->setParent(this);
+    bet3Btn->setParent(this);
+
+    betNoBtn->raise();
+    bet1Btn->raise();
+    bet2Btn->raise();
+    bet3Btn->raise();
+
+    betNoBtn->move(betBtnWidthStartPos, betBtnHeightStartPos);
+    bet1Btn->move(betBtnWidthStartPos + betBtnWidthSpace, betBtnHeightStartPos);
+    bet2Btn->move(betBtnWidthStartPos + 2*betBtnWidthSpace, betBtnHeightStartPos);
+    bet3Btn->move(betBtnWidthStartPos + 3*betBtnWidthSpace, betBtnHeightStartPos);
+
+>>>>>>> c96498f522b6b91d43a19bf67ff7be6bfd951828
     betNoBtn->show();
     bet1Btn->show();
     bet2Btn->show();
@@ -498,6 +546,27 @@ void GameWindow::onBetPointsCall(Player* player){
                 rightBetInfo->setText("1 Point!");
             else
                 rightBetInfo->setText(QString::number(betPoints) + " Points!");
+<<<<<<< HEAD
+
+            rightBetInfo->move(rightPlayerBetInfoPos);
+            rightBetInfo->show();
+        }
+        else{
+            leftBetInfo = new QLabel();
+            leftBetInfo->setParent(this);
+            leftBetInfo->setPalette(palette);
+            leftBetInfo->setFont(font);
+            leftBetInfo->raise();
+
+            int betPoints = player->getBetPoints();
+            if (betPoints == 0)
+                leftBetInfo->setText("No!");
+            else if(betPoints == 1)
+                leftBetInfo->setText("1 Point!");
+            else
+                leftBetInfo->setText(QString::number(betPoints) + " Points!");
+
+=======
 
             rightBetInfo->show();
         }
@@ -511,6 +580,11 @@ void GameWindow::onBetPointsCall(Player* player){
             else
                 leftBetInfo->setText(QString::number(betPoints) + " Points!");
 
+<<<<<<< HEAD
+=======
+>>>>>>> c681b7f8f168e2d0352fa10471c3d485ac61f1f8
+            leftBetInfo->move(leftPlayerBetInfoPos);
+>>>>>>> c96498f522b6b91d43a19bf67ff7be6bfd951828
             leftBetInfo->show();
         }
     }
