@@ -256,6 +256,11 @@ void GameWindow::call4Landlord(){
     bet2Btn->setParent(this);
     bet3Btn->setParent(this);
 
+    betNoBtn->raise();
+    bet1Btn->raise();
+    bet2Btn->raise();
+    bet3Btn->raise();
+
     betNoBtn->move(betBtnWidthStartPos, betBtnHeightStartPos);
     bet1Btn->move(betBtnWidthStartPos + betBtnWidthSpace, betBtnHeightStartPos);
     bet2Btn->move(betBtnWidthStartPos + 2*betBtnWidthSpace, betBtnHeightStartPos);
@@ -266,15 +271,93 @@ void GameWindow::call4Landlord(){
     bet2Btn->show();
     bet3Btn->show();
 
+    connect(betNoBtn, &MyPushButton::clicked, this, &GameWindow::onBetNoBtnClicked);
+    connect(bet1Btn, &MyPushButton::clicked, this, &GameWindow::onBet1BtnClicked);
+    connect(bet2Btn, &MyPushButton::clicked, this, &GameWindow::onBet2BtnClicked);
+    connect(bet3Btn, &MyPushButton::clicked, this, &GameWindow::onBet3BtnClicked);
+}
+
+void GameWindow::onBetNoBtnClicked(){
     if(gameControl->getPlayerA()->getIsPerson()){
-        // display button
+        gameControl->getPlayerA()->setBetPoints(0);
     }
     else if(gameControl->getPlayerB()->getIsPerson()){
-        // display button
+        gameControl->getPlayerB()->setBetPoints(0);
     }
     else if(gameControl->getPlayerC()->getIsPerson()){
-        // display button
+        gameControl->getPlayerC()->setBetPoints(0);
     }
+
+//    QTimer::singleShot(500, this, [=](){
+
+//    });
+    this->update();
+
+    betNoBtn->setVisible(false);
+//    bet1Btn->setVisible(false);
+//    bet2Btn->setVisible(false);
+//    bet3Btn->setVisible(false);
+
+    this->update();
+
+    qDebug() << "No bet!";
+}
+
+void GameWindow::onBet1BtnClicked(){
+    if(gameControl->getPlayerA()->getIsPerson()){
+        gameControl->getPlayerA()->setBetPoints(1);
+    }
+    else if(gameControl->getPlayerB()->getIsPerson()){
+        gameControl->getPlayerB()->setBetPoints(1);
+    }
+    else if(gameControl->getPlayerC()->getIsPerson()){
+        gameControl->getPlayerC()->setBetPoints(1);
+    }
+
+    betNoBtn->hide();
+    bet1Btn->hide();
+    bet2Btn->hide();
+    bet3Btn->hide();
+
+    qDebug() << "1 Point!";
+}
+
+void GameWindow::onBet2BtnClicked(){
+    if(gameControl->getPlayerA()->getIsPerson()){
+        gameControl->getPlayerA()->setBetPoints(2);
+    }
+    else if(gameControl->getPlayerB()->getIsPerson()){
+        gameControl->getPlayerB()->setBetPoints(2);
+    }
+    else if(gameControl->getPlayerC()->getIsPerson()){
+        gameControl->getPlayerC()->setBetPoints(2);
+    }
+
+    betNoBtn->hide();
+    bet1Btn->hide();
+    bet2Btn->hide();
+    bet3Btn->hide();
+
+    qDebug() << "2 Points!";
+}
+
+void GameWindow::onBet3BtnClicked(){
+    if(gameControl->getPlayerA()->getIsPerson()){
+        gameControl->getPlayerA()->setBetPoints(3);
+    }
+    else if(gameControl->getPlayerB()->getIsPerson()){
+        gameControl->getPlayerB()->setBetPoints(3);
+    }
+    else if(gameControl->getPlayerC()->getIsPerson()){
+        gameControl->getPlayerC()->setBetPoints(3);
+    }
+
+    betNoBtn->hide();
+    bet1Btn->hide();
+    bet2Btn->hide();
+    bet3Btn->hide();
+
+    qDebug() << "3 Points!";
 }
 
 /*

@@ -37,6 +37,10 @@ signals:
 
 public slots:
     void onStartBtnClicked();
+    void onBetNoBtnClicked();
+    void onBet1BtnClicked();
+    void onBet2BtnClicked();
+    void onBet3BtnClicked();
 
 protected:
     enum CardsAlign
