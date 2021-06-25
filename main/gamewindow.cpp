@@ -3,7 +3,17 @@
 #include <QPainter>
 #include <QDebug>
 
-const int GameWindow::cardSpace = 35;
+const int GameWindow::cardWidthSpace = 35;
+const int GameWindow::cardHeightSpace = 20; //TODO
+const int GameWindow::cardRemSpace = 160; //TODO
+const int GameWindow::myCardWidthStartPos = 160; //TODO
+const int GameWindow::myCardHeightStartPos = 500; //TODO
+const int GameWindow::leftCardWidthStartPos = 10; //TODO
+const int GameWindow::leftCardHeightStartPos = 50; //TODO
+const int GameWindow::rightCardWidthStartPos = 875; //TODO
+const int GameWindow::rightCardHeightStartPos = 50; //TODO
+const int GameWindow::remCardWidthStartPos = 270;//TODO
+const int GameWindow::remCardHeightStartPos = 100;//TODO
 
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -32,7 +42,7 @@ void GameWindow::insertCardWidget(const Card &card, QString &path)
     QPixmap pix = QPixmap(path);
     cardWidget->hide();
     cardWidget->setCard(card);
-    cardWidget->setPix(pix, cardBack);
+    cardWidget->setPix(pix);
     cardWidgetMap.insert(card, cardWidget);
 }
 
@@ -44,7 +54,7 @@ void GameWindow::addLandLordCard(const Card &card)
     QPixmap pix = QPixmap(cw->getPix());
     cardWidget->hide();
     cardWidget->setCard(card);
-    cardWidget->setPix(pix, cardBack);
+    cardWidget->setPix(pix);
     restThreeCards.push_back(cardWidget);
 }
 
@@ -143,7 +153,7 @@ void GameWindow::initLandLordCards()
 {
     QVector<Card> cards = gameControl->getLandLordCards();
     for (auto &card : cards) {
-//        addLandLordCard(card);
+        addLandLordCard(card);
     }
 }
 
@@ -168,12 +178,42 @@ void GameWindow::showLandLordCard(){
    // gameControl->getPlayerA();
     if(gameControl->getPlayerA()->getIsPerson()){
         showMyCard(gameControl->getPlayerA());
+        showOtherPlayerCard(gameControl->getPlayerB(), "right");
+        showOtherPlayerCard(gameControl->getPlayerC(), "left");
     }
     else if(gameControl->getPlayerB()->getIsPerson()){
         showMyCard(gameControl->getPlayerB());
+        showOtherPlayerCard(gameControl->getPlayerC(), "right");
+        showOtherPlayerCard(gameControl->getPlayerA(), "left");
     }
     else if(gameControl->getPlayerC()->getIsPerson()){
         showMyCard(gameControl->getPlayerC());
+        showOtherPlayerCard(gameControl->getPlayerA(), "right");
+        showOtherPlayerCard(gameControl->getPlayerB(), "left");
+    }
+
+    showRemLandLordCard();
+}
+
+void GameWindow::showOtherPlayerCard(Player* otherPlayer, const QString status){
+    QVector<Card> myCards;
+    QVector<CardWidget*> myWidget;
+    myCards = otherPlayer->getHandCards();
+    //qDebug() << myCards.size();
+    for (int i=0; i < myCards.size(); i++) {
+        myWidget.push_back(cardWidgetMap[myCards.at(i)]);
+        myWidget.at(i)->raise();
+        if(status == "left"){
+            myWidget.at(i)->setFront(false);
+            myWidget.at(i)->move(leftCardWidthStartPos, leftCardHeightStartPos + i*cardHeightSpace);
+        }
+        else{
+            myWidget.at(i)->setFront(false);
+            myWidget.at(i)->move(rightCardWidthStartPos, rightCardHeightStartPos + i*cardHeightSpace);
+        }
+        myWidget.at(i)->show();
+        qDebug() << myWidget.at(i)->getIsFront();
+        qDebug() << myWidget.size();
     }
 }
 
@@ -184,10 +224,24 @@ void GameWindow::showMyCard(Player* myPlayer){
     //qDebug() << myCards.size();
     for (int i=0; i < myCards.size(); i++) {
         myWidget.push_back(cardWidgetMap[myCards.at(i)]);
-        myWidget.at(i)->move(100 + i*cardSpace, 500);
+        myWidget.at(i)->raise();
+        myWidget.at(i)->move(myCardWidthStartPos + i*cardWidthSpace, myCardHeightStartPos);
         myWidget.at(i)->show();
         qDebug() << myWidget.at(i)->getIsFront();
         qDebug() << myWidget.size();
+    }
+}
+
+void GameWindow::showRemLandLordCard(){
+    QVector<Card> remCards;
+    QVector<CardWidget*> remWidget;
+    remCards = gameControl->getLandLordCards();
+    for (int i=0; i < remCards.size(); i++) {
+        remWidget.push_back(cardWidgetMap[remCards.at(i)]);
+        remWidget.at(i)->raise();
+        remWidget.at(i)->setFront(false);
+        remWidget.at(i)->move(remCardWidthStartPos + i*cardRemSpace, remCardHeightStartPos);
+        remWidget.at(i)->show();
     }
 }
 

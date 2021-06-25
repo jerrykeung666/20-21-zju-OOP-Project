@@ -21,11 +21,7 @@ public:
     void setHandCards(const QVector<Card> &cards);
     QVector<Card> getHandCards() const;
 
-<<<<<<< HEAD
-    void setSelectCards(QVector<Card>& cards);
-=======
     void setSelectCards(const QVector<Card> &cards);
->>>>>>> 542bc1d585de03480d570000cfddb54041c06d3a
     QVector<Card> getSelectCards() const;
 
     void setBetPoints(int bet);
@@ -41,16 +37,13 @@ public:
     Player* getNextPlayer();
 
     int getCardsNumber() const;   // 得到当前牌的数量
-<<<<<<< HEAD
-    void addLandLordCards(QVector<Card>& cards); // 添加地主牌
-=======
     void addLandLordCards(const QVector<Card> &cards); // 添加地主牌
->>>>>>> 542bc1d585de03480d570000cfddb54041c06d3a
     bool isWin();  // 是否赢
     bool checkCardValid(CardGroups &currentCombo);
 
 
     void showCards();
+    void clear();
 
 protected:
     void sortHandCards();     // 默认升序，先按点数，点数相同则按花色排序

@@ -29,6 +29,8 @@ private:
     void addLandLordCard(const Card &card);
     void showLandLordCard();
     void showMyCard(Player* myPlayer);
+    void showOtherPlayerCard(Player* otherPlayer, const QString status);
+    void showRemLandLordCard();
 
 signals:
 
@@ -64,7 +66,17 @@ private:
 
     MyPushButton* startBtn;
 
-    static const int cardSpace;
+    static const int cardWidthSpace;
+    static const int cardHeightSpace;
+    static const int cardRemSpace;
+    static const int myCardWidthStartPos;
+    static const int myCardHeightStartPos;
+    static const int leftCardWidthStartPos;
+    static const int leftCardHeightStartPos;
+    static const int rightCardWidthStartPos;
+    static const int rightCardHeightStartPos;
+    static const int remCardWidthStartPos;
+    static const int remCardHeightStartPos;
 };
 
 #endif // GAMEWINDOW_H

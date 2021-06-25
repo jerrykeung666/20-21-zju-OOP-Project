@@ -79,7 +79,7 @@ bool Player::isWin()
     return getCardsNumber() == 0;
 }
 
-void Player::addLandLordCards(QVector<Card> &cards)
+void Player::addLandLordCards(const QVector<Card> &cards)
 {
     for (auto &card : cards) {
         handCards.push_back(card);
@@ -110,4 +110,9 @@ void Player::showCards()
     for (auto &card : handCards) {
         qDebug() << "card: " << card.point << " " << card.suit;
     }
+}
+
+void Player::clear()
+{
+    handCards.clear();
 }

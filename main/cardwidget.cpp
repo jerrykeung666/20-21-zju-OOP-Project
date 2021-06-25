@@ -7,15 +7,25 @@ CardWidget::CardWidget(QWidget *parent) : QWidget(parent)
     owner = NULL;
     isSelected = false;
     isFront = true;
+    back = QPixmap(":/PokerImage/back.png");
 }
 
-
+/*
 void CardWidget::setPix(const QPixmap &pix, const QPixmap &back)
 {
     this->pix = pix;
     this->back = back;
     resize(pix.size());
-    update();
+    //update();
+}
+*/
+
+void CardWidget::setPix(const QPixmap &pix)
+{
+    this->pix = pix;
+    //this->back = back;
+    resize(pix.size());
+    //update();
 }
 
 QPixmap CardWidget::getPix() const
@@ -47,7 +57,7 @@ void CardWidget::setFront(bool isFront)
 {
     if (this->isFront != isFront) {
         this->isFront = isFront;
-        update();
+        //update();
     }
 }
 
