@@ -3,22 +3,25 @@
 #include <QPainter>
 #include <QDebug>
 
+const QSize GameWindow::gameWindowSize = QSize(1200, 800);
+
 const int GameWindow::cardWidthSpace = 35;
 const int GameWindow::cardHeightSpace = 20; //TODO
-const int GameWindow::cardRemSpace = 160; //TODO
-const int GameWindow::myCardWidthStartPos = 160; //TODO
-const int GameWindow::myCardHeightStartPos = 500; //TODO
+const int GameWindow::cardRemSpace = 180; //TODO
+
+const int GameWindow::myCardWidthStartPos = 250; //TODO
+const int GameWindow::myCardHeightStartPos = 650; //TODO
 const int GameWindow::leftCardWidthStartPos = 10; //TODO
-const int GameWindow::leftCardHeightStartPos = 50; //TODO
-const int GameWindow::rightCardWidthStartPos = 875; //TODO
-const int GameWindow::rightCardHeightStartPos = 50; //TODO
-const int GameWindow::remCardWidthStartPos = 270;//TODO
-const int GameWindow::remCardHeightStartPos = 100;//TODO
+const int GameWindow::leftCardHeightStartPos = 100; //TODO
+const int GameWindow::rightCardWidthStartPos = 1075; //TODO
+const int GameWindow::rightCardHeightStartPos = 100; //TODO
+const int GameWindow::remCardWidthStartPos = 350;//TODO
+const int GameWindow::remCardHeightStartPos = 20;//TODO
 
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
 {
 
-    setFixedSize(1000,650);
+    setFixedSize(gameWindowSize);
     setWindowTitle("Landlord: Welcome!");
     setWindowIcon(QIcon("../picture/icon.jfif"));
 

@@ -66,6 +66,7 @@ private:
 
     MyPushButton* startBtn;
 
+    static const QSize gameWindowSize;
     static const int cardWidthSpace;
     static const int cardHeightSpace;
     static const int cardRemSpace;
