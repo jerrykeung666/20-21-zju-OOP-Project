@@ -10,22 +10,10 @@ CardWidget::CardWidget(QWidget *parent) : QWidget(parent)
     back = QPixmap(":/PokerImage/back.png");
 }
 
-/*
-void CardWidget::setPix(const QPixmap &pix, const QPixmap &back)
-{
-    this->pix = pix;
-    this->back = back;
-    resize(pix.size());
-    //update();
-}
-*/
-
 void CardWidget::setPix(const QPixmap &pix)
 {
     this->pix = pix;
-    //this->back = back;
     resize(pix.size());
-    //update();
 }
 
 QPixmap CardWidget::getPix() const

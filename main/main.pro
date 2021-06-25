@@ -20,6 +20,7 @@ SOURCES += \
     mypushbutton.cpp \
     player.cpp \
     robot.cpp \
+    strategy.cpp \
     user.cpp
 
 HEADERS += \
@@ -33,6 +34,7 @@ HEADERS += \
     mypushbutton.h \
     player.h \
     robot.h \
+    strategy.h \
     user.h
 
 FORMS += \

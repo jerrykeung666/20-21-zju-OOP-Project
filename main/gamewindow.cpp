@@ -79,31 +79,6 @@ void GameWindow::addLandLordCard(const Card &card)
     restThreeCards.push_back(cardWidget);
 }
 
-/*
-void GameWindow::initCardWidgetMap()
-{
-    QString prefix = ":/PokerImage/";
-    QString suitMap[] = {"poker_t_1_v_", "poker_t_2_v_", "poker_t_3_v_", "poker_t_4_v_"};
-    for (int st = Suit_Begin + 1; st < Suit_End; ++st) {
-        for (int pt = Card_Begin + 1; pt < Card_SJ; ++pt) {
-            Card card((CardPoint)pt, (CardSuit)st);
-            QString cardPath = prefix + suitMap[st-1] + QString((pt-1)%13) + ".png";
-            insertCardWidget(card, cardPath);
-        }
-    }
-
-    Card card;
-    QString cardPath;
-
-    cardPath = prefix + "smalljoker.png";
-    card.point = Card_SJ;
-    insertCardWidget(card, cardPath);
-
-    card.point = Card_BJ;
-    cardPath = prefix + "bigjoker.png";
-    insertCardWidget(card, cardPath);
-}
-*/
 
 // JW version
 void GameWindow::initCardWidgetMap()
@@ -285,11 +260,6 @@ void GameWindow::call4Landlord(){
     bet1Btn->setParent(this);
     bet2Btn->setParent(this);
     bet3Btn->setParent(this);
-
-    betNoBtn->raise();
-    bet1Btn->raise();
-    bet2Btn->raise();
-    bet3Btn->raise();
 
     betNoBtn->move(betBtnWidthStartPos, betBtnHeightStartPos);
     bet1Btn->move(betBtnWidthStartPos + betBtnWidthSpace, betBtnHeightStartPos);

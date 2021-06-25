@@ -33,7 +33,6 @@ void Player::setBetPoints(int bet)
 {
     //qDebug() << "robot think";
     betPoints = bet;
-
 }
 
 void Player::callLord(int bet){

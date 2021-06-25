@@ -53,7 +53,7 @@ public:
     virtual void thinkPlayHand();
 
 signals:
-    void notifyCallLord(int bet);
+    void notifyCallLord(int);
 
 protected:
     void sortHandCards();     // 默认升序，先按点数，点数相同则按花色排序

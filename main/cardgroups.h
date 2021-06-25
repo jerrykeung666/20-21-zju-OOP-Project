@@ -27,11 +27,12 @@ enum GroupType
 };
 
 
-class CardGroups : public QObject
+class CardGroups
 {
-    Q_OBJECT
 public:
-    explicit CardGroups(QObject *parent = nullptr);
+    CardGroups() {}
+    CardGroups(const QVector<Card>& cards);
+    CardGroups(GroupType type, CardPoint base, int extra);
 
     void addCard(const Card &card);
     void clear();
