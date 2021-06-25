@@ -223,7 +223,6 @@ Makefile: ../main/main.pro D:/software/Qt/5.15.2/mingw81_64/mkspecs/win32-g++/qm
 		D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/qt_config.prf \
 		D:/software/Qt/5.15.2/mingw81_64/mkspecs/win32-g++/qmake.conf \
 		D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/exclusive_builds.prf \
 		D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/toolchain.prf \
 		D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/default_pre.prf \
@@ -252,6 +251,7 @@ Makefile: ../main/main.pro D:/software/Qt/5.15.2/mingw81_64/mkspecs/win32-g++/qm
 		D:/software/Qt/5.15.2/mingw81_64/lib/Qt5Gui.prl \
 		D:/software/Qt/5.15.2/mingw81_64/lib/Qt5Core.prl \
 		D:/software/Qt/5.15.2/mingw81_64/lib/qtmain.prl \
+		.qmake.stash \
 		D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/build_pass.prf \
 		../main/pokerimage.qrc
 	$(QMAKE) -o Makefile ..\main\main.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
@@ -408,7 +408,6 @@ D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/qt_functions.prf:
 D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/qt_config.prf:
 D:/software/Qt/5.15.2/mingw81_64/mkspecs/win32-g++/qmake.conf:
 D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/spec_post.prf:
-.qmake.stash:
 D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/exclusive_builds.prf:
 D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/toolchain.prf:
 D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/default_pre.prf:
@@ -437,6 +436,7 @@ D:/software/Qt/5.15.2/mingw81_64/lib/Qt5Widgets.prl:
 D:/software/Qt/5.15.2/mingw81_64/lib/Qt5Gui.prl:
 D:/software/Qt/5.15.2/mingw81_64/lib/Qt5Core.prl:
 D:/software/Qt/5.15.2/mingw81_64/lib/qtmain.prl:
+.qmake.stash:
 D:/software/Qt/5.15.2/mingw81_64/mkspecs/features/build_pass.prf:
 ../main/pokerimage.qrc:
 qmake: FORCE

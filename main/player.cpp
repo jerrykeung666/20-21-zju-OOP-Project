@@ -31,7 +31,11 @@ QVector<Card> Player::getHandCards() const
 
 void Player::setBetPoints(int bet)
 {
+    //qDebug() << "robot think";
     betPoints = bet;
+}
+
+void Player::callLord(int bet){
     emit notifyCallLord(bet);
 }
 

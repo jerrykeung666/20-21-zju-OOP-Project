@@ -13,7 +13,6 @@ release/strategy.o
 release/user.o
 release/qrc_pokerimage.o
 release/moc_calllandlordthread.o
-release/moc_cardgroups.o
 release/moc_cardwidget.o
 release/moc_gamecontrol.o
 release/moc_gamewindow.o

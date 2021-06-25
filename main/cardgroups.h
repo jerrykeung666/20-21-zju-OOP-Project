@@ -31,7 +31,7 @@ class CardGroups
 {
 public:
     CardGroups() {}
-
+    CardGroups(const QVector<Card>& cards);
     CardGroups(GroupType type, CardPoint base, int extra);
 
     void addCard(const Card &card);

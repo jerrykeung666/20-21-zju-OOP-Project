@@ -13,7 +13,6 @@ debug/strategy.o
 debug/user.o
 debug/qrc_pokerimage.o
 debug/moc_calllandlordthread.o
-debug/moc_cardgroups.o
 debug/moc_cardwidget.o
 debug/moc_gamecontrol.o
 debug/moc_gamewindow.o

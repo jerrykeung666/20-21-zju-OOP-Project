@@ -5,6 +5,9 @@
 #include "player.h"
 #include <QTimer>
 #include <QVector>
+#include "user.h"
+#include "robot.h"
+
 
 class GameControl : public QObject
 {
@@ -14,12 +17,14 @@ public:
 
 public:
     Player* getCurrentPlayer();
-    Player* getPlayerA();
-    Player* getPlayerB();
-    Player* getPlayerC();
+    User* getPlayerA();
+    Robot* getPlayerB();
+    Robot* getPlayerC();
     CardGroups getCurrentCombo();
     Player* getEffectivePlayer();
     QVector<Card> getLandLordCards();
+
+    void updateBetPoints(int bet); //处理叫地主分数
 
     void initCards(); //发牌
 
@@ -33,10 +38,12 @@ private:
 
 signals:
     void callGamewindowShowCards();   //发牌结束后通知gamewindow显示卡牌
-    void callGamewindowShowButtons(); //处理叫分后通知gamewindow
+    void callGamewindowShowBets(Player*);    //叫分结束后通知gamewindow显示叫分
+
+    void callGamewindowShowLandlord(); //处理叫分后通知gamewindow
 
 public slots:
-    void updateBetPoints(int bet); //处理叫地主分数
+   // void updateBetPoints(int bet); //处理叫地主分数
     //void handout(int bet); //处理出牌
 
 protected:
@@ -48,9 +55,9 @@ protected:
 
 protected:
     Player* currentPlayer;   //当前玩家
-    Player* playerA;
-    Player* playerB;
-    Player* playerC;            //参与者A、B、C
+    User* playerA;
+    Robot* playerB;
+    Robot* playerC;            //参与者A、B、C
     CardGroups currentCombo; //有效牌
     Player* effectivePlayer; //有效玩家
     QVector<Card> landLordCards;//三张地主牌

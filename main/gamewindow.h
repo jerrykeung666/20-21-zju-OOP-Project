@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <QPalette>
 #include "mypushbutton.h"
 #include "gamecontrol.h"
 #include "card.h"
@@ -30,8 +31,9 @@ private:
     void showLandLordCard();
     void showMyCard(Player* myPlayer);
     void showOtherPlayerCard(Player* otherPlayer, const QString status);
-    void showRemLandLordCard();
+    void showRemLandLordCard(QString status);
     void call4Landlord();
+    void cardSelected(Qt::MouseButton mouseButton);
 
 signals:
 
@@ -41,6 +43,7 @@ public slots:
     void onBet1BtnClicked();
     void onBet2BtnClicked();
     void onBet3BtnClicked();
+    void onBetPointsCall(Player* player);
 
 protected:
     enum CardsAlign
@@ -59,6 +62,7 @@ protected:
         QLabel* info;
         QLabel* rolePic;
     };
+
 private:
     GameControl *gameControl;
     QPixmap cardBack;  // 背面图像
@@ -94,6 +98,12 @@ private:
     static const int betBtnWidthStartPos;
     static const int betBtnHeightStartPos;
     static const int betBtnWidthSpace;
+
+    // bet info
+    static const int fontSize;
+    static const QPoint myBetInfo;
+    static const QPoint leftPlayerBetInfo;
+    static const QPoint rightPlayerBetInfo;
 };
 
 #endif // GAMEWINDOW_H

@@ -14,7 +14,6 @@ class CardWidget : public QWidget
 public:
     explicit CardWidget(QWidget *parent = nullptr);
 
-    //void setPix(const QPixmap &pix, const QPixmap &back);
     void setPix(const QPixmap &pix);
     QPixmap getPix() const;
 

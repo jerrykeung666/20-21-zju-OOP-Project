@@ -880,15 +880,15 @@ QVector<Card> Strategy::playFirst()
     {
         for (CardPoint point = Card_3; point < Card_End; point = CardPoint(point + 1))
         {
-            int pointCount = CountOfPoint(leftCards,point);//leftCards.PointCount(point);
+            int pointCount = countOfPoint(leftCards,point);//leftCards.PointCount(point);
             if (pointCount == 1)
             {
-                QVector<Card>  single = Stragety(player, leftCards).FindSamePointCards(point, 1);
+                QVector<Card>  single = Strategy(player, leftCards).findSamePointCards(point, 1);
                 return single;
             }
             else if (pointCount == 2)
             {
-                QVector<Card>  pair = Stragety(player, leftCards).FindSamePointCards(point, 2);
+                QVector<Card>  pair = Strategy(player, leftCards).findSamePointCards(point, 2);
                 return pair;
             }
         }

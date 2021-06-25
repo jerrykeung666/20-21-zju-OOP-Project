@@ -15,6 +15,8 @@ class Player : public QObject
 public:
     explicit Player(QObject *parent = nullptr);
 
+    void callLord(int bet);
+
     void setPlayerID(int ID);
     int getPlayerID() const;
 
