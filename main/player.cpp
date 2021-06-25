@@ -1,4 +1,5 @@
 #include "player.h"
+#include <QDebug>
 
 Player::Player(QObject *parent) : QObject(parent)
 {
@@ -95,7 +96,7 @@ bool Player::checkCardValid(CardGroups &currentCombo)
 void Player::sortHandCards()
 {
     std::sort(handCards.begin(), handCards.end(), [](Card &a, Card &b){
-        if (a.point < b.point) {
+        if (a.point != b.point) {
             return a.point < b.point;
         } else {
             return a.suit < b.suit;

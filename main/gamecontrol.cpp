@@ -49,6 +49,10 @@ void GameControl::initAllCards(){
     Card bcard(Card_BJ,Suit_Begin);
     allCards.push_back(bcard);
 
+<<<<<<< HEAD
+=======
+    // 打乱牌
+>>>>>>> 542bc1d585de03480d570000cfddb54041c06d3a
     std::default_random_engine generator (time(nullptr));
     std::uniform_int_distribution<unsigned int> u(0, 53);
     for (int i = 1; i < 54; i++){
@@ -56,10 +60,17 @@ void GameControl::initAllCards(){
         std::swap(allCards[i], allCards[index]);
     }
 
+<<<<<<< HEAD
     qDebug() << "allcards";
     for (auto &card : allCards) {
         qDebug() << "card: " << card.point << card.suit;
     }
+=======
+//    qDebug() << "allcards";
+//    for (auto &card : allCards) {
+//        qDebug() << "card: " << card.point << card.suit;
+//    }
+>>>>>>> 542bc1d585de03480d570000cfddb54041c06d3a
 }
 
 QVector<Card> GameControl::getRandomCards(int start, int cardnum){
