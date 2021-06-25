@@ -31,6 +31,7 @@ private:
     void showMyCard(Player* myPlayer);
     void showOtherPlayerCard(Player* otherPlayer, const QString status);
     void showRemLandLordCard();
+    void call4Landlord();
 
 signals:
 
@@ -65,11 +66,17 @@ private:
     QSize cardSize;
 
     MyPushButton* startBtn;
+    MyPushButton* betNoBtn;
+    MyPushButton* bet1Btn;
+    MyPushButton* bet2Btn;
+    MyPushButton* bet3Btn;
 
     static const QSize gameWindowSize;
+
     static const int cardWidthSpace;
     static const int cardHeightSpace;
     static const int cardRemSpace;
+
     static const int myCardWidthStartPos;
     static const int myCardHeightStartPos;
     static const int leftCardWidthStartPos;
@@ -78,6 +85,11 @@ private:
     static const int rightCardHeightStartPos;
     static const int remCardWidthStartPos;
     static const int remCardHeightStartPos;
+
+    // button param
+    static const int betBtnWidthStartPos;
+    static const int betBtnHeightStartPos;
+    static const int betBtnWidthSpace;
 };
 
 #endif // GAMEWINDOW_H

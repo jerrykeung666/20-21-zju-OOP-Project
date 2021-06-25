@@ -18,6 +18,11 @@ const int GameWindow::rightCardHeightStartPos = 100; //TODO
 const int GameWindow::remCardWidthStartPos = 350;//TODO
 const int GameWindow::remCardHeightStartPos = 20;//TODO
 
+const int GameWindow::betBtnWidthStartPos = 320; //TODO
+const int GameWindow::betBtnHeightStartPos = 600; //TODO
+const int GameWindow::betBtnWidthSpace = 140; //TODO
+
+
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
 {
 
@@ -164,15 +169,7 @@ void GameWindow::onStartBtnClicked()
 {
     startBtn->hide();
     showLandLordCard();
-//    update();
-//    int base = (width() - 3 * cardSize.width() - 2 * 10) / 2;
-//    for (int i = 0; i < restThreeCards.size(); ++i) {
-//        //restThreeCards[i]->move(base + (cardSize.width() + 10) * i, 20);
-//        restThreeCards[i]->move(this->width()*0.5, this->height()*0.5);
-//        restThreeCards[i]->show();
-//        qDebug() << "card: " << restThreeCards[i]->getCard().point << restThreeCards[i]->getCard().suit;
-//    }
-
+    call4Landlord();
 
     qDebug() << "开始游戏";
 }
@@ -245,6 +242,38 @@ void GameWindow::showRemLandLordCard(){
         remWidget.at(i)->setFront(false);
         remWidget.at(i)->move(remCardWidthStartPos + i*cardRemSpace, remCardHeightStartPos);
         remWidget.at(i)->show();
+    }
+}
+
+void GameWindow::call4Landlord(){
+    MyPushButton* betNoBtn = new MyPushButton("../picture/No.png", "No!");
+    MyPushButton* bet1Btn = new MyPushButton("../picture/OnePoint.png", "1 Point!");
+    MyPushButton* bet2Btn = new MyPushButton("../picture/TwoPoints.png", "2 Points!");
+    MyPushButton* bet3Btn = new MyPushButton("../picture/ThreePoints.png", "3 Points!");
+
+    betNoBtn->setParent(this);
+    bet1Btn->setParent(this);
+    bet2Btn->setParent(this);
+    bet3Btn->setParent(this);
+
+    betNoBtn->move(betBtnWidthStartPos, betBtnHeightStartPos);
+    bet1Btn->move(betBtnWidthStartPos + betBtnWidthSpace, betBtnHeightStartPos);
+    bet2Btn->move(betBtnWidthStartPos + 2*betBtnWidthSpace, betBtnHeightStartPos);
+    bet3Btn->move(betBtnWidthStartPos + 3*betBtnWidthSpace, betBtnHeightStartPos);
+
+    betNoBtn->show();
+    bet1Btn->show();
+    bet2Btn->show();
+    bet3Btn->show();
+
+    if(gameControl->getPlayerA()->getIsPerson()){
+        // display button
+    }
+    else if(gameControl->getPlayerB()->getIsPerson()){
+        // display button
+    }
+    else if(gameControl->getPlayerC()->getIsPerson()){
+        // display button
     }
 }
 
