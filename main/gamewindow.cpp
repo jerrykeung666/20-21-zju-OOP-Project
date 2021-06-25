@@ -480,6 +480,7 @@ void GameWindow::onBetPointsCall(Player* player){
                 rightBetInfo->setText("1 Point!");
             else
                 rightBetInfo->setText(QString::number(betPoints) + " Points!");
+<<<<<<< HEAD
 
             rightBetInfo->move(rightPlayerBetInfoPos);
             rightBetInfo->show();
@@ -499,6 +500,27 @@ void GameWindow::onBetPointsCall(Player* player){
             else
                 leftBetInfo->setText(QString::number(betPoints) + " Points!");
 
+=======
+
+            rightBetInfo->move(rightPlayerBetInfoPos);
+            rightBetInfo->show();
+        }
+        else{
+            leftBetInfo = new QLabel();
+            leftBetInfo->setParent(this);
+            leftBetInfo->setPalette(palette);
+            leftBetInfo->setFont(font);
+            leftBetInfo->raise();
+
+            int betPoints = player->getBetPoints();
+            if (betPoints == 0)
+                leftBetInfo->setText("No!");
+            else if(betPoints == 1)
+                leftBetInfo->setText("1 Point!");
+            else
+                leftBetInfo->setText(QString::number(betPoints) + " Points!");
+
+>>>>>>> c681b7f8f168e2d0352fa10471c3d485ac61f1f8
             leftBetInfo->move(leftPlayerBetInfoPos);
             leftBetInfo->show();
         }
