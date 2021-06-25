@@ -1,3 +1,4 @@
+release/calllandlordthread.o
 release/card.o
 release/cardgroups.o
 release/cardwidget.o
@@ -8,7 +9,10 @@ release/mainwindow.o
 release/mypushbutton.o
 release/player.o
 release/robot.o
+release/strategy.o
+release/user.o
 release/qrc_pokerimage.o
+release/moc_calllandlordthread.o
 release/moc_cardgroups.o
 release/moc_cardwidget.o
 release/moc_gamecontrol.o
@@ -17,3 +21,4 @@ release/moc_mainwindow.o
 release/moc_mypushbutton.o
 release/moc_player.o
 release/moc_robot.o
+release/moc_user.o

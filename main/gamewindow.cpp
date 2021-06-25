@@ -66,31 +66,6 @@ void GameWindow::addLandLordCard(const Card &card)
     restThreeCards.push_back(cardWidget);
 }
 
-/*
-void GameWindow::initCardWidgetMap()
-{
-    QString prefix = ":/PokerImage/";
-    QString suitMap[] = {"poker_t_1_v_", "poker_t_2_v_", "poker_t_3_v_", "poker_t_4_v_"};
-    for (int st = Suit_Begin + 1; st < Suit_End; ++st) {
-        for (int pt = Card_Begin + 1; pt < Card_SJ; ++pt) {
-            Card card((CardPoint)pt, (CardSuit)st);
-            QString cardPath = prefix + suitMap[st-1] + QString((pt-1)%13) + ".png";
-            insertCardWidget(card, cardPath);
-        }
-    }
-
-    Card card;
-    QString cardPath;
-
-    cardPath = prefix + "smalljoker.png";
-    card.point = Card_SJ;
-    insertCardWidget(card, cardPath);
-
-    card.point = Card_BJ;
-    cardPath = prefix + "bigjoker.png";
-    insertCardWidget(card, cardPath);
-}
-*/
 
 // JW version
 void GameWindow::initCardWidgetMap()
@@ -246,20 +221,15 @@ void GameWindow::showRemLandLordCard(){
 }
 
 void GameWindow::call4Landlord(){
-    MyPushButton* betNoBtn = new MyPushButton("../picture/No.png", "No!");
-    MyPushButton* bet1Btn = new MyPushButton("../picture/OnePoint.png", "1 Point!");
-    MyPushButton* bet2Btn = new MyPushButton("../picture/TwoPoints.png", "2 Points!");
-    MyPushButton* bet3Btn = new MyPushButton("../picture/ThreePoints.png", "3 Points!");
+    betNoBtn = new MyPushButton("../picture/No.png", "No!");
+    bet1Btn = new MyPushButton("../picture/OnePoint.png", "1 Point!");
+    bet2Btn = new MyPushButton("../picture/TwoPoints.png", "2 Points!");
+    bet3Btn = new MyPushButton("../picture/ThreePoints.png", "3 Points!");
 
     betNoBtn->setParent(this);
     bet1Btn->setParent(this);
     bet2Btn->setParent(this);
     bet3Btn->setParent(this);
-
-    betNoBtn->raise();
-    bet1Btn->raise();
-    bet2Btn->raise();
-    bet3Btn->raise();
 
     betNoBtn->move(betBtnWidthStartPos, betBtnHeightStartPos);
     bet1Btn->move(betBtnWidthStartPos + betBtnWidthSpace, betBtnHeightStartPos);
@@ -288,17 +258,10 @@ void GameWindow::onBetNoBtnClicked(){
         gameControl->getPlayerC()->setBetPoints(0);
     }
 
-//    QTimer::singleShot(500, this, [=](){
-
-//    });
-    this->update();
-
-    betNoBtn->setVisible(false);
-//    bet1Btn->setVisible(false);
-//    bet2Btn->setVisible(false);
-//    bet3Btn->setVisible(false);
-
-    this->update();
+    betNoBtn->hide();
+    bet1Btn->hide();
+    bet2Btn->hide();
+    bet3Btn->hide();
 
     qDebug() << "No bet!";
 }

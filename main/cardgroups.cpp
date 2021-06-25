@@ -1,8 +1,15 @@
 #include "cardgroups.h"
 
-CardGroups::CardGroups(QObject *parent) : QObject(parent)
+CardGroups::CardGroups(const QVector<Card>& cards)
 {
+    this->cards << cards;
+}
 
+CardGroups::CardGroups(GroupType type, CardPoint base, int extra)
+{
+    this->type = type;
+    this->basePoint = base;
+    this->extraNum = extra;
 }
 
 void CardGroups::addCard(const Card &card)

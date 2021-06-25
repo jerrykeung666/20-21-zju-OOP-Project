@@ -32,6 +32,7 @@ QVector<Card> Player::getHandCards() const
 void Player::setBetPoints(int bet)
 {
     betPoints = bet;
+    emit notifyCallLord(bet);
 }
 
 int Player::getBetPoints() const
@@ -115,4 +116,24 @@ void Player::showCards()
 void Player::clear()
 {
     handCards.clear();
+}
+
+void Player::startCallLord()
+{
+
+}
+
+void Player::startPlayHand()
+{
+
+}
+
+void Player::thinkCallLord()
+{
+
+}
+
+void Player::thinkPlayHand()
+{
+
 }

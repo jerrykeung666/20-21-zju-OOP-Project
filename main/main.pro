@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    calllandlordthread.cpp \
     card.cpp \
     cardgroups.cpp \
     cardwidget.cpp \
@@ -18,9 +19,12 @@ SOURCES += \
     mainwindow.cpp \
     mypushbutton.cpp \
     player.cpp \
-    robot.cpp
+    robot.cpp \
+    strategy.cpp \
+    user.cpp
 
 HEADERS += \
+    calllandlordthread.h \
     card.h \
     cardgroups.h \
     cardwidget.h \
@@ -29,7 +33,9 @@ HEADERS += \
     mainwindow.h \
     mypushbutton.h \
     player.h \
-    robot.h
+    robot.h \
+    strategy.h \
+    user.h
 
 FORMS += \
     mainwindow.ui
