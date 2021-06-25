@@ -29,7 +29,7 @@ const QPoint GameWindow::myBetInfo = QPoint(500, 375);
 const QPoint GameWindow::leftPlayerBetInfo = QPoint(135, 50);
 const QPoint GameWindow::rightPlayerBetInfo = QPoint(1000, 50);
 
-const int GameWindow::cardSelectedShift = 50;
+const int GameWindow::cardSelectedShift = 35;
 
 
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
@@ -234,7 +234,6 @@ void GameWindow::showMyCard(Player* myPlayer){
     QVector<Card> myCards;
     QVector<CardWidget*> myWidget;
     myCards = myPlayer->getHandCards();
-    //qDebug() << myCards.size();
     for (int i=0; i < myCards.size(); i++) {
         myWidget.push_back(cardWidgetMap[myCards.at(i)]);
         myWidget.at(i)->setOwner(myPlayer);
@@ -418,19 +417,14 @@ void GameWindow::cardSelectedAnimation(Player* player){
 }
 
 void GameWindow::showMySelectedCard(Player* player){//TODO
-    //QVector<Card> selectedCard;
-    QVector<CardWidget*> selectedWidget;
+    CardWidget* selectedWidget;
 
     for(int i=0; i < player->getHandCards().size(); i++){
-        if(cardWidgetMap[player->getHandCards().at(i)]->getIsSelected()){
-            qDebug() << "cardSelected";
-            selectedWidget.push_back(cardWidgetMap[player->getHandCards().at(i)]);
-            selectedWidget.last()->move(selectedWidget.last()->x(), myCardHeightStartPos - cardSelectedShift);
-        }
+        selectedWidget = cardWidgetMap[player->getHandCards().at(i)];
+        if(selectedWidget->getIsSelected())
+            selectedWidget->move(selectedWidget->x(), myCardHeightStartPos - cardSelectedShift);
         else
-            cardWidgetMap[player->getHandCards().at(i)]->move(cardWidgetMap[player->getHandCards().at(i)]->x(), myCardHeightStartPos);
-            //selectedWidget.push_back(cardWidgetMap[player->getHandCards().at(i)]);
-            //selectedWidget.at(i)->x();
+            selectedWidget->move(selectedWidget->x(), myCardHeightStartPos);
     }
 }
 
