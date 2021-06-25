@@ -8,7 +8,7 @@ CallLandLordThread::CallLandLordThread(Player* player):QThread(player)
 
 void CallLandLordThread::run()
 {
-    msleep(600);
+    msleep(20);
     m_player->thinkCallLord();
     //exec();
 }

@@ -25,9 +25,9 @@ const int GameWindow::betBtnHeightStartPos = 600; //TODO
 const int GameWindow::betBtnWidthSpace = 140; //TODO
 
 const int GameWindow::fontSize = 20;
-const QPoint GameWindow::myBetInfo = QPoint(500, 375);
-const QPoint GameWindow::leftPlayerBetInfo = QPoint(135, 50);
-const QPoint GameWindow::rightPlayerBetInfo = QPoint(1000, 50);
+const QPoint GameWindow::myBetInfoPos = QPoint(500, 375);
+const QPoint GameWindow::leftPlayerBetInfoPos = QPoint(135, 50);
+const QPoint GameWindow::rightPlayerBetInfoPos = QPoint(1000, 50);
 
 const int GameWindow::cardSelectedShift = 35;
 
@@ -264,6 +264,15 @@ void GameWindow::showRemLandLordCard(QString status){
         restThreeCards.at(i)->move(remCardWidthStartPos + i*cardRemSpace, remCardHeightStartPos);
         restThreeCards.at(i)->show();
     }
+
+    if (status == "show"){
+        QTimer::singleShot(1200, this, [=](){
+            myBetInfo->hide();
+            rightBetInfo->hide();
+            leftBetInfo->hide();
+        });
+    }
+
 }
 
 void GameWindow::call4Landlord(){
@@ -314,7 +323,7 @@ void GameWindow::onBetNoBtnClicked(){
         gameControl->getPlayerC()->setBetPoints(0);
     }
 
-    QTimer::singleShot(100, this, [=](){
+    QTimer::singleShot(10, this, [=](){
         betNoBtn->hide();
         bet1Btn->hide();
         bet2Btn->hide();
@@ -336,7 +345,7 @@ void GameWindow::onBet1BtnClicked(){
         gameControl->getPlayerC()->setBetPoints(1);
     }
 
-    QTimer::singleShot(100, this, [=](){
+    QTimer::singleShot(10, this, [=](){
         betNoBtn->hide();
         bet1Btn->hide();
         bet2Btn->hide();
@@ -358,7 +367,7 @@ void GameWindow::onBet2BtnClicked(){
         gameControl->getPlayerC()->setBetPoints(2);
     }
 
-    QTimer::singleShot(100, this, [=](){
+    QTimer::singleShot(10, this, [=](){
         betNoBtn->hide();
         bet1Btn->hide();
         bet2Btn->hide();
@@ -380,7 +389,7 @@ void GameWindow::onBet3BtnClicked(){
         gameControl->getPlayerC()->setBetPoints(3);
     }
 
-    QTimer::singleShot(100, this, [=](){
+    QTimer::singleShot(10, this, [=](){
         betNoBtn->hide();
         bet1Btn->hide();
         bet2Btn->hide();
@@ -413,7 +422,8 @@ void GameWindow::cardSelected(Qt::MouseButton mouseButton){
 }
 
 void GameWindow::cardSelectedAnimation(Player* player){
-    showMySelectedCard(player);
+    if(player == gameControl->getPlayerA())
+        showMySelectedCard(player);
 }
 
 void GameWindow::showMySelectedCard(Player* player){//TODO
@@ -435,33 +445,64 @@ void GameWindow::onBetPointsCall(Player* player){
 
     QFont font("Microsoft YaHei", fontSize, QFont::Bold);
 
-    QLabel* betInfo = new QLabel();
-
-    betInfo->setParent(this);
-    betInfo->setPalette(palette);
-    betInfo->setFont(font);
-
-    int betPoints = player->getBetPoints();
-    if (betPoints == 0)
-        betInfo->setText("No!");
-    else if(betPoints == 1)
-        betInfo->setText("1 Point!");
-    else
-        betInfo->setText(QString::number(betPoints) + " Point(s)!");
-
-    betInfo->raise();
 
     // check myplayer & other player pos
-    if(player->getIsPerson())
-        betInfo->move(myBetInfo);
-    else{
-        if(gameControl->getPlayerB() == player)
-            betInfo->move(rightPlayerBetInfo);
-        else
-            betInfo->move(leftPlayerBetInfo);
-    }
+    if(player->getIsPerson()){
+        myBetInfo = new QLabel();
+        myBetInfo->setParent(this);
+        myBetInfo->setPalette(palette);
+        myBetInfo->setFont(font);
+        myBetInfo->raise();
 
-    betInfo->show();
+        int betPoints = player->getBetPoints();
+        if (betPoints == 0)
+            myBetInfo->setText("No!");
+        else if(betPoints == 1)
+            myBetInfo->setText("1 Point!");
+        else
+            myBetInfo->setText(QString::number(betPoints) + " Points!");
+
+        myBetInfo->move(myBetInfoPos);
+        myBetInfo->show();
+    }
+    else{
+        if(gameControl->getPlayerB() == player){
+            rightBetInfo = new QLabel();
+            rightBetInfo->setParent(this);
+            rightBetInfo->setPalette(palette);
+            rightBetInfo->setFont(font);
+            rightBetInfo->raise();
+
+            int betPoints = player->getBetPoints();
+            if (betPoints == 0)
+                rightBetInfo->setText("No!");
+            else if(betPoints == 1)
+                rightBetInfo->setText("1 Point!");
+            else
+                rightBetInfo->setText(QString::number(betPoints) + " Points!");
+
+            rightBetInfo->move(rightPlayerBetInfoPos);
+            rightBetInfo->show();
+        }
+        else{
+            leftBetInfo = new QLabel();
+            leftBetInfo->setParent(this);
+            leftBetInfo->setPalette(palette);
+            leftBetInfo->setFont(font);
+            leftBetInfo->raise();
+
+            int betPoints = player->getBetPoints();
+            if (betPoints == 0)
+                leftBetInfo->setText("No!");
+            else if(betPoints == 1)
+                leftBetInfo->setText("1 Point!");
+            else
+                leftBetInfo->setText(QString::number(betPoints) + " Points!");
+
+            leftBetInfo->move(leftPlayerBetInfoPos);
+            leftBetInfo->show();
+        }
+    }
 
     qDebug() << "betInfo";
 }
@@ -473,6 +514,12 @@ void GameWindow::paintEvent(QPaintEvent *)
     pix.load("../picture/game_scene.PNG");
     painter.drawPixmap(0, 0, this->width(), this->height(), pix);
 }
+
+
+
+
+
+
 
 /*
 void GameWindow::resizeEvent(QResizeEvent* event)

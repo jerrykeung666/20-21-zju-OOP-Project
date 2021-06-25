@@ -75,6 +75,10 @@ private:
     QFrame* userTool;
     QSize cardSize;
 
+    QLabel* myBetInfo;
+    QLabel* leftBetInfo;
+    QLabel* rightBetInfo;
+
     MyPushButton* startBtn;
     MyPushButton* betNoBtn;
     MyPushButton* bet1Btn;
@@ -103,9 +107,9 @@ private:
 
     // bet info
     static const int fontSize;
-    static const QPoint myBetInfo;
-    static const QPoint leftPlayerBetInfo;
-    static const QPoint rightPlayerBetInfo;
+    static const QPoint myBetInfoPos;
+    static const QPoint leftPlayerBetInfoPos;
+    static const QPoint rightPlayerBetInfoPos;
 
     static const int cardSelectedShift;
 };
