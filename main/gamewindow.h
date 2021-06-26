@@ -83,6 +83,7 @@ private:
     QLabel* leftBetInfo;
     QLabel* rightBetInfo;
     QLabel* passInfo;
+    QLabel* playInfo;
 
     MyPushButton* startBtn;
     MyPushButton* betNoBtn;

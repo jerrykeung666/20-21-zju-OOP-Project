@@ -16,22 +16,45 @@ int Player::getPlayerID() const
     return playerID;
 }
 
-void Player::setHandCards(const QVector<Card> &cards)
+Player* Player::getPunchPlayer()
 {
-    for (auto &card : cards) {
-        handCards.push_back(card);
-    }
-    sortHandCards();
+    return punchPlayer;
 }
 
-// jw version
-void Player::resetHandCards(const QVector<Card> &cards){
-    handCards = cards;
+CardGroups Player::getPunchCards()
+{
+    return punchCards;
+}
+
+void Player::resetSelectCards(const QVector<Card> &cards)
+{
+    selectCards = cards;
+}
+
+void Player::setHandCards(const QVector<Card> &cards)
+{
+    handCards << cards;
+    sortHandCards();
 }
 
 QVector<Card> Player::getHandCards() const
 {
     return handCards;
+}
+
+void Player::setSelectCards(const QVector<Card> &cards)
+{
+    selectCards.setCards(cards);
+}
+
+//QVector<Card> Player::getSelectCards() const
+//{
+//    return selectCards.getCards();
+//}
+
+CardGroups Player::getSelectCards() const
+{
+    return selectCards;
 }
 
 void Player::setBetPoints(int bet)
@@ -127,17 +150,6 @@ void Player::clear()
     handCards.clear();
 }
 
-void Player::setSelectCards(const QVector<Card> &cards)
-{
-    selectCards.addCards(cards);
-}
-
-QVector<Card> Player::getSelectCards() const
-{
-    return selectCards.getCards();
-}
-
-
 void Player::startCallLord()
 {
 
@@ -156,4 +168,17 @@ void Player::thinkCallLord()
 void Player::thinkPlayHand()
 {
 
+}
+
+void Player::onPlayerPunch(Player* player, const CardGroups& cards)
+{
+    this->punchPlayer = player;
+    punchCards = cards;
+}
+
+void Player::playHand(const QVector<Card> &cards)
+{
+    for (auto &card : cards) {
+        handCards.removeOne(card);
+    }
 }

@@ -256,11 +256,11 @@ Robot* GameControl::getPlayerB(){
 Robot* GameControl::getPlayerC(){
     return playerC;
 }
-/*
-CardGroups GameControl::GetCurrentCombo(){
-    return current_combo;
+
+CardGroups GameControl::getCurrentCombo(){
+    return currentCombo;
 }
-*/
+
 Player* GameControl::getEffectivePlayer(){
     return effectivePlayer;
 }
