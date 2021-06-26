@@ -6,7 +6,7 @@ Strategy::Strategy(Player* player, const QVector<Card>& cards)
     this->cards = cards;
 }
 
-int Strategy::countOfPoint(QVector<Card> cards, CardPoint point)
+int Strategy::countOfPoint(QVector<Card> &cards, CardPoint point)
 {
     int count = 0;
     for(int i = 0; i < cards.size(); i++)
@@ -455,9 +455,7 @@ QVector<Card> Strategy::findSamePointCards(CardPoint point, int count)
     if (point == Card_SJ || point == Card_BJ) {
         if (count > 1) return QVector<Card>();
 
-        Card oneCard;
-        oneCard.point = point;
-        oneCard.suit = Suit_Begin;
+        Card oneCard(point, Suit_Begin);
         if (cards.contains(oneCard)) {
             QVector<Card> cards;
             cards.push_back(oneCard);
@@ -470,9 +468,7 @@ QVector<Card> Strategy::findSamePointCards(CardPoint point, int count)
     QVector<Card> findCards;
     int findCount = 0;
     for (int suit = Suit_Begin + 1; suit < Suit_End; suit++) {
-        Card oneCard;
-        oneCard.point = point;
-        oneCard.suit = (CardSuit)suit;
+        Card oneCard(point, (CardSuit)suit);
 
         if (cards.contains(oneCard)) {
             findCount++;
@@ -498,7 +494,6 @@ QVector<QVector<Card>> Strategy::findCardsByCount(int count)
         {
             QVector<Card> cards = findSamePointCards((CardPoint)point, count);
             cardsList.push_back(cards);
-
         }
     }
     return cardsList;
@@ -514,8 +509,7 @@ QVector<Card> Strategy::getRangeCards(CardPoint beginPoint, CardPoint endPoint)
         if(count != 0)
         {
             QVector<Card> cards = findSamePointCards(point, count);
-            for (auto &card : cards)
-                rangeCards.push_back(card);
+            rangeCards << cards;
         }
     }
 
@@ -899,10 +893,147 @@ QVector<Card> Strategy::playFirst()
 
 QVector<Card> Strategy::playBeatHand(CardGroups hand)
 {
+    // 先固定住最优顺子，从余下牌中打出
+    QVector<Card>  left = cards;
+    QVector<QVector<Card> > cardlll=Strategy(player,left).pickOptimalSeqSingles();
+    for(int i=0;i<cardlll.size();i++)
+        for(int j=0;j<cardlll[i].size();j++ )
+            left.removeOne(cardlll[i][j]);
+
+    //left.Remove(Method(player, left).PickOptimalSeqSingles());
+
+    if (hand.getCardsType() == Group_Single)	// 如果压单牌，尽量从单张牌中挑
+    {
+        QVector<QVector<Card> > singleArray = Strategy(player, left).findCardsByCount(1);
+        for (int i = 0; i < singleArray.size(); i++)
+        {
+            if (CardGroups(singleArray[i]).canBeat(hand))
+            {
+                return singleArray[i];
+            }
+        }
+    }
+    else if (hand.getCardsType() == Group_Pair)	// 如果压双牌，尽量从双牌中挑
+    {
+        QVector<QVector<Card> > pairArray = Strategy(player, left).findCardsByCount(2);
+        for (int i = 0; i < pairArray.size(); i++)
+        {
+            if (CardGroups(pairArray[i]).canBeat(hand))
+            {
+                return pairArray[i];
+            }
+        }
+    }
+
+    Player* nextPlayer = player->getNextPlayer();
+    QVector<QVector<Card> > beatCardsArray = Strategy(player, left).findHand(hand, true);
+    if (!beatCardsArray.isEmpty())
+    {
+        if (player->getIsLandLord() != nextPlayer->getIsLandLord() &&
+                nextPlayer->getHandCards().size() <= 2)
+        {
+            return beatCardsArray.back();
+        }
+        else
+        {
+            return beatCardsArray.front();
+        }
+    }
+    else	// 余下牌没法打时，只好从顺子中挑牌
+    {
+        beatCardsArray = Strategy(player, cards).findHand(hand, true);
+        if (!beatCardsArray.isEmpty())
+        {
+            if (player->getIsLandLord() != nextPlayer->getIsLandLord() &&
+                    nextPlayer->getHandCards().size() <= 2)
+            {
+                return beatCardsArray.back();
+            }
+            else
+            {
+                return beatCardsArray.front();
+            }
+        }
+    }
+
+    // 对家剩牌小于3张，有炸则炸
+    Player* hitPlayer = player->getPunchPlayer();
+    if (player->getIsLandLord() != hitPlayer->getIsLandLord())
+    {
+        if (hitPlayer->getHandCards().size() <= 3)
+        {
+            QVector<QVector<Card> > bombs = findCardsByCount(4);
+            if (!bombs.isEmpty())
+            {
+                return bombs[0];
+            }
+        }
+    }
+
     return QVector<Card>();
 }
 
 bool Strategy::whetherToBeat(const QVector<Card>& myCards)
 {
+    if (myCards.isEmpty()) return true;
+
+    Player* hitPlayer = player->getPunchPlayer();
+
+    if (player->getIsLandLord() == hitPlayer->getIsLandLord())		// punch的是同家
+    {
+        QVector<Card> left = cards;
+        for(int i=0;i<myCards.size();i++)
+            left.removeOne(myCards[i]);
+
+        if (CardGroups(left).getCardsType() != Group_Unknown) return true;
+
+        CardPoint basePoint = CardPoint(CardGroups(myCards).getBasePoint());
+        if (basePoint == Card_2 || basePoint == Card_SJ || basePoint == Card_BJ)
+        {
+            return false;
+        }
+    }
+    else	// punch的是对家
+    {
+        CardGroups myHand(myCards);
+
+        if ( (myHand.getCardsType() == Group_Triple_Single || myHand.getCardsType() == Group_Triple_Pair) &&
+             (myHand.getBasePoint() == Card_2) )	// 三个2就不打出去了
+        {
+            return false;
+        }
+
+        if (myHand.getCardsType() == Group_Pair && myHand.getBasePoint() == Card_2 &&
+                hitPlayer->getHandCards().size() >= 10 && player->getHandCards().size() >= 5)
+        {
+            return false;
+        }
+    }
+
     return true;
+}
+
+QVector<Card> Strategy::makeStragety()
+{
+    Player* hitPlayer = player->getPunchPlayer();
+    CardGroups hitCards = player->getPunchCards();
+
+    if (hitPlayer == player || hitPlayer == NULL)
+    {
+        return playFirst();              //主动出牌
+    }
+    else
+    {
+        QVector<Card> beatCards = playBeatHand(hitCards);
+        bool shouldBeat = whetherToBeat(beatCards);
+        if (shouldBeat)
+        {
+            return beatCards;
+        }
+        else
+        {
+            return QVector<Card> ();
+        }
+    }
+    return QVector<Card>();
 }
