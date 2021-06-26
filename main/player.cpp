@@ -26,10 +26,13 @@ CardGroups Player::getPunchCards()
     return punchCards;
 }
 
+<<<<<<< HEAD
 void Player::resetSelectCards(const QVector<Card> &cards)
 {
     selectCards = cards;
 }
+=======
+>>>>>>> 2e8eda169fa07b2778ef7d49d6144b2b034ef1b5
 
 void Player::setHandCards(const QVector<Card> &cards)
 {
@@ -47,6 +50,7 @@ void Player::setSelectCards(const QVector<Card> &cards)
     selectCards.setCards(cards);
 }
 
+<<<<<<< HEAD
 //QVector<Card> Player::getSelectCards() const
 //{
 //    return selectCards.getCards();
@@ -55,6 +59,11 @@ void Player::setSelectCards(const QVector<Card> &cards)
 CardGroups Player::getSelectCards() const
 {
     return selectCards;
+=======
+QVector<Card> Player::getSelectCards() const
+{
+    return selectCards.getCards();
+>>>>>>> 2e8eda169fa07b2778ef7d49d6144b2b034ef1b5
 }
 
 void Player::setBetPoints(int bet)

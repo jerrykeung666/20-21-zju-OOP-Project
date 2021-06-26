@@ -2,6 +2,7 @@
 
 CardGroups::CardGroups(const QVector<Card>& cards)
 {
+    this->cards.clear();
     this->cards << cards;
     analyseCards();
 }
@@ -15,6 +16,10 @@ CardGroups::CardGroups(GroupType type, CardPoint base, int extra)
 
 void CardGroups::setCards(const QVector<Card> &cards)
 {
+<<<<<<< HEAD
+=======
+    this->cards.clear();
+>>>>>>> 2e8eda169fa07b2778ef7d49d6144b2b034ef1b5
     this->cards << cards;
     analyseCards();
 }
@@ -145,7 +150,10 @@ bool CardGroups::canBeat(const CardGroups &cardGroups)
             ret = (basePoint > cardGroups.basePoint);
         }
     }
+    return ret;
+}
 
+<<<<<<< HEAD
     if (ret == false) {
         cards.clear();
     }
@@ -169,5 +177,24 @@ int CardGroups::getExtraNum()
 
 GroupType CardGroups::getCardsType()
 {
+=======
+int CardGroups::getCardsNum()
+{
+    return cards.size();
+}
+
+CardPoint CardGroups::getBasePoint()
+{
+    return basePoint;
+}
+
+int CardGroups::getExtraNum()
+{
+    return extraNum;
+}
+
+GroupType CardGroups::getCardsType()
+{
+>>>>>>> 2e8eda169fa07b2778ef7d49d6144b2b034ef1b5
     return type;
 }

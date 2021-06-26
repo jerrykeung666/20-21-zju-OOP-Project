@@ -21,17 +21,10 @@ void Robot::startPlayHand()
 
 void Robot::thinkCallLord()
 {
-//    setBetPoints(3);
-//    qDebug() << "1111";
-//    callLord(0);
-
     int weight = 0;
     Strategy st(this, handCards);
     weight += st.getRangeCards(Card_SJ, Card_BJ).size() * 6;
-    int count = 0;
-    for(int i=0;i<handCards.size();i++)
-        if(handCards[i].point==Card_2)
-            count++;
+    int count = st.countOfPoint(handCards, Card_2);
     weight += count * 3;
 
     QVector<QVector<Card>> optSeq = st.pickOptimalSeqSingles();
@@ -80,5 +73,6 @@ void Robot::thinkCallLord()
 
 void Robot::thinkPlayHand()
 {
-
+    Strategy st(this, handCards);
+    playHand(st.makeStragety());
 }
