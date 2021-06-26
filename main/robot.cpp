@@ -16,9 +16,8 @@ void Robot::startCallLord()
 
 void Robot::startPlayHand()
 {
-    CardGroups cg;
-    qDebug() << "robot thinking hand card";
-    emit notifyPlayHand(this,cg);
+    PlayHandThread* thread = new PlayHandThread(this);
+    thread->start();
 }
 
 void Robot::thinkCallLord()
