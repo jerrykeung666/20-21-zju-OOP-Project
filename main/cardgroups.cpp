@@ -3,6 +3,7 @@
 CardGroups::CardGroups(const QVector<Card>& cards)
 {
     this->cards << cards;
+    analyseCards();
 }
 
 CardGroups::CardGroups(GroupType type, CardPoint base, int extra)
@@ -12,38 +13,19 @@ CardGroups::CardGroups(GroupType type, CardPoint base, int extra)
     this->extraNum = extra;
 }
 
-//void CardGroups::addCard(const Card &card)
-//{
-//    cards.push_back(card);
-//}
+void CardGroups::setCards(const QVector<Card> &cards)
+{
+    this->cards << cards;
+    analyseCards();
+}
 
 QVector<Card> CardGroups::getCards() const{
     return cards;
 }
 
-void CardGroups::clear()
+void CardGroups::clearCards()
 {
     cards.clear();
-}
-
-int CardGroups::getCardsNum()
-{
-    return cards.size();
-}
-
-CardPoint CardGroups::getBasePoint()
-{
-    return basePoint;
-}
-
-int CardGroups::getExtraNum()
-{
-    return extraNum;
-}
-
-GroupType CardGroups::getCardsType()
-{
-    return type;
 }
 
 void CardGroups::analyseCards()
@@ -140,17 +122,6 @@ void CardGroups::analyseCards()
         type = Group_Bomb;
         basePoint = fourCards[0];
     } else if (oneCard.size() == 2 && twoCards.isEmpty() &&
-               threeCards.isEmpty() && fourCards.size() == 1) {
-        std::sort(oneCard.begin(), oneCard.end());
-        if (oneCard[0] != CardPoint::Card_SJ && oneCard[1] != CardPoint::Card_BJ) {
-            type = Group_Bomb_Two_Single;  // 炸弹带两单
-            basePoint = fourCards[0];
-        }
-    } else if (oneCard.isEmpty() && twoCards.size() == 2 &&
-               threeCards.isEmpty() && fourCards.size() == 1) {
-        type = Group_Plane_Two_Pair;   // 炸弹带两对
-        basePoint = fourCards[0];
-    } else if (oneCard.size() == 2 && twoCards.isEmpty() &&
                threeCards.isEmpty() && fourCards.isEmpty()) {
         std::sort(oneCard.begin(), oneCard.end());
         if (oneCard[0] == CardPoint::Card_SJ && oneCard[1] == CardPoint::Card_BJ) {
@@ -175,7 +146,7 @@ bool CardGroups::canBeat(const CardGroups &cardGroups) const
 
     if (type == Group_Bomb &&
         cardGroups.type >= Group_Single &&
-        cardGroups.type <= Group_Bomb_Two_Pair) {
+        cardGroups.type <= Group_Seq_Pair) {
         return true;
     }
 
@@ -190,21 +161,22 @@ bool CardGroups::canBeat(const CardGroups &cardGroups) const
     return false;
 }
 
-void CardGroups::addCard(const Card &card)
+int CardGroups::getCardsNum()
 {
-    if (!cards.contains(card))
-        cards.push_back(card);
+    return cards.size();
 }
 
-void CardGroups::removeCard(Card &card)
+CardPoint CardGroups::getBasePoint()
 {
-    if (cards.contains(card)) {
-        int pos = cards.indexOf(card);
-        cards.remove(pos);
-    }
+    return basePoint;
 }
 
-void CardGroups::addCards(const QVector<Card>& cards)
+int CardGroups::getExtraNum()
 {
-    this->cards << cards;
+    return extraNum;
+}
+
+GroupType CardGroups::getCardsType()
+{
+    return type;
 }
