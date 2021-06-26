@@ -157,9 +157,9 @@ void Player::onPlayerPunch(Player* player, const CardGroups& cards)
     punchCards = cards;
 }
 
-void Player::playHand(QVector<Card> &cards)
+void Player::playHand(const QVector<Card> &cards)
 {
-    for (auto card : cards) {
+    for (auto &card : cards) {
         handCards.removeOne(card);
     }
 }
