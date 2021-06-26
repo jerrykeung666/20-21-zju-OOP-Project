@@ -21,7 +21,7 @@ public:
     void setHandCards(const QVector<Card> &cards);
     QVector<Card> getHandCards() const;
 
-    void setSelectCards(Card &card);
+    void setSelectCards(const QVector<Card> &cards);
     QVector<Card> getSelectCards() const;
 
     void setBetPoints(int bet);
