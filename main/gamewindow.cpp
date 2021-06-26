@@ -379,7 +379,7 @@ void GameWindow::call4Landlord(){
     bet3Btn->show();
 }
 
-void GameWindow::startGame(){
+void GameWindow::startGame(){//TODO
     //qDebug() << (gameControl->getCurrentPlayer() == gameControl->getPlayerA());
     //if(gameControl->getCurrentPlayer() == gameControl->getPlayerA()){
         passBtn->show();
@@ -580,7 +580,9 @@ void GameWindow::playCards(){
 
     CardGroups cg = CardGroups(selectedCards);
 
+    qDebug() << gameControl->getCurrentCombo().getCards().size();
     if(gameControl->getCurrentPlayer()->getSelectCards().canBeat(gameControl->getCurrentCombo())){
+        qDebug() << gameControl->getCurrentCombo().getCards().size();
         gameControl->getCurrentPlayer()->setHandCards(handCards);
         showPlayCard();
     }
@@ -613,8 +615,6 @@ void GameWindow::showPlayCard(){
             }
 
             showMyCard(gameControl->getPlayerA());
-            passBtn->hide();
-            playBtn->hide();
             return;
         }
         else
