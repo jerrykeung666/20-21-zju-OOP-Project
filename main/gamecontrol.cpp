@@ -41,6 +41,9 @@ void GameControl::init()
     connect(playerB, &Robot::notifyCallLord, this, &GameControl::updateBetPoints);
     //connect(playerA, &Robot::notifyCallLord, this, &GameControl::updateBetPoints);
 
+    connect(playerC, &Robot::notifyPlayHand, this, &GameControl::onPlayerHand);
+    connect(playerB, &Robot::notifyPlayHand, this, &GameControl::onPlayerHand);
+
     currentPlayer = playerA;
 }
 
@@ -183,18 +186,23 @@ void GameControl::updateBetPoints(int bet){
 
 }
 
-void GameControl::onPlayerHand(Player* player, QVector<Card> &cards){
-    if (!cards.empty())
+void GameControl::onPlayerHand(Player* player, CardGroups &cards){
+    if (!cards.getCards().empty())
     {
         punchPlayer = player;
-        punchCards = cards;
+        punchCards = cards.getCards();
+        currentCombo = cards;
+        currentPlayer = player;
 //        playerA->onPlayerPunch(punchPlayer, punchCards);
 //        playerB->onPlayerPunch(punchPlayer, punchCards);
 //        playerC->onPlayerPunch(punchPlayer, punchCards);
         //NotifyPlayerPunch(m_punchPlayer, m_punchCards);
     }
 
-    emit NotifyPlayerPlayHand(currentPlayer, cards); //前端把出来的牌显示在手牌前方，留接口
+    currentPlayer->lastCards = cards;
+    qDebug() << "///";
+
+    emit NotifyPlayerPlayHand(currentPlayer,cards); //前端把出来的牌显示在手牌前方，留接口
 
     // player已把牌都出完，计算三方得分
     if (player->getHandCards().empty())
@@ -235,7 +243,7 @@ void GameControl::onPlayerHand(Player* player, QVector<Card> &cards){
     // 出完牌，轮到下一个玩家
     Player* nextPlayer = player->getNextPlayer();
     currentPlayer = nextPlayer;
-    //emit NotifyPlayerStatus(currentPlayer, GameControl::ThinkingForPlayHandStatus);
+    emit NotifyPlayerbutton(currentPlayer);
         //通知出牌界面修改，先本玩家上一轮出的牌，若为用户出牌则show按钮，若为机器出牌则把按钮隐藏掉（无punchplayer说明第一次出牌，无pass按钮)
     currentPlayer->startPlayHand();
 }

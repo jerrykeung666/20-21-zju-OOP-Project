@@ -36,6 +36,10 @@ const QPoint GameWindow::passBtnStartPos = QPoint(350, 575);
 const QPoint GameWindow::playBtnStartPos = QPoint(700, 575);
 const QPoint GameWindow::myCardZone = QPoint(600, 480);
 const int GameWindow::myCardZoneWidthSpace = 40;
+const QPoint GameWindow::rightCardZone = QPoint(925, 150);
+const int GameWindow::rightCardZoneHeightSpace = 20;
+const QPoint GameWindow::leftCardZone = QPoint(130, 150);
+const int GameWindow::leftCardZoneHeightSpace = 20;
 
 
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
@@ -55,11 +59,7 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
     initPlayerContext();
     initLandLordCards();
     initInfoLabel();
-
-    connect(gameControl, &GameControl::callGamewindowShowBets, this, &GameWindow::onBetPointsCall);
-    connect(gameControl, &GameControl::callGamewindowShowLandlord, this, [=](){
-        showRemLandLordCard("show");
-    });
+    initSignalsAndSlots();
 
     qDebug() << "初始化牌";
 }
@@ -190,6 +190,22 @@ void GameWindow::initInfoLabel(){
     playInfo->raise();
     playInfo->move(myBetInfoPos);
     playInfo->hide();
+
+    leftPassInfo = new QLabel();
+    leftPassInfo->setParent(this);
+    leftPassInfo->setPalette(palette);
+    leftPassInfo->setFont(font);
+    leftPassInfo->raise();
+    leftPassInfo->move(leftPlayerBetInfoPos);
+    leftPassInfo->hide();
+
+    rightPassInfo = new QLabel();
+    rightPassInfo->setParent(this);
+    rightPassInfo->setPalette(palette);
+    rightPassInfo->setFont(font);
+    rightPassInfo->raise();
+    rightPassInfo->move(rightPlayerBetInfoPos);
+    rightPassInfo->hide();
 }
 
 void GameWindow::initButtons()
@@ -197,7 +213,7 @@ void GameWindow::initButtons()
     startBtn = new MyPushButton("../picture/game_start.png", "开始游戏");
     startBtn->setParent(this);
     startBtn->move(this->width()*0.5-startBtn->width()*0.5, this->height()*0.5);
-    connect(startBtn, &MyPushButton::clicked, this, &GameWindow::onStartBtnClicked);
+
 
     betNoBtn = new MyPushButton("../picture/No.png", "No!");
     bet1Btn = new MyPushButton("../picture/OnePoint.png", "1 Point!");
@@ -219,10 +235,6 @@ void GameWindow::initButtons()
     bet2Btn->hide();
     bet3Btn->hide();
 
-    connect(betNoBtn, &MyPushButton::clicked, this, &GameWindow::onBetNoBtnClicked);
-    connect(bet1Btn, &MyPushButton::clicked, this, &GameWindow::onBet1BtnClicked);
-    connect(bet2Btn, &MyPushButton::clicked, this, &GameWindow::onBet2BtnClicked);
-    connect(bet3Btn, &MyPushButton::clicked, this, &GameWindow::onBet3BtnClicked);
 
     passBtn = new MyPushButton("../picture/Pass.png", "Pass!");
     playBtn = new MyPushButton("../picture/Play.png", "Play!");
@@ -235,9 +247,6 @@ void GameWindow::initButtons()
 
     passBtn->hide();
     playBtn->hide();
-
-    connect(passBtn, &MyPushButton::clicked, this, &GameWindow::passCards);
-    connect(playBtn, &MyPushButton::clicked, this, &GameWindow::playCards);
 }
 
 void GameWindow::initPlayerContext()
@@ -274,6 +283,28 @@ void GameWindow::initLandLordCards()
     for (auto &card : cards) {
         addLandLordCard(card);
     }
+}
+
+void GameWindow::initSignalsAndSlots(){
+    connect(startBtn, &MyPushButton::clicked, this, &GameWindow::onStartBtnClicked);
+
+    connect(betNoBtn, &MyPushButton::clicked, this, &GameWindow::onBetNoBtnClicked);
+    connect(bet1Btn, &MyPushButton::clicked, this, &GameWindow::onBet1BtnClicked);
+    connect(bet2Btn, &MyPushButton::clicked, this, &GameWindow::onBet2BtnClicked);
+    connect(bet3Btn, &MyPushButton::clicked, this, &GameWindow::onBet3BtnClicked);
+
+    connect(passBtn, &MyPushButton::clicked, this, &GameWindow::passCards);
+    connect(playBtn, &MyPushButton::clicked, this, &GameWindow::playCards);
+
+    //
+
+    connect(gameControl, &GameControl::callGamewindowShowBets, this, &GameWindow::onBetPointsCall);
+    connect(gameControl, &GameControl::callGamewindowShowLandlord, this, [=](){
+        showRemLandLordCard("show");
+    });
+
+    connect(gameControl, &GameControl::NotifyPlayerPlayHand, this, &GameWindow::otherPlayerShowCards);
+    connect(gameControl, &GameControl::NotifyPlayerbutton, this, &GameWindow::myPlayerShowButton);
 }
 
 void GameWindow::onStartBtnClicked()
@@ -585,6 +616,7 @@ void GameWindow::playCards(){
         qDebug() << gameControl->getCurrentCombo().getCards().size();
         gameControl->getCurrentPlayer()->resetHandCards(handCards);
         showPlayCard();
+        gameControl->onPlayerHand(gameControl->getCurrentPlayer(), cg);
     }
     else{
         selectedCards.clear();
@@ -665,9 +697,93 @@ void GameWindow::passCards(){
     passBtn->hide();
     playBtn->hide();
 
-    QTimer::singleShot(600, this, [=](){
-        passInfo->hide();
-    });
+//    QTimer::singleShot(600, this, [=](){
+//        passInfo->hide();
+//    });
+}
+
+
+void GameWindow::otherPlayerShowCards(Player* player, CardGroups cards){
+    if(player == gameControl->getPlayerB()){
+        showOtherPlayerCard(player, "right");
+        showOtherPlayerPlayCard(player, cards, "right");
+    }
+    else if(player == gameControl->getPlayerC()){
+        showOtherPlayerCard(player, "left");
+        showOtherPlayerPlayCard(player, cards, "left");
+    }
+}
+
+
+void GameWindow::showOtherPlayerPlayCard(Player* otherPlayer, CardGroups cards, const QString status){
+    if(status == "right"){
+        if(cards.getCards().size() == 0){
+            rightPassInfo->setText("Pass!");
+            rightPassInfo->show();
+        }
+        else{
+            Card card;
+            CardWidget* cardWidget;
+            for(int i=0; i < cards.getCards().size(); i++){
+                card = cards.getCards().at(i);
+                cardWidget = cardWidgetMap[card];
+                cardWidget->raise();
+                cardWidget->move(rightCardZone.x(), rightCardZone.y() + i*rightCardZoneHeightSpace);
+                cardWidget->show();
+            }
+        }
+    }
+    else{
+        if(cards.getCards().size() == 0){
+            leftPassInfo->setText("Pass!");
+            leftPassInfo->show();
+        }
+        else{
+            Card card;
+            CardWidget* cardWidget;
+
+            QTimer::singleShot(12000, this, [=](){
+//                passInfo->hide();
+            });
+
+            for(int i=0; i < cards.getCards().size(); i++){
+                card = cards.getCards().at(i);
+                cardWidget = cardWidgetMap[card];
+                cardWidget->raise();
+                cardWidget->move(leftCardZone.x(), leftCardZone.y() + i*leftCardZoneHeightSpace);
+                cardWidget->show();
+            }
+        }
+    }
+}
+
+
+void GameWindow::myPlayerShowButton(Player* player){
+    if(player == gameControl->getPlayerA()){
+        passBtn->show();
+        playBtn->show();
+    }
+
+    CardGroups cardGroup = player->lastCards; //pending
+    if(cardGroup.getCards().size() == 0){
+        if(player == gameControl->getPlayerB())
+            rightPassInfo->hide();
+        else if(player == gameControl->getPlayerC()){
+            leftPassInfo->hide();
+        }
+        else{
+            passInfo->hide();
+        }
+    }
+    else{
+        Card card;
+        CardWidget* cardWidget;
+        for(int i=0; i < cardGroup.getCards().size(); i++){
+            card = cardGroup.getCards().at(i);
+            cardWidget = cardWidgetMap[card];
+            cardWidget->hide();
+        }
+    }
 }
 
 

@@ -58,8 +58,11 @@ public:
     virtual void thinkCallLord();
     virtual void thinkPlayHand();
 
+    CardGroups lastCards; //pending
+
 signals:
     void notifyCallLord(int);
+    void notifyPlayHand(Player* player, CardGroups &cards);
 
 public slots:
     void onPlayerPunch(Player* player, const CardGroups& cards);
