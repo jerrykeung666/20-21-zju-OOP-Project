@@ -41,7 +41,7 @@ const int GameWindow::rightCardZoneHeightSpace = 20;
 const QPoint GameWindow::leftCardZone = QPoint(130, 150);
 const int GameWindow::leftCardZoneHeightSpace = 20;
 
-const QPoint GameWindow::myStatusPos = QPoint(600, 450);
+const QPoint GameWindow::myStatusPos = QPoint(925, 500);
 const QPoint GameWindow::rightStatusPos = QPoint(925, 50);
 const QPoint GameWindow::leftStatusPos = QPoint(130, 50);
 
