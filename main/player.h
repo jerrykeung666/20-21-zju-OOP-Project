@@ -49,7 +49,7 @@ public:
     void clear();
 
     void callLord(int bet);
-    void playHand(QVector<Card>& cards);
+    void playHand(const QVector<Card>& cards);
     virtual void startCallLord();
     virtual void startPlayHand();
     virtual void thinkCallLord();
