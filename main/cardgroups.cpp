@@ -128,7 +128,7 @@ void CardGroups::analyseCards()
 bool CardGroups::canBeat(const CardGroups &cardGroups)
 {
     bool ret = false;
-    if (type == Group_Unknown) {
+    if (type == Group_Unknown || cards.size() == 0) {
 
     } else if (type == Group_Bomb_Jokers) {
         ret = true;
@@ -144,6 +144,9 @@ bool CardGroups::canBeat(const CardGroups &cardGroups)
         } else {
             ret = (basePoint > cardGroups.basePoint);
         }
+    }
+    else if(cardGroups.getCards().size() == 0){
+        ret = true;
     }
 
     if (ret == false) {

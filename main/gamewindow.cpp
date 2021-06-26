@@ -583,7 +583,7 @@ void GameWindow::playCards(){
     qDebug() << gameControl->getCurrentCombo().getCards().size();
     if(gameControl->getCurrentPlayer()->getSelectCards().canBeat(gameControl->getCurrentCombo())){
         qDebug() << gameControl->getCurrentCombo().getCards().size();
-        gameControl->getCurrentPlayer()->setHandCards(handCards);
+        gameControl->getCurrentPlayer()->resetHandCards(handCards);
         showPlayCard();
     }
     else{

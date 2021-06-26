@@ -37,6 +37,12 @@ void Player::setHandCards(const QVector<Card> &cards)
     sortHandCards();
 }
 
+void Player::resetHandCards(const QVector<Card> &cards)
+{
+    handCards = cards;
+    sortHandCards();
+}
+
 QVector<Card> Player::getHandCards() const
 {
     return handCards;

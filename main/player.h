@@ -18,6 +18,7 @@ public:
     void setPlayerID(int ID);
     int getPlayerID() const;
 
+    void resetHandCards(const QVector<Card> &cards);
     void setHandCards(const QVector<Card> &cards);
     QVector<Card> getHandCards() const;
 
