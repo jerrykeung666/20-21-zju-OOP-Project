@@ -15,16 +15,13 @@ class Player : public QObject
 public:
     explicit Player(QObject *parent = nullptr);
 
-    void callLord(int bet);
-
     void setPlayerID(int ID);
     int getPlayerID() const;
 
-    void resetHandCards(const QVector<Card> &cards); // jw version
     void setHandCards(const QVector<Card> &cards);
     QVector<Card> getHandCards() const;
 
-    void setSelectCards(const QVector<Card> &cards);
+    void setSelectCards(Card &card);
     QVector<Card> getSelectCards() const;
 
     void setBetPoints(int bet);
@@ -39,6 +36,9 @@ public:
     void setNextPlayer(Player *next);
     Player* getNextPlayer();
 
+    Player* getPunchPlayer();
+    CardGroups getPunchCards();
+
     int getCardsNumber() const;   // 得到当前牌的数量
     void addLandLordCards(const QVector<Card> &cards); // 添加地主牌
     bool isWin();  // 是否赢
@@ -48,6 +48,8 @@ public:
     void showCards();
     void clear();
 
+    void callLord(int bet);
+    void playHand(QVector<Card>& cards);
     virtual void startCallLord();
     virtual void startPlayHand();
     virtual void thinkCallLord();
@@ -56,17 +58,26 @@ public:
 signals:
     void notifyCallLord(int);
 
+public slots:
+    void onPlayerPunch(Player* player, const CardGroups& cards);
+
 protected:
     void sortHandCards();     // 默认升序，先按点数，点数相同则按花色排序
 
 protected:
     bool isLandLord = false;  // 玩家是否为地主
     bool isPerson = false;    // 玩家是人还是机器人
+
     int betPoints = 0;        // 玩家叫的分
     int playerID;             // 玩家序号
+
     QVector<Card> handCards;  // 玩家手上的牌
     CardGroups selectCards;   // 选中的牌
-    Player *nextPlayer;       // 下一个玩家
+
+    Player* punchPlayer;
+    CardGroups punchCards;
+
+    Player* nextPlayer;       // 下一个玩家
 };
 
 #endif // PLAYER_H
