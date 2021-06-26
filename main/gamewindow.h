@@ -54,6 +54,7 @@ public slots:
     void passCards();
     void otherPlayerShowCards(Player* player, CardGroups cards);
     void myPlayerShowButton(Player* player);
+    void showEndStatus(Player* player);
 
 protected:
     enum CardsAlign
@@ -90,6 +91,9 @@ private:
     QLabel* playInfo;
     QLabel* rightPassInfo;
     QLabel* leftPassInfo;
+    QLabel* myStatusInfo;
+    QLabel* leftStatusInfo;
+    QLabel* rightStatusInfo;
 
     MyPushButton* startBtn;
     MyPushButton* betNoBtn;
@@ -136,6 +140,11 @@ private:
     static const int rightCardZoneHeightSpace;
     static const QPoint leftCardZone;
     static const int leftCardZoneHeightSpace;
+
+    // status info
+    static const QPoint myStatusPos;
+    static const QPoint leftStatusPos;
+    static const QPoint rightStatusPos;
 };
 
 #endif // GAMEWINDOW_H

@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_GameWindow_t {
-    QByteArrayData data[19];
-    char stringdata0[248];
+    QByteArrayData data[20];
+    char stringdata0[262];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -50,7 +50,8 @@ QT_MOC_LITERAL(14, 181, 9), // "passCards"
 QT_MOC_LITERAL(15, 191, 20), // "otherPlayerShowCards"
 QT_MOC_LITERAL(16, 212, 10), // "CardGroups"
 QT_MOC_LITERAL(17, 223, 5), // "cards"
-QT_MOC_LITERAL(18, 229, 18) // "myPlayerShowButton"
+QT_MOC_LITERAL(18, 229, 18), // "myPlayerShowButton"
+QT_MOC_LITERAL(19, 248, 13) // "showEndStatus"
 
     },
     "GameWindow\0onStartBtnClicked\0\0"
@@ -59,7 +60,8 @@ QT_MOC_LITERAL(18, 229, 18) // "myPlayerShowButton"
     "onBetPointsCall\0Player*\0player\0"
     "cardSelected\0Qt::MouseButton\0mouseButton\0"
     "playCards\0passCards\0otherPlayerShowCards\0"
-    "CardGroups\0cards\0myPlayerShowButton"
+    "CardGroups\0cards\0myPlayerShowButton\0"
+    "showEndStatus"
 };
 #undef QT_MOC_LITERAL
 
@@ -69,7 +71,7 @@ static const uint qt_meta_data_GameWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      12,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -77,17 +79,18 @@ static const uint qt_meta_data_GameWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   69,    2, 0x0a /* Public */,
-       3,    0,   70,    2, 0x0a /* Public */,
-       4,    0,   71,    2, 0x0a /* Public */,
-       5,    0,   72,    2, 0x0a /* Public */,
-       6,    0,   73,    2, 0x0a /* Public */,
-       7,    1,   74,    2, 0x0a /* Public */,
-      10,    1,   77,    2, 0x0a /* Public */,
-      13,    0,   80,    2, 0x0a /* Public */,
-      14,    0,   81,    2, 0x0a /* Public */,
-      15,    2,   82,    2, 0x0a /* Public */,
-      18,    1,   87,    2, 0x0a /* Public */,
+       1,    0,   74,    2, 0x0a /* Public */,
+       3,    0,   75,    2, 0x0a /* Public */,
+       4,    0,   76,    2, 0x0a /* Public */,
+       5,    0,   77,    2, 0x0a /* Public */,
+       6,    0,   78,    2, 0x0a /* Public */,
+       7,    1,   79,    2, 0x0a /* Public */,
+      10,    1,   82,    2, 0x0a /* Public */,
+      13,    0,   85,    2, 0x0a /* Public */,
+      14,    0,   86,    2, 0x0a /* Public */,
+      15,    2,   87,    2, 0x0a /* Public */,
+      18,    1,   92,    2, 0x0a /* Public */,
+      19,    1,   95,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -100,6 +103,7 @@ static const uint qt_meta_data_GameWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 8, 0x80000000 | 16,    9,   17,
+    QMetaType::Void, 0x80000000 | 8,    9,
     QMetaType::Void, 0x80000000 | 8,    9,
 
        0        // eod
@@ -122,6 +126,7 @@ void GameWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 8: _t->passCards(); break;
         case 9: _t->otherPlayerShowCards((*reinterpret_cast< Player*(*)>(_a[1])),(*reinterpret_cast< CardGroups(*)>(_a[2]))); break;
         case 10: _t->myPlayerShowButton((*reinterpret_cast< Player*(*)>(_a[1]))); break;
+        case 11: _t->showEndStatus((*reinterpret_cast< Player*(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -142,6 +147,13 @@ void GameWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             }
             break;
         case 10:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< Player* >(); break;
+            }
+            break;
+        case 11:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -181,13 +193,13 @@ int GameWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 12;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 12;
     }
     return _id;
 }

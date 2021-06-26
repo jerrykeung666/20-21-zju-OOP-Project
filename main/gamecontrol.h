@@ -45,6 +45,7 @@ signals:
 
     void NotifyPlayerPlayHand(Player* player,CardGroups &cards);
     void NotifyPlayerbutton(Player* player);
+    void NotifyPlayerStatus(Player* player);
 
 public slots:
    // void updateBetPoints(int bet); //处理叫地主分数

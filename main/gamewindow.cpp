@@ -28,7 +28,7 @@ const int GameWindow::betBtnWidthSpace = 140; //TODO
 const int GameWindow::fontSize = 20;
 const QPoint GameWindow::myBetInfoPos = QPoint(500, 375);
 const QPoint GameWindow::leftPlayerBetInfoPos = QPoint(135, 50);
-const QPoint GameWindow::rightPlayerBetInfoPos = QPoint(1000, 50);
+const QPoint GameWindow::rightPlayerBetInfoPos = QPoint(975, 50);
 
 const int GameWindow::cardSelectedShift = 35;
 
@@ -40,6 +40,10 @@ const QPoint GameWindow::rightCardZone = QPoint(925, 150);
 const int GameWindow::rightCardZoneHeightSpace = 20;
 const QPoint GameWindow::leftCardZone = QPoint(130, 150);
 const int GameWindow::leftCardZoneHeightSpace = 20;
+
+const QPoint GameWindow::myStatusPos = QPoint(600, 450);
+const QPoint GameWindow::rightStatusPos = QPoint(925, 50);
+const QPoint GameWindow::leftStatusPos = QPoint(130, 50);
 
 
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
@@ -206,6 +210,30 @@ void GameWindow::initInfoLabel(){
     rightPassInfo->raise();
     rightPassInfo->move(rightPlayerBetInfoPos);
     rightPassInfo->hide();
+
+    myStatusInfo = new QLabel();
+    myStatusInfo->setParent(this);
+    myStatusInfo->setPalette(palette);
+    myStatusInfo->setFont(font);
+    myStatusInfo->raise();
+    myStatusInfo->move(myStatusPos);
+    myStatusInfo->hide();
+
+    leftStatusInfo = new QLabel();
+    leftStatusInfo->setParent(this);
+    leftStatusInfo->setPalette(palette);
+    leftStatusInfo->setFont(font);
+    leftStatusInfo->raise();
+    leftStatusInfo->move(leftStatusPos);
+    leftStatusInfo->hide();
+
+    rightStatusInfo = new QLabel();
+    rightStatusInfo->setParent(this);
+    rightStatusInfo->setPalette(palette);
+    rightStatusInfo->setFont(font);
+    rightStatusInfo->raise();
+    rightStatusInfo->move(rightStatusPos);
+    rightStatusInfo->hide();
 }
 
 void GameWindow::initButtons()
@@ -305,6 +333,8 @@ void GameWindow::initSignalsAndSlots(){
 
     connect(gameControl, &GameControl::NotifyPlayerPlayHand, this, &GameWindow::otherPlayerShowCards);
     connect(gameControl, &GameControl::NotifyPlayerbutton, this, &GameWindow::myPlayerShowButton);
+
+    connect(gameControl, &GameControl::NotifyPlayerStatus, this, &GameWindow::showEndStatus);
 }
 
 void GameWindow::onStartBtnClicked()
@@ -613,7 +643,7 @@ void GameWindow::playCards(){
 
     qDebug() << gameControl->getCurrentCombo().getCards().size();
     if(gameControl->getCurrentPlayer()->getSelectCards().canBeat(gameControl->getCurrentCombo())
-            || gameControl->getCurrentPlayer() == gameControl->getEffectivePlayer()){
+            || gameControl->getCurrentPlayer() == gameControl->getEffectivePlayer()){ //pending: canBeat! You win in the last cycle!
         qDebug() << gameControl->getCurrentCombo().getCards().size();
         gameControl->getCurrentPlayer()->resetHandCards(handCards);
         showPlayCard();
@@ -786,6 +816,28 @@ void GameWindow::myPlayerShowButton(Player* player){
 }
 
 
+void GameWindow::showEndStatus(Player* player){
+    playInfo->hide();
+    leftPassInfo->hide();
+    rightPassInfo->hide();
+
+    myStatusInfo->setText("Lose!");
+    leftStatusInfo->setText("Lose!");
+    rightStatusInfo->setText("Lose!");
+
+    if(player == gameControl->getPlayerA())
+        myStatusInfo->setText("Win!");
+    else if(player == gameControl->getPlayerB())
+        rightStatusInfo->setText("Win!");
+    else
+        leftStatusInfo->setText("Win!");
+
+    myStatusInfo->show();
+    leftStatusInfo->show();
+    rightStatusInfo->show();
+}
+
+
 void GameWindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -793,7 +845,4 @@ void GameWindow::paintEvent(QPaintEvent *)
     pix.load("../picture/game_scene.PNG");
     painter.drawPixmap(0, 0, this->width(), this->height(), pix);
 }
-
-
-// Your Success Window/Msgbox Code Here: Display all player cards
 

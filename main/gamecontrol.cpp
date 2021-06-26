@@ -235,7 +235,7 @@ void GameControl::onPlayerHand(Player* player, CardGroups &cards){
         }
         */
 
-        //emit NotifyPlayerStatus(player, GameControl::WinningStatus); //通知前端输赢，留接口
+        emit NotifyPlayerStatus(player); //通知前端输赢，留接口
 
         return;
 
