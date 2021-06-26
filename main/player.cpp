@@ -38,6 +38,16 @@ QVector<Card> Player::getHandCards() const
     return handCards;
 }
 
+void Player::setSelectCards(const QVector<Card> &cards)
+{
+    selectCards.setCards(cards);
+}
+
+QVector<Card> Player::getSelectCards() const
+{
+    return selectCards.getCards();
+}
+
 void Player::setBetPoints(int bet)
 {
     //qDebug() << "robot think";
