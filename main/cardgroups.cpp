@@ -23,11 +23,6 @@ QVector<Card> CardGroups::getCards() const{
     return cards;
 }
 
-void CardGroups::clearCards()
-{
-    cards.clear();
-}
-
 void CardGroups::analyseCards()
 {
     QVector<int> cardMeta((int)CardPoint::Card_End, 0);
@@ -130,35 +125,31 @@ void CardGroups::analyseCards()
     }
 }
 
-bool CardGroups::canBeat(const CardGroups &cardGroups) const
+bool CardGroups::canBeat(const CardGroups &cardGroups)
 {
+    bool ret = false;
     if (type == Group_Unknown) {
-        return false;
-    }
 
-    if (type == Group_Bomb_Jokers) {
-        return true;
-    }
-
-    if (cardGroups.type == Group_Pass) {
-        return true;
-    }
-
-    if (type == Group_Bomb &&
+    } else if (type == Group_Bomb_Jokers) {
+        ret = true;
+    } else if (cardGroups.type == Group_Pass) {
+        ret = true;
+    } else if (type == Group_Bomb &&
         cardGroups.type >= Group_Single &&
         cardGroups.type <= Group_Seq_Pair) {
-        return true;
-    }
-
-    if (type == cardGroups.type) {
+        ret = true;
+    } else if (type == cardGroups.type) {
         if (type == Group_Seq_Pair || type == Group_Seq_Single) {
-            return (basePoint > cardGroups.basePoint && extraNum == cardGroups.extraNum);
+            ret =  (basePoint > cardGroups.basePoint && extraNum == cardGroups.extraNum);
         } else {
-            return basePoint > cardGroups.basePoint;
+            ret = (basePoint > cardGroups.basePoint);
         }
     }
 
-    return false;
+    if (ret == false) {
+        cards.clear();
+    }
+    return ret;
 }
 
 int CardGroups::getCardsNum()
