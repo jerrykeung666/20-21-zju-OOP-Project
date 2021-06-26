@@ -34,16 +34,15 @@ public:
 
     void setCards(const QVector<Card>&cards);   // 设置牌
     QVector<Card> getCards() const;
-    
-    void clearCards();   // 清空牌
+
     void analyseCards();    // 对牌进行分析
-    bool canBeat(const CardGroups &cardGroups) const;   // 判断牌能否打过
+    bool canBeat(const CardGroups &cardGroups);   // 判断牌能否打过
 
     int getCardsNum();
     GroupType getCardsType();
     CardPoint getBasePoint();
     int getExtraNum();
-    
+
 
 
 private:
