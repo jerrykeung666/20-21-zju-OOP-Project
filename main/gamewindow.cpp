@@ -612,7 +612,8 @@ void GameWindow::playCards(){
     CardGroups cg = CardGroups(selectedCards);
 
     qDebug() << gameControl->getCurrentCombo().getCards().size();
-    if(gameControl->getCurrentPlayer()->getSelectCards().canBeat(gameControl->getCurrentCombo())){
+    if(gameControl->getCurrentPlayer()->getSelectCards().canBeat(gameControl->getCurrentCombo())
+            || gameControl->getCurrentPlayer() == gameControl->getEffectivePlayer()){
         qDebug() << gameControl->getCurrentCombo().getCards().size();
         gameControl->getCurrentPlayer()->resetHandCards(handCards);
         showPlayCard();
@@ -742,10 +743,6 @@ void GameWindow::showOtherPlayerPlayCard(Player* otherPlayer, CardGroups cards, 
             Card card;
             CardWidget* cardWidget;
 
-            QTimer::singleShot(12000, this, [=](){
-//                passInfo->hide();
-            });
-
             for(int i=0; i < cards.getCards().size(); i++){
                 card = cards.getCards().at(i);
                 cardWidget = cardWidgetMap[card];
@@ -759,31 +756,33 @@ void GameWindow::showOtherPlayerPlayCard(Player* otherPlayer, CardGroups cards, 
 
 
 void GameWindow::myPlayerShowButton(Player* player){
-    if(player == gameControl->getPlayerA()){
-        passBtn->show();
-        playBtn->show();
-    }
+    QTimer::singleShot(1000, this, [=](){
+        if(player == gameControl->getPlayerA()){
+            passBtn->show();
+            playBtn->show();
+        }
 
-    CardGroups cardGroup = player->lastCards; //pending
-    if(cardGroup.getCards().size() == 0){
-        if(player == gameControl->getPlayerB())
-            rightPassInfo->hide();
-        else if(player == gameControl->getPlayerC()){
-            leftPassInfo->hide();
+        CardGroups cardGroup = player->lastCards; //pending
+        if(cardGroup.getCards().size() == 0){
+            if(player == gameControl->getPlayerB())
+                rightPassInfo->hide();
+            else if(player == gameControl->getPlayerC()){
+                leftPassInfo->hide();
+            }
+            else{
+                passInfo->hide();
+            }
         }
         else{
-            passInfo->hide();
+            Card card;
+            CardWidget* cardWidget;
+            for(int i=0; i < cardGroup.getCards().size(); i++){
+                card = cardGroup.getCards().at(i);
+                cardWidget = cardWidgetMap[card];
+                cardWidget->hide();
+            }
         }
-    }
-    else{
-        Card card;
-        CardWidget* cardWidget;
-        for(int i=0; i < cardGroup.getCards().size(); i++){
-            card = cardGroup.getCards().at(i);
-            cardWidget = cardWidgetMap[card];
-            cardWidget->hide();
-        }
-    }
+    });
 }
 
 

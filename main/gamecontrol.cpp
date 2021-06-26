@@ -191,6 +191,7 @@ void GameControl::onPlayerHand(Player* player, CardGroups &cards){
     {
         punchPlayer = player;
         punchCards = cards.getCards();
+        effectivePlayer = player;
         currentCombo = cards;
         currentPlayer = player;
 //        playerA->onPlayerPunch(punchPlayer, punchCards);
