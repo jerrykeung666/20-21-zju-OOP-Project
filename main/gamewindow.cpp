@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QPalette>
+#include <QMessageBox>
 
 const QSize GameWindow::gameWindowSize = QSize(1200, 800);
 
@@ -37,9 +38,9 @@ const QPoint GameWindow::playBtnStartPos = QPoint(700, 575);
 const QPoint GameWindow::myCardZone = QPoint(600, 480);
 const int GameWindow::myCardZoneWidthSpace = 40;
 const QPoint GameWindow::rightCardZone = QPoint(925, 150);
-const int GameWindow::rightCardZoneHeightSpace = 20;
+const int GameWindow::rightCardZoneHeightSpace = 40;
 const QPoint GameWindow::leftCardZone = QPoint(130, 150);
-const int GameWindow::leftCardZoneHeightSpace = 20;
+const int GameWindow::leftCardZoneHeightSpace = 40;
 
 const QPoint GameWindow::myStatusPos = QPoint(925, 500);
 const QPoint GameWindow::rightStatusPos = QPoint(925, 50);
@@ -94,33 +95,7 @@ void GameWindow::addLandLordCard(const Card &card)
     restThreeCards.push_back(cardWidget);
 }
 
-/*
-void GameWindow::initCardWidgetMap()
-{
-    QString prefix = ":/PokerImage/";
-    QString suitMap[] = {"poker_t_1_v_", "poker_t_2_v_", "poker_t_3_v_", "poker_t_4_v_"};
-    for (int st = Suit_Begin + 1; st < Suit_End; ++st) {
-        for (int pt = Card_Begin + 1; pt < Card_SJ; ++pt) {
-            Card card((CardPoint)pt, (CardSuit)st);
-            QString cardPath = prefix + suitMap[st-1] + QString((pt-1)%13) + ".png";
-            insertCardWidget(card, cardPath);
-        }
-    }
 
-    Card card;
-    QString cardPath;
-
-    cardPath = prefix + "smalljoker.png";
-    card.point = Card_SJ;
-    insertCardWidget(card, cardPath);
-
-    card.point = Card_BJ;
-    cardPath = prefix + "bigjoker.png";
-    insertCardWidget(card, cardPath);
-}
-*/
-
-// JW version
 void GameWindow::initCardWidgetMap()
 {
     QString prefix = ":/PokerImage/";
@@ -383,8 +358,8 @@ void GameWindow::showOtherPlayerCard(Player* otherPlayer, const QString status){
             myWidget.at(i)->move(rightCardWidthStartPos, rightCardHeightStartPos + i*cardHeightSpace);
         }
         myWidget.at(i)->show();
-        qDebug() << myWidget.at(i)->getIsFront();
-        qDebug() << myWidget.size();
+        //qDebug() << myWidget.at(i)->getIsFront();
+        //qDebug() << myWidget.size();
     }
 }
 
@@ -722,6 +697,9 @@ void GameWindow::passCards(){
     else
         showOtherPlayerCard(gameControl->getCurrentPlayer(), "left");
 
+    CardGroups cg;
+    gameControl->onPlayerHand(gameControl->getCurrentPlayer(),cg);
+
     passInfo->setText("PASS!");
     passInfo->show();
 
@@ -758,6 +736,7 @@ void GameWindow::showOtherPlayerPlayCard(Player* otherPlayer, CardGroups cards, 
             for(int i=0; i < cards.getCards().size(); i++){
                 card = cards.getCards().at(i);
                 cardWidget = cardWidgetMap[card];
+                cardWidget->setFront(true);
                 cardWidget->raise();
                 cardWidget->move(rightCardZone.x(), rightCardZone.y() + i*rightCardZoneHeightSpace);
                 cardWidget->show();
@@ -776,6 +755,7 @@ void GameWindow::showOtherPlayerPlayCard(Player* otherPlayer, CardGroups cards, 
             for(int i=0; i < cards.getCards().size(); i++){
                 card = cards.getCards().at(i);
                 cardWidget = cardWidgetMap[card];
+                cardWidget->setFront(true);
                 cardWidget->raise();
                 cardWidget->move(leftCardZone.x(), leftCardZone.y() + i*leftCardZoneHeightSpace);
                 cardWidget->show();
@@ -786,9 +766,11 @@ void GameWindow::showOtherPlayerPlayCard(Player* otherPlayer, CardGroups cards, 
 
 
 void GameWindow::myPlayerShowButton(Player* player){
-    QTimer::singleShot(1000, this, [=](){
+    qDebug() << "hide card";
+    //QTimer::singleShot(1000, this, [=](){
         if(player == gameControl->getPlayerA()){
-            passBtn->show();
+            if (gameControl->getEffectivePlayer() != player)
+                passBtn->show();
             playBtn->show();
         }
 
@@ -804,6 +786,7 @@ void GameWindow::myPlayerShowButton(Player* player){
             }
         }
         else{
+
             Card card;
             CardWidget* cardWidget;
             for(int i=0; i < cardGroup.getCards().size(); i++){
@@ -811,8 +794,9 @@ void GameWindow::myPlayerShowButton(Player* player){
                 cardWidget = cardWidgetMap[card];
                 cardWidget->hide();
             }
+
         }
-    });
+    //});
 }
 
 
@@ -835,6 +819,15 @@ void GameWindow::showEndStatus(Player* player){
     myStatusInfo->show();
     leftStatusInfo->show();
     rightStatusInfo->show();
+
+    QTimer::singleShot(100, this, [=](){
+        if(player == gameControl->getPlayerA())
+            QMessageBox::information(this, tr("Result"), QString("You Win!"));
+        else
+            QMessageBox::information(this, tr("Result"), QString("You Lose!"));
+    });
+
+    //startBtn->show();
 }
 
 

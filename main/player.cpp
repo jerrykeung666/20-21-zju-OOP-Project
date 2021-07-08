@@ -187,4 +187,9 @@ void Player::playHand(const QVector<Card> &cards)
     for (auto &card : cards) {
         handCards.removeOne(card);
     }
+    qDebug() << "2222";
+    CardGroups groupcards;
+    //groupcards.setCards(cards);
+
+    //emit notifyPlayHand(this, cards);
 }

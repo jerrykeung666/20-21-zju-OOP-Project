@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "player.h"
+#include "playhandthread.h"
 
 class Robot : public Player
 {

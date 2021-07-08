@@ -11,6 +11,7 @@ release/player.o
 release/robot.o
 release/strategy.o
 release/user.o
+release/playhandthread.o
 release/qrc_pokerimage.o
 release/moc_calllandlordthread.o
 release/moc_cardwidget.o
@@ -21,3 +22,4 @@ release/moc_mypushbutton.o
 release/moc_player.o
 release/moc_robot.o
 release/moc_user.o
+release/moc_playhandthread.o

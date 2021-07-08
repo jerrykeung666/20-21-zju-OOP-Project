@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Player_t {
-    QByteArrayData data[10];
-    char stringdata0[96];
+    QByteArrayData data[9];
+    char stringdata0[84];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,16 +37,15 @@ QT_MOC_LITERAL(1, 7, 14), // "notifyCallLord"
 QT_MOC_LITERAL(2, 22, 0), // ""
 QT_MOC_LITERAL(3, 23, 14), // "notifyPlayHand"
 QT_MOC_LITERAL(4, 38, 7), // "Player*"
-QT_MOC_LITERAL(5, 46, 6), // "player"
-QT_MOC_LITERAL(6, 53, 11), // "CardGroups&"
-QT_MOC_LITERAL(7, 65, 5), // "cards"
-QT_MOC_LITERAL(8, 71, 13), // "onPlayerPunch"
-QT_MOC_LITERAL(9, 85, 10) // "CardGroups"
+QT_MOC_LITERAL(5, 46, 13), // "onPlayerPunch"
+QT_MOC_LITERAL(6, 60, 6), // "player"
+QT_MOC_LITERAL(7, 67, 10), // "CardGroups"
+QT_MOC_LITERAL(8, 78, 5) // "cards"
 
     },
     "Player\0notifyCallLord\0\0notifyPlayHand\0"
-    "Player*\0player\0CardGroups&\0cards\0"
-    "onPlayerPunch\0CardGroups"
+    "Player*\0onPlayerPunch\0player\0CardGroups\0"
+    "cards"
 };
 #undef QT_MOC_LITERAL
 
@@ -65,17 +64,17 @@ static const uint qt_meta_data_Player[] = {
 
  // signals: name, argc, parameters, tag, flags
        1,    1,   29,    2, 0x06 /* Public */,
-       3,    2,   32,    2, 0x06 /* Public */,
+       3,    1,   32,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       8,    2,   37,    2, 0x0a /* Public */,
+       5,    2,   35,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int,    2,
-    QMetaType::Void, 0x80000000 | 4, 0x80000000 | 6,    5,    7,
+    QMetaType::Void, 0x80000000 | 4,    2,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 4, 0x80000000 | 9,    5,    7,
+    QMetaType::Void, 0x80000000 | 4, 0x80000000 | 7,    6,    8,
 
        0        // eod
 };
@@ -87,7 +86,7 @@ void Player::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->notifyCallLord((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 1: _t->notifyPlayHand((*reinterpret_cast< Player*(*)>(_a[1])),(*reinterpret_cast< CardGroups(*)>(_a[2]))); break;
+        case 1: _t->notifyPlayHand((*reinterpret_cast< Player*(*)>(_a[1]))); break;
         case 2: _t->onPlayerPunch((*reinterpret_cast< Player*(*)>(_a[1])),(*reinterpret_cast< const CardGroups(*)>(_a[2]))); break;
         default: ;
         }
@@ -119,7 +118,7 @@ void Player::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
             }
         }
         {
-            using _t = void (Player::*)(Player * , CardGroups & );
+            using _t = void (Player::*)(Player * );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Player::notifyPlayHand)) {
                 *result = 1;
                 return;
@@ -176,9 +175,9 @@ void Player::notifyCallLord(int _t1)
 }
 
 // SIGNAL 1
-void Player::notifyPlayHand(Player * _t1, CardGroups & _t2)
+void Player::notifyPlayHand(Player * _t1)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_WARNING_POP

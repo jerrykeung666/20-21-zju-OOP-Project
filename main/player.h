@@ -62,7 +62,7 @@ public:
 
 signals:
     void notifyCallLord(int);
-    void notifyPlayHand(Player* player, CardGroups &cards);
+    void notifyPlayHand(Player*);
 
 public slots:
     void onPlayerPunch(Player* player, const CardGroups& cards);

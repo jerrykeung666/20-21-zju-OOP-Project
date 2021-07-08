@@ -7,6 +7,8 @@
 GameControl::GameControl(QObject *parent) :
     QObject(parent)
 {
+
+
     currentPlayer = NULL;
     //current_combo = CardGroups(); //有效牌
     //landLordCards = CardGroups();
@@ -41,8 +43,8 @@ void GameControl::init()
     connect(playerB, &Robot::notifyCallLord, this, &GameControl::updateBetPoints);
     //connect(playerA, &Robot::notifyCallLord, this, &GameControl::updateBetPoints);
 
-    connect(playerC, &Robot::notifyPlayHand, this, &GameControl::onPlayerHand);
-    connect(playerB, &Robot::notifyPlayHand, this, &GameControl::onPlayerHand);
+    connect(playerC, &Player::notifyPlayHand, this, &GameControl::onPlayerHandRobot);
+    connect(playerB, &Robot::notifyPlayHand, this, &GameControl::onPlayerHandRobot);
 
     currentPlayer = playerA;
 }
@@ -138,6 +140,7 @@ void GameControl::updateBetPoints(int bet){
         currentPlayer->setIsLandLord(true);
         currentPlayer->addLandLordCards(landLordCards);
         emit callGamewindowShowLandlord();
+        currentPlayer->startPlayHand();
         return;
     }
 
@@ -154,6 +157,7 @@ void GameControl::updateBetPoints(int bet){
         currentPlayer = landlord->player;
         //qDebug() << "GameControl: card num: " << playerA->getHandCards().size();
         emit callGamewindowShowLandlord();
+        currentPlayer->startPlayHand();
         return;
     }
 
@@ -186,18 +190,28 @@ void GameControl::updateBetPoints(int bet){
 
 }
 
+void GameControl::onPlayerHandRobot(Player* player){
+    CardGroups cg;
+
+    onPlayerHand(player,player->lastCards);
+}
+
 void GameControl::onPlayerHand(Player* player, CardGroups &cards){
     if (!cards.getCards().empty())
     {
+        //qDebug() << "";
         punchPlayer = player;
         punchCards = cards.getCards();
         effectivePlayer = player;
         currentCombo = cards;
         currentPlayer = player;
-//        playerA->onPlayerPunch(punchPlayer, punchCards);
-//        playerB->onPlayerPunch(punchPlayer, punchCards);
-//        playerC->onPlayerPunch(punchPlayer, punchCards);
+        playerA->onPlayerPunch(punchPlayer, punchCards);
+        playerB->onPlayerPunch(punchPlayer, punchCards);
+        playerC->onPlayerPunch(punchPlayer, punchCards);
         //NotifyPlayerPunch(m_punchPlayer, m_punchCards);
+    }
+    else{
+        qDebug() << "pass";
     }
 
     currentPlayer->lastCards = cards;
@@ -278,4 +292,9 @@ QVector<Card> GameControl::getLandLordCards(){
     return landLordCards;
 }
 
-
+void GameControl::setgamemodel(int gamemodel){
+    this->gamemodel = gamemodel;
+}
+int GameControl::getgamemodel(){
+    return  this->gamemodel;
+}
