@@ -61,13 +61,10 @@ public:
     CardGroups lastCards; //pending
 
 signals:
-<<<<<<< HEAD
     void notifyCallLord(int bet);
     void notifyPlayHand(Player* player);
-=======
     void notifyCallLord(int);
     void notifyPlayHand(Player*);
->>>>>>> ebeebb522399d7aeb88357bcfa40e3e5183b83b2
 
 public slots:
     void onPlayerPunch(Player* player, const CardGroups& cards);
