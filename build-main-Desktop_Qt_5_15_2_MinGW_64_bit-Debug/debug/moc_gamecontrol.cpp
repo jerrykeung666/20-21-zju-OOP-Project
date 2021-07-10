@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_GameControl_t {
-    QByteArrayData data[15];
-    char stringdata0[221];
+    QByteArrayData data[14];
+    char stringdata0[210];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,25 +37,23 @@ QT_MOC_LITERAL(1, 12, 23), // "callGamewindowShowCards"
 QT_MOC_LITERAL(2, 36, 0), // ""
 QT_MOC_LITERAL(3, 37, 22), // "callGamewindowShowBets"
 QT_MOC_LITERAL(4, 60, 7), // "Player*"
-QT_MOC_LITERAL(5, 68, 26), // "callGamewindowShowLandlord"
-QT_MOC_LITERAL(6, 95, 20), // "NotifyPlayerPlayHand"
-QT_MOC_LITERAL(7, 116, 10), // "CardGroups"
-QT_MOC_LITERAL(8, 127, 18), // "NotifyPlayerbutton"
-QT_MOC_LITERAL(9, 146, 18), // "NotifyPlayerStatus"
-QT_MOC_LITERAL(10, 165, 12), // "onPlayerHand"
-QT_MOC_LITERAL(11, 178, 6), // "player"
-QT_MOC_LITERAL(12, 185, 11), // "CardGroups&"
-QT_MOC_LITERAL(13, 197, 5), // "cards"
-QT_MOC_LITERAL(14, 203, 17) // "onPlayerHandRobot"
+QT_MOC_LITERAL(5, 68, 6), // "player"
+QT_MOC_LITERAL(6, 75, 26), // "callGamewindowShowLandlord"
+QT_MOC_LITERAL(7, 102, 20), // "NotifyPlayerPlayHand"
+QT_MOC_LITERAL(8, 123, 11), // "CardGroups&"
+QT_MOC_LITERAL(9, 135, 5), // "cards"
+QT_MOC_LITERAL(10, 141, 18), // "NotifyPlayerbutton"
+QT_MOC_LITERAL(11, 160, 18), // "NotifyPlayerStatus"
+QT_MOC_LITERAL(12, 179, 12), // "onPlayerHand"
+QT_MOC_LITERAL(13, 192, 17) // "onPlayerHandRobot"
 
     },
     "GameControl\0callGamewindowShowCards\0"
-    "\0callGamewindowShowBets\0Player*\0"
+    "\0callGamewindowShowBets\0Player*\0player\0"
     "callGamewindowShowLandlord\0"
-    "NotifyPlayerPlayHand\0CardGroups\0"
+    "NotifyPlayerPlayHand\0CardGroups&\0cards\0"
     "NotifyPlayerbutton\0NotifyPlayerStatus\0"
-    "onPlayerHand\0player\0CardGroups&\0cards\0"
-    "onPlayerHandRobot"
+    "onPlayerHand\0onPlayerHandRobot"
 };
 #undef QT_MOC_LITERAL
 
@@ -75,26 +73,26 @@ static const uint qt_meta_data_GameControl[] = {
  // signals: name, argc, parameters, tag, flags
        1,    0,   54,    2, 0x06 /* Public */,
        3,    1,   55,    2, 0x06 /* Public */,
-       5,    0,   58,    2, 0x06 /* Public */,
-       6,    2,   59,    2, 0x06 /* Public */,
-       8,    1,   64,    2, 0x06 /* Public */,
-       9,    1,   67,    2, 0x06 /* Public */,
+       6,    0,   58,    2, 0x06 /* Public */,
+       7,    2,   59,    2, 0x06 /* Public */,
+      10,    1,   64,    2, 0x06 /* Public */,
+      11,    1,   67,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      10,    2,   70,    2, 0x0a /* Public */,
-      14,    1,   75,    2, 0x0a /* Public */,
+      12,    2,   70,    2, 0x0a /* Public */,
+      13,    1,   75,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 4,    2,
+    QMetaType::Void, 0x80000000 | 4,    5,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 4, 0x80000000 | 7,    2,    2,
-    QMetaType::Void, 0x80000000 | 4,    2,
-    QMetaType::Void, 0x80000000 | 4,    2,
+    QMetaType::Void, 0x80000000 | 4, 0x80000000 | 8,    5,    9,
+    QMetaType::Void, 0x80000000 | 4,    5,
+    QMetaType::Void, 0x80000000 | 4,    5,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 4, 0x80000000 | 12,   11,   13,
-    QMetaType::Void, 0x80000000 | 4,   11,
+    QMetaType::Void, 0x80000000 | 4, 0x80000000 | 8,    5,    9,
+    QMetaType::Void, 0x80000000 | 4,    5,
 
        0        // eod
 };
@@ -185,7 +183,7 @@ void GameControl::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
             }
         }
         {
-            using _t = void (GameControl::*)(Player * , CardGroups );
+            using _t = void (GameControl::*)(Player * , CardGroups & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&GameControl::NotifyPlayerPlayHand)) {
                 *result = 3;
                 return;
@@ -268,7 +266,7 @@ void GameControl::callGamewindowShowLandlord()
 }
 
 // SIGNAL 3
-void GameControl::NotifyPlayerPlayHand(Player * _t1, CardGroups _t2)
+void GameControl::NotifyPlayerPlayHand(Player * _t1, CardGroups & _t2)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
     QMetaObject::activate(this, &staticMetaObject, 3, _a);

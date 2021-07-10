@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_CardWidget_t {
-    QByteArrayData data[4];
-    char stringdata0[43];
+    QByteArrayData data[5];
+    char stringdata0[55];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,10 +35,12 @@ static const qt_meta_stringdata_CardWidget_t qt_meta_stringdata_CardWidget = {
 QT_MOC_LITERAL(0, 0, 10), // "CardWidget"
 QT_MOC_LITERAL(1, 11, 14), // "notifySelected"
 QT_MOC_LITERAL(2, 26, 0), // ""
-QT_MOC_LITERAL(3, 27, 15) // "Qt::MouseButton"
+QT_MOC_LITERAL(3, 27, 15), // "Qt::MouseButton"
+QT_MOC_LITERAL(4, 43, 11) // "mouseButton"
 
     },
-    "CardWidget\0notifySelected\0\0Qt::MouseButton"
+    "CardWidget\0notifySelected\0\0Qt::MouseButton\0"
+    "mouseButton"
 };
 #undef QT_MOC_LITERAL
 
@@ -59,7 +61,7 @@ static const uint qt_meta_data_CardWidget[] = {
        1,    1,   19,    2, 0x06 /* Public */,
 
  // signals: parameters
-    QMetaType::Void, 0x80000000 | 3,    2,
+    QMetaType::Void, 0x80000000 | 3,    4,
 
        0        // eod
 };

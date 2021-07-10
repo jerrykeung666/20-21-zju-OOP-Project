@@ -52,7 +52,7 @@ void Robot::thinkCallLord()
 
     QVector<QVector<Card>> pairs = stLeft.findCardsByCount(2);
     weight += pairs.size() * 1;
-
+    //weight = 19;
     if (weight >= 22)
     {
         setBetPoints(3);

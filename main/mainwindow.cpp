@@ -35,7 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Enter mode: Game Mode 1";
         mode1Btn->zoomIn();
         mode1Btn->zoomOut();
-        //gameWindow->gameControl->setgamemodel(1);
+        gameWindow->getgameControl()->setgamemodel(1);
+        //gameWindow->getgameControl()->initCards();
+        gameWindow->init();
         this->hide();
         gameWindow->show();
     });
@@ -48,7 +50,9 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Enter mode: Game Mode 2";
         mode2Btn->zoomIn();
         mode2Btn->zoomOut();
-        //gameWindow->gameControl->setgamemodel(2);
+        gameWindow->getgameControl()->setgamemodel(2);
+        //gameWindow->getgameControl()->initCards();
+        gameWindow->init();
         this->hide();
         gameWindow->show();
 //        QTimer::singleShot(500, this, [=](){

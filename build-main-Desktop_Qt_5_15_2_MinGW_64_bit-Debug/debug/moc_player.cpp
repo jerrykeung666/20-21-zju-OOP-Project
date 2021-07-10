@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Player_t {
-    QByteArrayData data[9];
-    char stringdata0[84];
+    QByteArrayData data[10];
+    char stringdata0[88];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,16 +35,17 @@ static const qt_meta_stringdata_Player_t qt_meta_stringdata_Player = {
 QT_MOC_LITERAL(0, 0, 6), // "Player"
 QT_MOC_LITERAL(1, 7, 14), // "notifyCallLord"
 QT_MOC_LITERAL(2, 22, 0), // ""
-QT_MOC_LITERAL(3, 23, 14), // "notifyPlayHand"
-QT_MOC_LITERAL(4, 38, 7), // "Player*"
-QT_MOC_LITERAL(5, 46, 13), // "onPlayerPunch"
-QT_MOC_LITERAL(6, 60, 6), // "player"
-QT_MOC_LITERAL(7, 67, 10), // "CardGroups"
-QT_MOC_LITERAL(8, 78, 5) // "cards"
+QT_MOC_LITERAL(3, 23, 3), // "bet"
+QT_MOC_LITERAL(4, 27, 14), // "notifyPlayHand"
+QT_MOC_LITERAL(5, 42, 7), // "Player*"
+QT_MOC_LITERAL(6, 50, 6), // "player"
+QT_MOC_LITERAL(7, 57, 13), // "onPlayerPunch"
+QT_MOC_LITERAL(8, 71, 10), // "CardGroups"
+QT_MOC_LITERAL(9, 82, 5) // "cards"
 
     },
-    "Player\0notifyCallLord\0\0notifyPlayHand\0"
-    "Player*\0onPlayerPunch\0player\0CardGroups\0"
+    "Player\0notifyCallLord\0\0bet\0notifyPlayHand\0"
+    "Player*\0player\0onPlayerPunch\0CardGroups\0"
     "cards"
 };
 #undef QT_MOC_LITERAL
@@ -64,17 +65,17 @@ static const uint qt_meta_data_Player[] = {
 
  // signals: name, argc, parameters, tag, flags
        1,    1,   29,    2, 0x06 /* Public */,
-       3,    1,   32,    2, 0x06 /* Public */,
+       4,    1,   32,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    2,   35,    2, 0x0a /* Public */,
+       7,    2,   35,    2, 0x0a /* Public */,
 
  // signals: parameters
-    QMetaType::Void, QMetaType::Int,    2,
-    QMetaType::Void, 0x80000000 | 4,    2,
+    QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void, 0x80000000 | 5,    6,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 4, 0x80000000 | 7,    6,    8,
+    QMetaType::Void, 0x80000000 | 5, 0x80000000 | 8,    6,    9,
 
        0        // eod
 };

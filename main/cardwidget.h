@@ -30,7 +30,7 @@ public:
     bool getIsSelected() const;
 
 signals:
-    void notifySelected(Qt::MouseButton);
+    void notifySelected(Qt::MouseButton mouseButton);
 
 protected:
     void paintEvent(QPaintEvent *event);

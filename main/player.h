@@ -61,8 +61,8 @@ public:
     CardGroups lastCards; //pending
 
 signals:
-    void notifyCallLord(int);
-    void notifyPlayHand(Player*);
+    void notifyCallLord(int bet);
+    void notifyPlayHand(Player* player);
 
 public slots:
     void onPlayerPunch(Player* player, const CardGroups& cards);

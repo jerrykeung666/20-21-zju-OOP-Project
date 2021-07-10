@@ -46,6 +46,9 @@ const QPoint GameWindow::myStatusPos = QPoint(925, 500);
 const QPoint GameWindow::rightStatusPos = QPoint(925, 50);
 const QPoint GameWindow::leftStatusPos = QPoint(130, 50);
 
+const QPoint GameWindow::myLandLordPos = QPoint(50, 500);
+
+
 
 GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -56,17 +59,20 @@ GameWindow::GameWindow(QWidget *parent) : QMainWindow(parent)
 
     gameControl = new GameControl(this);
     gameControl->init();
-    gameControl->initCards();
 
     cardSize = QSize(80, 105);
     initCardWidgetMap();
     initButtons();
     initPlayerContext();
-    initLandLordCards();
     initInfoLabel();
     initSignalsAndSlots();
 
     qDebug() << "初始化牌";
+}
+
+void GameWindow::init(){
+    gameControl->initCards();
+    initLandLordCards();
 }
 
 void GameWindow::insertCardWidget(const Card &card, QString &path)
@@ -209,6 +215,17 @@ void GameWindow::initInfoLabel(){
     rightStatusInfo->raise();
     rightStatusInfo->move(rightStatusPos);
     rightStatusInfo->hide();
+
+
+    QFont font2("Microsoft YaHei", 10, QFont::Bold);
+    myLandLordInfo = new QLabel();
+    myLandLordInfo->setParent(this);
+    myLandLordInfo->setPalette(palette);
+    myLandLordInfo->setFont(font2);
+    myLandLordInfo->lower();
+    myLandLordInfo->move(myLandLordPos);
+    myLandLordInfo->setText("LandLord:\n everyone");
+    myLandLordInfo->show();
 }
 
 void GameWindow::initButtons()
@@ -303,6 +320,16 @@ void GameWindow::initSignalsAndSlots(){
 
     connect(gameControl, &GameControl::callGamewindowShowBets, this, &GameWindow::onBetPointsCall);
     connect(gameControl, &GameControl::callGamewindowShowLandlord, this, [=](){
+        if (gameControl->getgamemodel() == 1){
+            if (gameControl->getPlayerA()->getIsLandLord()){
+                myLandLordInfo->setText("LandLord:\n me");
+            }else if (gameControl->getPlayerB()->getIsLandLord()){
+                myLandLordInfo->setText("LandLord:\n right");
+            }else{
+                myLandLordInfo->setText("LandLord:\n left");
+            }
+            myLandLordInfo->show();
+        }
         showRemLandLordCard("show");
     });
 
@@ -316,7 +343,13 @@ void GameWindow::onStartBtnClicked()
 {
     startBtn->hide();
     showLandLordCard();
-    call4Landlord();
+    if (gameControl->getgamemodel() == 1){
+        call4Landlord();
+    }
+    else{
+        startGame();
+    }
+
 
     qDebug() << "开始游戏";
 }
@@ -424,6 +457,7 @@ void GameWindow::startGame(){//TODO
 }
 
 void GameWindow::onBetNoBtnClicked(){
+    qDebug() << "my no bet";
     if(gameControl->getPlayerA()->getIsPerson()){
         gameControl->getPlayerA()->setBetPoints(0);
     }
@@ -725,6 +759,7 @@ void GameWindow::otherPlayerShowCards(Player* player, CardGroups cards){
 
 
 void GameWindow::showOtherPlayerPlayCard(Player* otherPlayer, CardGroups cards, const QString status){
+    //qDebug() << "666";
     if(status == "right"){
         if(cards.getCards().size() == 0){
             rightPassInfo->setText("Pass!");
@@ -837,5 +872,9 @@ void GameWindow::paintEvent(QPaintEvent *)
     QPixmap pix;
     pix.load("../picture/game_scene.PNG");
     painter.drawPixmap(0, 0, this->width(), this->height(), pix);
+}
+
+GameControl* GameWindow::getgameControl(){
+    return this->gameControl;
 }
 

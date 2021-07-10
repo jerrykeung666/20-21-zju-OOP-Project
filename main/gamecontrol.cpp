@@ -70,10 +70,10 @@ void GameControl::initAllCards(){
         std::swap(allCards[i], allCards[index]);
     }
 
-    qDebug() << "allcards";
-    for (auto &card : allCards) {
-        qDebug() << "card: " << card.point << card.suit;
-    }
+    //qDebug() << "allcards";
+    //for (auto &card : allCards) {
+    //    qDebug() << "card: " << card.point << card.suit;
+    //}
 }
 
 QVector<Card> GameControl::getRandomCards(int start, int cardnum){
@@ -103,23 +103,34 @@ void GameControl::initCards(){
     initAllCards();
 
     //给玩家发牌
-    playerA->setHandCards(getRandomCards(0, 17));
-    playerB->setHandCards(getRandomCards(17, 17));
-    playerC->setHandCards(getRandomCards(34, 17));
+     if (getgamemodel() == 1){
+         playerA->setHandCards(getRandomCards(0, 17));
+         playerB->setHandCards(getRandomCards(17, 17));
+         playerC->setHandCards(getRandomCards(34, 17));
 
-    //留下地主牌
-    landLordCards = getRandomCards(51, 3);
+            //留下地主牌
+         landLordCards = getRandomCards(51, 3);
+     }
+    else{
+        playerA->setHandCards(getRandomCards(0, 18));
+        playerB->setHandCards(getRandomCards(18, 18));
+        playerC->setHandCards(getRandomCards(36, 18));
+
+        //留下地主牌
+        //landLordCards = getRandomCards(51, 3);
+    }
+
 
 //    emit callGamewindowShowCards();
     // debug
-    playerA->showCards();
-    playerB->showCards();
-    playerC->showCards();
+    //playerA->showCards();
+    //playerB->showCards();
+    //playerC->showCards();
 
-    qDebug() << "地主牌";
-    for (auto &card : landLordCards) {
-        qDebug() << "card: " << card.point << " " << card.suit;
-    }
+    //qDebug() << "地主牌";
+    //for (auto &card : landLordCards) {
+    //    qDebug() << "card: " << card.point << " " << card.suit;
+    //}
 
     allCards.clear();
 }
@@ -136,7 +147,8 @@ void GameControl::updateBetPoints(int bet){
     emit callGamewindowShowBets(currentPlayer);
 
     //叫3分直接地主
-    if (bet ==3){
+
+    if (bet ==3 && gamemodel == 1){
         currentPlayer->setIsLandLord(true);
         currentPlayer->addLandLordCards(landLordCards);
         emit callGamewindowShowLandlord();
@@ -151,9 +163,16 @@ void GameControl::updateBetPoints(int bet){
             if (it->bet > landlord->bet){
                 landlord = it;
             }
-        }     
-        landlord->player->setIsLandLord(true);
-        landlord->player->addLandLordCards(landLordCards);
+        }
+        if (gamemodel == 1){
+            landlord->player->setIsLandLord(true);
+            landlord->player->addLandLordCards(landLordCards);
+        }
+        else if (gamemodel == 2){
+            playerA->setIsLandLord(true);
+            playerB->setIsLandLord(true);
+            playerC->setIsLandLord(true);
+        }
         currentPlayer = landlord->player;
         //qDebug() << "GameControl: card num: " << playerA->getHandCards().size();
         emit callGamewindowShowLandlord();
@@ -197,6 +216,7 @@ void GameControl::onPlayerHandRobot(Player* player){
 }
 
 void GameControl::onPlayerHand(Player* player, CardGroups &cards){
+    //qDebug() << "666";
     if (!cards.getCards().empty())
     {
         //qDebug() << "";
@@ -294,6 +314,7 @@ QVector<Card> GameControl::getLandLordCards(){
 
 void GameControl::setgamemodel(int gamemodel){
     this->gamemodel = gamemodel;
+    qDebug() << "gamemodel is " << gamemodel;
 }
 int GameControl::getgamemodel(){
     return  this->gamemodel;

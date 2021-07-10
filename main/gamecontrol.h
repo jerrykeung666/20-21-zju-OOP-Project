@@ -41,7 +41,7 @@ private:
 
 signals:
     void callGamewindowShowCards();   //发牌结束后通知gamewindow显示卡牌
-    void callGamewindowShowBets(Player*);    //叫分结束后通知gamewindow显示叫分
+    void callGamewindowShowBets(Player* player);    //叫分结束后通知gamewindow显示叫分
 
     void callGamewindowShowLandlord(); //处理叫分后通知gamewindow
 

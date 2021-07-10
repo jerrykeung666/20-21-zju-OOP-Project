@@ -18,6 +18,8 @@ public:
 //    void HidePlayerLastCards(Player* player);
     void UpdatePlayerCards(Player* player);
 
+    GameControl* getgameControl();
+    void init();
 
 private:
     virtual void paintEvent(QPaintEvent *);
@@ -55,6 +57,8 @@ public slots:
     void otherPlayerShowCards(Player* player, CardGroups cards);
     void myPlayerShowButton(Player* player);
     void showEndStatus(Player* player);
+
+
 
 protected:
     enum CardsAlign
@@ -94,6 +98,7 @@ private:
     QLabel* myStatusInfo;
     QLabel* leftStatusInfo;
     QLabel* rightStatusInfo;
+    QLabel* myLandLordInfo;
 
     MyPushButton* startBtn;
     MyPushButton* betNoBtn;
@@ -145,6 +150,8 @@ private:
     static const QPoint myStatusPos;
     static const QPoint leftStatusPos;
     static const QPoint rightStatusPos;
+
+    static const QPoint myLandLordPos;
 };
 
 #endif // GAMEWINDOW_H
