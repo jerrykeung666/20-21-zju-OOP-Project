@@ -1,10 +1,12 @@
 #include "robot.h"
 #include "calllandlordthread.h"
 #include "strategy.h"
+#include "playhandthread.h"
 #include <QDebug>
 
 Robot::Robot(QObject *parent) : Player(parent)
 {
+
     isPerson = false;
 }
 
@@ -16,7 +18,13 @@ void Robot::startCallLord()
 
 void Robot::startPlayHand()
 {
-
+    PlayHandThread* thread = new PlayHandThread(this);
+    //emit notifyPlayHand(this);
+    thread->start();
+    //qDebug() << "333";
+    //CardGroups groupcards;
+    //groupcards.setCards(cards);
+    //emit notifyPlayHand(this, groupcards);
 }
 
 void Robot::thinkCallLord()
@@ -44,7 +52,7 @@ void Robot::thinkCallLord()
 
     QVector<QVector<Card>> pairs = stLeft.findCardsByCount(2);
     weight += pairs.size() * 1;
-
+    //weight = 19;
     if (weight >= 22)
     {
         setBetPoints(3);
@@ -74,5 +82,11 @@ void Robot::thinkCallLord()
 void Robot::thinkPlayHand()
 {
     Strategy st(this, handCards);
-    playHand(st.makeStragety());
+    QVector<Card> cards = st.makeStragety();
+    playHand(cards);
+    qDebug() << "333";
+    CardGroups groupcards;
+    groupcards.setCards(cards);
+    this->lastCards.setCards(cards);
+    emit notifyPlayHand(this);
 }

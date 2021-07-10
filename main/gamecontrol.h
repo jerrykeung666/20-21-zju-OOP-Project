@@ -25,11 +25,13 @@ public:
     QVector<Card> getLandLordCards();
 
     void updateBetPoints(int bet); //处理叫地主分数
-    void onPlayerHand(Player* player, QVector<Card> &cards); //处理叫地主分数
 
     void initCards(); //发牌
 
     void init(); //初始化玩家
+
+    void setgamemodel(int gamemodel);
+    int getgamemodel();
 
 private:
     void initAllCards();
@@ -43,9 +45,13 @@ signals:
 
     void callGamewindowShowLandlord(); //处理叫分后通知gamewindow
 
-    void NotifyPlayerPlayHand(Player* player,QVector<Card> &cards);
+    void NotifyPlayerPlayHand(Player* player,CardGroups &cards);
+    void NotifyPlayerbutton(Player* player);
+    void NotifyPlayerStatus(Player* player);
 
 public slots:
+    void onPlayerHand(Player* player, CardGroups &cards); //处理叫地主分数
+    void onPlayerHandRobot(Player* player); //处理叫地主分数
    // void updateBetPoints(int bet); //处理叫地主分数
     //void handout(int bet); //处理出牌
 
@@ -73,6 +79,7 @@ protected:
 
     QVector<Card> allCards;
 
+    int gamemodel;
 };
 
 #endif // GAMECONTROL_H

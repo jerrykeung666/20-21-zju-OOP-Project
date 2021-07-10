@@ -18,6 +18,8 @@ public:
 //    void HidePlayerLastCards(Player* player);
     void UpdatePlayerCards(Player* player);
 
+    GameControl* getgameControl();
+    void init();
 
 private:
     virtual void paintEvent(QPaintEvent *);
@@ -27,6 +29,7 @@ private:
     void initPlayerContext();
     void initLandLordCards();
     void initInfoLabel();
+    void initSignalsAndSlots();
     void insertCardWidget(const Card &card, QString &path);
     void addLandLordCard(const Card &card);
     void showLandLordCard();
@@ -37,6 +40,7 @@ private:
     void showMySelectedCard(Player* player);
     void startGame();
     void showPlayCard();
+    void showOtherPlayerPlayCard(Player* otherPlayer, CardGroups cards, const QString status);
 
 signals:
 
@@ -50,6 +54,11 @@ public slots:
     void cardSelected(Qt::MouseButton mouseButton);
     void playCards();
     void passCards();
+    void otherPlayerShowCards(Player* player, CardGroups cards);
+    void myPlayerShowButton(Player* player);
+    void showEndStatus(Player* player);
+
+
 
 protected:
     enum CardsAlign
@@ -84,6 +93,12 @@ private:
     QLabel* rightBetInfo;
     QLabel* passInfo;
     QLabel* playInfo;
+    QLabel* rightPassInfo;
+    QLabel* leftPassInfo;
+    QLabel* myStatusInfo;
+    QLabel* leftStatusInfo;
+    QLabel* rightStatusInfo;
+    QLabel* myLandLordInfo;
 
     MyPushButton* startBtn;
     MyPushButton* betNoBtn;
@@ -126,6 +141,17 @@ private:
     static const QPoint playBtnStartPos;
     static const QPoint myCardZone;
     static const int myCardZoneWidthSpace;
+    static const QPoint rightCardZone;
+    static const int rightCardZoneHeightSpace;
+    static const QPoint leftCardZone;
+    static const int leftCardZoneHeightSpace;
+
+    // status info
+    static const QPoint myStatusPos;
+    static const QPoint leftStatusPos;
+    static const QPoint rightStatusPos;
+
+    static const QPoint myLandLordPos;
 };
 
 #endif // GAMEWINDOW_H

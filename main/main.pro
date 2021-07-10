@@ -21,7 +21,8 @@ SOURCES += \
     player.cpp \
     robot.cpp \
     strategy.cpp \
-    user.cpp
+    user.cpp \
+    playhandthread.cpp
 
 HEADERS += \
     calllandlordthread.h \
@@ -35,7 +36,8 @@ HEADERS += \
     player.h \
     robot.h \
     strategy.h \
-    user.h
+    user.h \
+    playhandthread.h
 
 FORMS += \
     mainwindow.ui
@@ -46,4 +48,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    picture.qrc \
     pokerimage.qrc

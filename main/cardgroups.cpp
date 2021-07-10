@@ -2,6 +2,7 @@
 
 CardGroups::CardGroups(const QVector<Card>& cards)
 {
+    this->cards.clear();
     this->cards << cards;
     analyseCards();
 }
@@ -15,6 +16,7 @@ CardGroups::CardGroups(GroupType type, CardPoint base, int extra)
 
 void CardGroups::setCards(const QVector<Card> &cards)
 {
+    this->cards.clear();
     this->cards << cards;
     analyseCards();
 }
@@ -128,7 +130,7 @@ void CardGroups::analyseCards()
 bool CardGroups::canBeat(const CardGroups &cardGroups)
 {
     bool ret = false;
-    if (type == Group_Unknown) {
+    if (type == Group_Unknown || cards.size() == 0) {
 
     } else if (type == Group_Bomb_Jokers) {
         ret = true;
@@ -145,9 +147,8 @@ bool CardGroups::canBeat(const CardGroups &cardGroups)
             ret = (basePoint > cardGroups.basePoint);
         }
     }
-
-    if (ret == false) {
-        cards.clear();
+    else if(cardGroups.getCards().size() == 0){
+        ret = true;
     }
     return ret;
 }

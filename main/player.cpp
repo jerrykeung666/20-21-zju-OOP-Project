@@ -37,6 +37,12 @@ void Player::setHandCards(const QVector<Card> &cards)
     sortHandCards();
 }
 
+void Player::resetHandCards(const QVector<Card> &cards)
+{
+    handCards = cards;
+    sortHandCards();
+}
+
 QVector<Card> Player::getHandCards() const
 {
     return handCards;
@@ -181,4 +187,9 @@ void Player::playHand(const QVector<Card> &cards)
     for (auto &card : cards) {
         handCards.removeOne(card);
     }
+    qDebug() << "2222";
+    CardGroups groupcards;
+    //groupcards.setCards(cards);
+
+    //emit notifyPlayHand(this, cards);
 }

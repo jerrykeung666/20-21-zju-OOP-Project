@@ -7,6 +7,8 @@
 GameControl::GameControl(QObject *parent) :
     QObject(parent)
 {
+
+
     currentPlayer = NULL;
     //current_combo = CardGroups(); //有效牌
     //landLordCards = CardGroups();
@@ -41,6 +43,9 @@ void GameControl::init()
     connect(playerB, &Robot::notifyCallLord, this, &GameControl::updateBetPoints);
     //connect(playerA, &Robot::notifyCallLord, this, &GameControl::updateBetPoints);
 
+    connect(playerC, &Player::notifyPlayHand, this, &GameControl::onPlayerHandRobot);
+    connect(playerB, &Robot::notifyPlayHand, this, &GameControl::onPlayerHandRobot);
+
     currentPlayer = playerA;
 }
 
@@ -65,10 +70,10 @@ void GameControl::initAllCards(){
         std::swap(allCards[i], allCards[index]);
     }
 
-    qDebug() << "allcards";
-    for (auto &card : allCards) {
-        qDebug() << "card: " << card.point << card.suit;
-    }
+    //qDebug() << "allcards";
+    //for (auto &card : allCards) {
+    //    qDebug() << "card: " << card.point << card.suit;
+    //}
 }
 
 QVector<Card> GameControl::getRandomCards(int start, int cardnum){
@@ -98,23 +103,34 @@ void GameControl::initCards(){
     initAllCards();
 
     //给玩家发牌
-    playerA->setHandCards(getRandomCards(0, 17));
-    playerB->setHandCards(getRandomCards(17, 17));
-    playerC->setHandCards(getRandomCards(34, 17));
+     if (getgamemodel() == 1){
+         playerA->setHandCards(getRandomCards(0, 17));
+         playerB->setHandCards(getRandomCards(17, 17));
+         playerC->setHandCards(getRandomCards(34, 17));
 
-    //留下地主牌
-    landLordCards = getRandomCards(51, 3);
+            //留下地主牌
+         landLordCards = getRandomCards(51, 3);
+     }
+    else{
+        playerA->setHandCards(getRandomCards(0, 18));
+        playerB->setHandCards(getRandomCards(18, 18));
+        playerC->setHandCards(getRandomCards(36, 18));
+
+        //留下地主牌
+        //landLordCards = getRandomCards(51, 3);
+    }
+
 
 //    emit callGamewindowShowCards();
     // debug
-    playerA->showCards();
-    playerB->showCards();
-    playerC->showCards();
+    //playerA->showCards();
+    //playerB->showCards();
+    //playerC->showCards();
 
-    qDebug() << "地主牌";
-    for (auto &card : landLordCards) {
-        qDebug() << "card: " << card.point << " " << card.suit;
-    }
+    //qDebug() << "地主牌";
+    //for (auto &card : landLordCards) {
+    //    qDebug() << "card: " << card.point << " " << card.suit;
+    //}
 
     allCards.clear();
 }
@@ -131,10 +147,12 @@ void GameControl::updateBetPoints(int bet){
     emit callGamewindowShowBets(currentPlayer);
 
     //叫3分直接地主
-    if (bet ==3){
+
+    if (bet ==3 && gamemodel == 1){
         currentPlayer->setIsLandLord(true);
         currentPlayer->addLandLordCards(landLordCards);
         emit callGamewindowShowLandlord();
+        currentPlayer->startPlayHand();
         return;
     }
 
@@ -145,12 +163,20 @@ void GameControl::updateBetPoints(int bet){
             if (it->bet > landlord->bet){
                 landlord = it;
             }
-        }     
-        landlord->player->setIsLandLord(true);
-        landlord->player->addLandLordCards(landLordCards);
+        }
+        if (gamemodel == 1){
+            landlord->player->setIsLandLord(true);
+            landlord->player->addLandLordCards(landLordCards);
+        }
+        else if (gamemodel == 2){
+            playerA->setIsLandLord(true);
+            playerB->setIsLandLord(true);
+            playerC->setIsLandLord(true);
+        }
         currentPlayer = landlord->player;
         //qDebug() << "GameControl: card num: " << playerA->getHandCards().size();
         emit callGamewindowShowLandlord();
+        currentPlayer->startPlayHand();
         return;
     }
 
@@ -183,18 +209,34 @@ void GameControl::updateBetPoints(int bet){
 
 }
 
-void GameControl::onPlayerHand(Player* player, QVector<Card> &cards){
-    if (!cards.empty())
+void GameControl::onPlayerHandRobot(Player* player){
+    CardGroups cg;
+
+    onPlayerHand(player,player->lastCards);
+}
+
+void GameControl::onPlayerHand(Player* player, CardGroups &cards){
+    if (!cards.getCards().empty())
     {
+        //qDebug() << "";
         punchPlayer = player;
-        punchCards = cards;
-//        playerA->onPlayerPunch(punchPlayer, punchCards);
-//        playerB->onPlayerPunch(punchPlayer, punchCards);
-//        playerC->onPlayerPunch(punchPlayer, punchCards);
+        punchCards = cards.getCards();
+        effectivePlayer = player;
+        currentCombo = cards;
+        currentPlayer = player;
+        playerA->onPlayerPunch(punchPlayer, punchCards);
+        playerB->onPlayerPunch(punchPlayer, punchCards);
+        playerC->onPlayerPunch(punchPlayer, punchCards);
         //NotifyPlayerPunch(m_punchPlayer, m_punchCards);
     }
+    else{
+        qDebug() << "pass";
+    }
 
-    emit NotifyPlayerPlayHand(currentPlayer, cards); //前端把出来的牌显示在手牌前方，留接口
+    currentPlayer->lastCards = cards;
+    qDebug() << "///";
+
+    emit NotifyPlayerPlayHand(currentPlayer,cards); //前端把出来的牌显示在手牌前方，留接口
 
     // player已把牌都出完，计算三方得分
     if (player->getHandCards().empty())
@@ -226,7 +268,7 @@ void GameControl::onPlayerHand(Player* player, QVector<Card> &cards){
         }
         */
 
-        //emit NotifyPlayerStatus(player, GameControl::WinningStatus); //通知前端输赢，留接口
+        emit NotifyPlayerStatus(player); //通知前端输赢，留接口
 
         return;
 
@@ -235,7 +277,7 @@ void GameControl::onPlayerHand(Player* player, QVector<Card> &cards){
     // 出完牌，轮到下一个玩家
     Player* nextPlayer = player->getNextPlayer();
     currentPlayer = nextPlayer;
-    //emit NotifyPlayerStatus(currentPlayer, GameControl::ThinkingForPlayHandStatus);
+    emit NotifyPlayerbutton(currentPlayer);
         //通知出牌界面修改，先本玩家上一轮出的牌，若为用户出牌则show按钮，若为机器出牌则把按钮隐藏掉（无punchplayer说明第一次出牌，无pass按钮)
     currentPlayer->startPlayHand();
 }
@@ -269,4 +311,10 @@ QVector<Card> GameControl::getLandLordCards(){
     return landLordCards;
 }
 
-
+void GameControl::setgamemodel(int gamemodel){
+    this->gamemodel = gamemodel;
+    qDebug() << "gamemodel is " << gamemodel;
+}
+int GameControl::getgamemodel(){
+    return  this->gamemodel;
+}

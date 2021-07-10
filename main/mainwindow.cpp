@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // set next window: game window
     gameWindow = new GameWindow(this);
+
 //    connect(gameWindow, &GameWindow::goBack, [=](){
 //        gameWindow->hide();
 //        this->show();
@@ -34,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Enter mode: Game Mode 1";
         mode1Btn->zoomIn();
         mode1Btn->zoomOut();
+        gameWindow->getgameControl()->setgamemodel(1);
+        //gameWindow->getgameControl()->initCards();
+        gameWindow->init();
         this->hide();
         gameWindow->show();
     });
@@ -46,6 +50,11 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Enter mode: Game Mode 2";
         mode2Btn->zoomIn();
         mode2Btn->zoomOut();
+        gameWindow->getgameControl()->setgamemodel(2);
+        //gameWindow->getgameControl()->initCards();
+        gameWindow->init();
+        this->hide();
+        gameWindow->show();
 //        QTimer::singleShot(500, this, [=](){
 //            this->hide();
 //            //game_window->show();

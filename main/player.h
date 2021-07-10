@@ -18,6 +18,7 @@ public:
     void setPlayerID(int ID);
     int getPlayerID() const;
 
+    void resetHandCards(const QVector<Card> &cards);
     void setHandCards(const QVector<Card> &cards);
     QVector<Card> getHandCards() const;
 
@@ -57,8 +58,11 @@ public:
     virtual void thinkCallLord();
     virtual void thinkPlayHand();
 
+    CardGroups lastCards; //pending
+
 signals:
     void notifyCallLord(int);
+    void notifyPlayHand(Player*);
 
 public slots:
     void onPlayerPunch(Player* player, const CardGroups& cards);

@@ -1020,6 +1020,7 @@ QVector<Card> Strategy::makeStragety()
 
     if (hitPlayer == player || hitPlayer == NULL)
     {
+        qDebug() << "playfirtst";
         return playFirst();              //主动出牌
     }
     else
